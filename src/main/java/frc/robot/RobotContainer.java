@@ -26,7 +26,6 @@ public class RobotContainer {
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
-  private final Command m_autoCommand = null;
   private final Command m_simpleAuto = null;
   private final Command m_complexAuto = null;
   private final Command m_autoTest = new AutonomousTest(m_drivetrain);
