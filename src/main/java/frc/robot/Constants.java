@@ -37,8 +37,8 @@ public final class Constants {
         public static final int kRightBackMotorPort = 2;
 
         // Motor grouping for encoders
-        public static final int[] kLeftEncoderPorts = new int[] {0, 3};
-        public static final int[] kRightEncoderPorts = new int[] {1, 2};
+        public static final int[] kLeftEncoderPorts = new int[] {kLeftFrontMotorPort, kLeftBackMotorPort};
+        public static final int[] kRightEncoderPorts = new int[] {kRightFrontMotorPort, kRightBackMotorPort};
 
         // Motor inverted?
         public static final boolean rightInverted = false;

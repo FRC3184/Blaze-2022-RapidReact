@@ -2,13 +2,19 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Drivetrain extends SubsystemBase {
@@ -19,6 +25,12 @@ public class Drivetrain extends SubsystemBase {
   private final CANSparkMax m_leftBackMotor = new CANSparkMax(DriveConstants.kLeftBackMotorPort, MotorType.kBrushless);
   private final CANSparkMax m_rightFrontMotor = new CANSparkMax(DriveConstants.kRightFrontMotorPort, MotorType.kBrushless);
   private final CANSparkMax m_rightBackMotor = new CANSparkMax(DriveConstants.kRightBackMotorPort, MotorType.kBrushless);
+
+  private final RelativeEncoder m_leftFrontEncoder = m_leftFrontMotor.getEncoder();
+  private final RelativeEncoder m_leftBackEncoder = m_leftBackMotor.getEncoder();
+  private final RelativeEncoder m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
+  private final RelativeEncoder m_rightBackEncoder = m_rightBackMotor.getEncoder();
+
 
   // The motors left/right side of the chassis
   private final MotorControllerGroup m_leftMotors;
@@ -54,6 +66,11 @@ public class Drivetrain extends SubsystemBase {
     resetEncoders();
 
     m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
+    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
   }
 
   @Override
@@ -68,11 +85,38 @@ public class Drivetrain extends SubsystemBase {
 
   public void drive(double leftSpeed, double rightSpeed) {
     m_drive.tankDrive(leftSpeed, rightSpeed);
+    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
+
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
+    m_leftFrontEncoder.setPosition(0);
+    m_leftBackEncoder.setPosition(0);
+    m_rightFrontEncoder.setPosition(0);
+    m_rightBackEncoder.setPosition(0);
+  }
+
+  public double inchToClicks(double inches) {
+    double clicks;
+    
+    clicks = inches * 10;
+
+    return clicks;
+  }
+
+  /**
+   * Gets the average distance of the TWO encoders.
+   *
+   * @return the average of the TWO encoder readings
+   */
+  public double getAverageEncoderDistance() {
+    double leftAvg = (m_leftFrontEncoder.getPosition() + m_leftBackEncoder.getPosition())/2.0;
+    double rightAvg = (m_rightFrontEncoder.getPosition() + m_rightBackEncoder.getPosition())/2.0;
+
+    return (Math.abs(leftAvg) + Math.abs(rightAvg)) / 2.0;
   }
 }

@@ -22,13 +22,7 @@ public class AutonomousTest extends SequentialCommandGroup {
     m_drivetrain = subsystem;
     addCommands(
         // drive straight for 5 seconds
-        new DriveTime(5000, 0.2, m_drivetrain),
-        // turn left for 5 seconds
-        new TurnTime(5000, 0.2, true, m_drivetrain),
-        // turn right for 5 seconds
-        new TurnTime(5000, 0.2, false, m_drivetrain),
-        // drive backwards for 5 seconds
-        new DriveTime(5000, -0.2, m_drivetrain)
+        new DriveDistance(1, 0.2, m_drivetrain)
     );
   }
 }

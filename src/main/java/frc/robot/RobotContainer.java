@@ -49,7 +49,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     m_chooser.addOption("Complex Auto", m_complexAuto);
     m_chooser.addOption("Auto Test", m_autoTest);
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Select Autonomous", m_chooser);
   }
 
   /**
