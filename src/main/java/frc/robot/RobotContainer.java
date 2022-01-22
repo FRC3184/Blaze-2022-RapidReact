@@ -6,7 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutonomousTest;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,11 +21,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
 
+  // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
   private final Command m_autoCommand = null;
+  private final Command m_simpleAuto = null;
+  private final Command m_complexAuto = null;
+  private final Command m_autoTest = new AutonomousTest(m_drivetrain);
+
+  // autonomous chooser
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -35,6 +45,12 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
+
+    // Configure autonomous options
+    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    m_chooser.addOption("Complex Auto", m_complexAuto);
+    m_chooser.addOption("Auto Test", m_autoTest);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -56,6 +72,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_chooser.getSelected();
   }
 }
