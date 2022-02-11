@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 
-import org.opencv.highgui.HighGui;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnGyro extends CommandBase {

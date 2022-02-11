@@ -30,8 +30,8 @@ public final class Constants {
 
     // Constants for the shooter
     public static final class ShooterConstants {
-        public static final int kFrontShooterMotorPort = 5;
-        public static final int kBackShooterMotorPort = 6;
+        public static final int kFrontShooterMotorPort = 6;
+        public static final int kBackShooterMotorPort = 7;
 
         // Motor inverted?
         public static final boolean frontShooterInverted = true;
@@ -42,10 +42,10 @@ public final class Constants {
     public static final class DriveConstants {
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
-        public static final int kLeftFrontMotorPort = 3;
+        public static final int kLeftFrontMotorPort = 5;
         public static final int kLeftBackMotorPort = 4;
-        public static final int kRightFrontMotorPort = 1;
-        public static final int kRightBackMotorPort = 2;
+        public static final int kRightFrontMotorPort = 2;
+        public static final int kRightBackMotorPort = 3;
 
         // Motor grouping for encoders
         public static final int[] kLeftEncoderPorts = new int[] {kLeftFrontMotorPort, kLeftBackMotorPort};

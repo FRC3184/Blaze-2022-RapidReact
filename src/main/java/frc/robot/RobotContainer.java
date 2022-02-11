@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AutonomousTest;
-import frc.robot.commands.ShooterTuning;
-import frc.robot.commands.TankDrive;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -24,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
+  private final Shooter m_shooter = new Shooter();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
@@ -44,7 +43,8 @@ public class RobotContainer {
 
     // Configure default commands
     // Set the default drive command to tank drive
-    m_drivetrain.setDefaultCommand(new ShooterTuning(m_drivetrain));
+    m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
+    m_shooter.setDefaultCommand(new Shoot(m_shooter));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);

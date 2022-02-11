@@ -4,58 +4,46 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ShooterTuning extends CommandBase {
+public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Drivetrain m_drivetrain;
+  private final Shooter m_shooter;
 
   private XboxController driveController = new XboxController(0);
-
-  private double grabSpeed = 0.5;
-  private double shootSpeed = 0.5;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterTuning(Drivetrain subsystem) {
-    m_drivetrain = subsystem;
+  public Shoot(Shooter subsystem) {
+    m_shooter = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drivetrain);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    SmartDashboard.putNumber("First Grab Wheel Speed", grabSpeed);
-    SmartDashboard.putNumber("Second Shooter Wheel Speed", shootSpeed);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    grabSpeed = SmartDashboard.getNumber("First Grab Wheel Speed", 0.0);
-    shootSpeed = SmartDashboard.getNumber("Second Shooter Wheel Speed", 0.0);
-
-    SmartDashboard.putNumber("First Grab Wheel Speed", grabSpeed);
-    SmartDashboard.putNumber("Second Shooter Wheel Speed", shootSpeed);
-
-    if (driveController.getAButton()) {
-      m_drivetrain.drive(shootSpeed, grabSpeed);
+    if (driveController.getAButton())
+    {
+      m_shooter.shoot(0.6, 0.6);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.drive(0.0, 0.0);
+    m_shooter.shoot(0.0, 0.0);
   }
 
   // Returns true when the command should end.

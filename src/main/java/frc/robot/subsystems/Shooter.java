@@ -42,6 +42,11 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    public void shoot(double frontSpeed, double backSpeed) {
+        m_Front_ShooterW.set(frontSpeed);
+        m_Back_ShooterW.set(backSpeed);
+      }
+
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders() {
         m_frontShooterEncoder.setPosition(0);
