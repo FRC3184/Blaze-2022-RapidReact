@@ -22,7 +22,7 @@ public class AutonomousTest extends SequentialCommandGroup {
     m_drivetrain = subsystem;
     addCommands(
         // drive straight for 5 seconds
-        new DriveDistance(1, 0.2, m_drivetrain)
+        new TurnGyro(true, 45.0, 0.2, m_drivetrain)
     );
   }
 }

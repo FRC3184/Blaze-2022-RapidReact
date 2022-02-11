@@ -5,35 +5,46 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+
+import org.opencv.highgui.HighGui;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnGyro extends CommandBase {
   private final Drivetrain m_drive;
-  private final double m_mSecs;
-  private final double m_speed;
   private final boolean m_left;
-  private double endTime;
+  private final double m_angle;
+  private final double m_speed;
+  private double targetHeading;
+  private double lowLimit;
+  private double upLimit;
+  private static final double deadzone = 3.0;
 
   /**
    * Creates a new DriveTime.
    *
-   * @param mSecs The number of milliseconds the robot will drive
-   * @param speed The speed at which the robot will drive
-   * @param drive The drive subsystem on which this command will run
+   * @param left Are you turning left?
+   * @param angle The desired turn angle
+   * @param speed The speed of the turn
    */
-  public TurnGyro(double mSecs, double speed, boolean left, Drivetrain drive) {
-    m_mSecs = mSecs;
+  public TurnGyro(boolean left, double angle, double speed, Drivetrain drive) {
+    m_left = left;
+    m_angle = angle;
     m_speed = speed;
     m_drive = drive;
-    m_left = left;
     addRequirements(m_drive);
   }
 
   @Override
   public void initialize() {
-    m_drive.resetEncoders();
-    double startTime = System.currentTimeMillis();
-    endTime = startTime + this.m_mSecs;
+    m_drive.resetHeading();
+    if(m_left) {
+      targetHeading = -m_angle;
+    } else {
+      targetHeading = m_angle;
+    }
+    lowLimit = targetHeading - deadzone;
+    upLimit = targetHeading + deadzone;
   }
 
   @Override
@@ -43,7 +54,6 @@ public class TurnGyro extends CommandBase {
     } else {
       m_drive.drive(m_speed, -m_speed);
     }
-    
   }
 
   @Override
@@ -53,6 +63,6 @@ public class TurnGyro extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return System.currentTimeMillis() >= endTime;
+    return (m_drive.getYaw() > lowLimit && m_drive.getYaw() < upLimit);
   }
 }

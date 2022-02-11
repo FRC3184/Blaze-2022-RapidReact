@@ -6,23 +6,28 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class TankDrive extends CommandBase {
+public class ShooterTuning extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Drivetrain m_drivetrain;
 
   private XboxController driveController = new XboxController(0);
 
+  private double increment = 0.1; 
+  private double grabSpeed = 0.5;
+  private double shootSpeed = 0.5;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TankDrive(Drivetrain subsystem) {
+  public ShooterTuning(Drivetrain subsystem) {
     m_drivetrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drivetrain);
@@ -30,14 +35,23 @@ public class TankDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    SmartDashboard.putNumber("First Grab Wheel Speed", grabSpeed);
+    SmartDashboard.putNumber("Second Shooter Wheel Speed", shootSpeed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
-    m_drivetrain.drive(-driveController.getLeftY(), -driveController.getRightY());
+    grabSpeed = SmartDashboard.getNumber("First Grab Wheel Speed", 0.0);
+    shootSpeed = SmartDashboard.getNumber("Second Shooter Wheel Speed", 0.0);
+
+    SmartDashboard.putNumber("First Grab Wheel Speed", grabSpeed);
+    SmartDashboard.putNumber("Second Shooter Wheel Speed", shootSpeed);
+
+    if (driveController.getAButton()) {
+      m_drivetrain.drive(shootSpeed, grabSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.

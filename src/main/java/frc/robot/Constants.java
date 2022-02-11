@@ -25,9 +25,20 @@ public final class Constants {
     public static final class ModeConstants {
 
         public static final Modes mode = Modes.test;
+        public static final boolean navxDebug = true;
     }
 
-    // Constants for the Programming ROBOT
+    // Constants for the shooter
+    public static final class ShooterConstants {
+        public static final int kFrontShooterMotorPort = 5;
+        public static final int kBackShooterMotorPort = 6;
+
+        // Motor inverted?
+        public static final boolean frontShooterInverted = true;
+        public static final boolean backShooterInverted = false;
+    }
+
+    // Constants for the drivetrain
     public static final class DriveConstants {
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
@@ -41,8 +52,25 @@ public final class Constants {
         public static final int[] kRightEncoderPorts = new int[] {kRightFrontMotorPort, kRightBackMotorPort};
 
         // Motor inverted?
-        public static final boolean rightInverted = false;
-        public static final boolean leftInverted = true;
+        public static final boolean rightInverted = true;
+        public static final boolean leftInverted = false;
+
+        // Gyro PID Constants 
+        /* The following PID Controller coefficients will need to be tuned */
+        /* to match the dynamics of your drive system.  Note that the      */
+        /* SmartDashboard in Test mode has support for helping you tune    */
+        /* controllers by displaying a form where you can enter new P, I,  */
+        /* and D constants and test the mechanism.                         */
+        
+        public static final double kP = 0.03;
+        public static final double kI = 0.00;
+        public static final double kD = 0.00;
+        public static final double kF = 0.00;
+
+        /* This tuning parameter indicates how close to "on target" the    */
+        /* PID Controller will attempt to get.                             */
+
+        static final double kToleranceDegrees = 2.0f;
     }
 
     public static final class OIConstants {
