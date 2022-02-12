@@ -4,12 +4,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.ShooterConstants;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Shooter extends SubsystemBase {
+public class Intake extends SubsystemBase {
     
     // Setup motors and Encoders
     private final CANSparkMax m_Front_ShooterW = new CANSparkMax(ShooterConstants.kFrontShooterMotorPort, MotorType.kBrushless);
@@ -18,13 +17,7 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder m_frontShooterEncoder = m_Front_ShooterW.getEncoder();
     private final RelativeEncoder m_backShooterkEncoder = m_Back_ShooterW.getEncoder();
 
-    // Shooter PID variables 
-    private SparkMaxPIDController m_frontShootPID, m_backShootPID;
-    public double kP, kI, kD, kIz, kFF; 
-    public double kMaxOut, kMinOut, maxRPM;
-
-
-    public Shooter() {
+    public Intake() {
         m_Front_ShooterW.setInverted(ShooterConstants.frontShooterInverted);
         m_Back_ShooterW.setInverted(ShooterConstants.backShooterInverted);
 
@@ -32,44 +25,15 @@ public class Shooter extends SubsystemBase {
         m_backShooterkEncoder.setVelocityConversionFactor(1.0);
 
         resetEncoders();
-        
-        // ** SETTING UP PID FOR SHOOTER
-        // PID init
-        m_frontShootPID = m_Front_ShooterW.getPIDController();
-        m_backShootPID = m_Back_ShooterW.getPIDController();
-        // PID coefficients
-        kP = 6e-5; 
-        kI = 0;
-        kD = 0; 
-        kIz = 0; 
-        kFF = 1.0/5700.0; 
-        kMaxOut = 1; 
-        kMinOut = -1;
-        maxRPM = 5700;
 
-        // set PID coefficients
-        m_frontShootPID.setP(kP);
-        m_frontShootPID.setI(kI);
-        m_frontShootPID.setD(kD);
-        m_frontShootPID.setIZone(kIz);
-        m_frontShootPID.setFF(kFF);
-        m_frontShootPID.setOutputRange(kMinOut, kMaxOut);
-
-        m_backShootPID.setP(kP);
-        m_backShootPID.setI(kI);
-        m_backShootPID.setD(kD);
-        m_backShootPID.setIZone(kIz);
-        m_backShootPID.setFF(kFF);
-        m_backShootPID.setOutputRange(kMinOut, kMaxOut);
-
-        //dashboardOut();
+        dashboardOut();
     }
     
     
 
     @Override
     public void periodic() {
-    //dashboardOut();
+    dashboardOut();
 
     }
 
@@ -78,12 +42,9 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    public void runShooter(double frontRPM, double backRPM) {
-        double frontSetpoint = frontRPM;
-        double backSetpoint = backRPM;
-
-        m_frontShootPID.setReference(frontSetpoint, CANSparkMax.ControlType.kVelocity);
-        m_backShootPID.setReference(backSetpoint, CANSparkMax.ControlType.kVelocity);
+    public void runShooter(double frontSpeed, double backSpeed) {
+        m_Front_ShooterW.set(frontSpeed);
+        m_Back_ShooterW.set(backSpeed);
       }
 
     /** Resets the drive encoders to currently read a position of 0. */

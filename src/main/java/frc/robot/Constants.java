@@ -38,14 +38,28 @@ public final class Constants {
         public static final boolean backShooterInverted = false;
     }
 
+    // Constants for the shooter
+    public static final class HangConstants {
+        public static final int kWinchLeft = 8;
+        public static final int kWinchRight = 9;
+        public static final int kActuateLeft = 10;
+        public static final int kActuateRight = 11;
+
+        // Motor inverted?
+        public static final boolean winchLeftInverted = false;
+        public static final boolean winchRightInverted = true;
+        public static final boolean actuateLeftInverted = false;
+        public static final boolean actuateRightInverted = false;
+    }
+
     // Constants for the drivetrain
     public static final class DriveConstants {
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
-        public static final int kLeftFrontMotorPort = 5;
-        public static final int kLeftBackMotorPort = 4;
-        public static final int kRightFrontMotorPort = 2;
-        public static final int kRightBackMotorPort = 3;
+        public static final int kLeftFrontMotorPort = 2;
+        public static final int kLeftBackMotorPort = 3;
+        public static final int kRightFrontMotorPort = 4;
+        public static final int kRightBackMotorPort = 5;
 
         // Motor grouping for encoders
         public static final int[] kLeftEncoderPorts = new int[] {kLeftFrontMotorPort, kLeftBackMotorPort};

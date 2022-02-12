@@ -20,9 +20,11 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  //private final Controllers m_controllers = new Controllers();
   // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final Shooter m_shooter = new Shooter();
+  private final HangArms m_hangArms = new HangArms();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
@@ -45,6 +47,7 @@ public class RobotContainer {
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
     m_shooter.setDefaultCommand(new Shoot(m_shooter));
+    m_hangArms.setDefaultCommand(new Hang(m_hangArms));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);

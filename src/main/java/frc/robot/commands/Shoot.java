@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,7 +15,7 @@ public class Shoot extends CommandBase {
   
   private final Shooter m_shooter;
 
-  private XboxController driveController = new XboxController(0);
+  private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * Creates a new ExampleCommand.
@@ -34,16 +35,19 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getAButton())
+    if (driveController.getLeftTriggerAxis() > 0.1)
     {
-      m_shooter.shoot(0.6, 0.6);
+      m_shooter.runShooter(2000, 2000);
+    }
+    else {
+      m_shooter.runShooter(0, 0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.shoot(0.0, 0.0);
+    m_shooter.runShooter(0.0, 0.0);
   }
 
   // Returns true when the command should end.
