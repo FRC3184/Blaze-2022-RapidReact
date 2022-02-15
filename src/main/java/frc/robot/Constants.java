@@ -28,6 +28,14 @@ public final class Constants {
         public static final boolean navxDebug = true;
     }
 
+    // Constants for the intake
+    public static final class IntakeConstants {
+        public static final int kIntakeRollerMotorPort = 12;
+
+        // Motor inverted?
+        public static final boolean intakeRollerInverted = false;
+    }
+
     // Constants for the shooter
     public static final class ShooterConstants {
         public static final int kFrontShooterMotorPort = 6;
@@ -49,7 +57,7 @@ public final class Constants {
         public static final boolean winchLeftInverted = false;
         public static final boolean winchRightInverted = true;
         public static final boolean actuateLeftInverted = false;
-        public static final boolean actuateRightInverted = false;
+        public static final boolean actuateRightInverted = true;
     }
 
     // Constants for the drivetrain

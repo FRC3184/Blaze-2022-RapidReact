@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.*;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class HangArms extends SubsystemBase {
@@ -57,8 +57,8 @@ public class HangArms extends SubsystemBase {
     }
 
     public void runActuatingArms(double ActuateSpeed) {
-        m_WinchL.set(ActuateSpeed);
-        m_WinchR.set(ActuateSpeed);
+        m_ActuateL.set(ActuateSpeed);
+        m_ActuateR.set(ActuateSpeed);
     }
 
     /** Resets the drive encoders to currently read a position of 0. */

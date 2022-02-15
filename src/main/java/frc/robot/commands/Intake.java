@@ -5,16 +5,15 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.HangArms;
-
+import frc.robot.subsystems.IntakeArm;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Hang extends CommandBase {
+public class Intake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final HangArms m_hangArms;
+  private final IntakeArm m_intakeArm;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -23,10 +22,10 @@ public class Hang extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Hang(HangArms subsystem) {
-    m_hangArms = subsystem;
+  public Intake(IntakeArm subsystem) {
+    m_intakeArm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_hangArms);
+    addRequirements(m_intakeArm);
   }
 
   // Called when the command is initially scheduled.
@@ -36,30 +35,20 @@ public class Hang extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getPOV() == 0) {   // d-pad up is pressed actuate arms forward
-      m_hangArms.runActuatingArms(0.5);
-
-    } else if (driveController.getPOV() == 180) {  // d-pad down is pressed actuate arms back
-      m_hangArms.runActuatingArms(-0.5);
-
-    } else if (driveController.getYButton()) {  // Y button winch in static arms
-      m_hangArms.runWinchArms(0.5);
-
-    } else if (driveController.getAButton()) { // A button winch out static arms
-      m_hangArms.runWinchArms(-0.5);
-
+    if (driveController.getLeftTriggerAxis() > 0.1) {
+      m_intakeArm.runIntakeRoller(driveController.getLeftTriggerAxis());
+    } else if (driveController.getRightTriggerAxis() > 0.1) {
+      m_intakeArm.runIntakeRoller(-driveController.getRightTriggerAxis());
     } else {
-      m_hangArms.runWinchArms(0);
-      m_hangArms.runActuatingArms(0);
-
+      m_intakeArm.runIntakeRoller(0.0);
     }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_hangArms.runWinchArms(0);
-      m_hangArms.runActuatingArms(0);
+    m_intakeArm.runIntakeRoller(0.0);
   }
 
   // Returns true when the command should end.

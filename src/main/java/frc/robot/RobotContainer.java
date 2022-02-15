@@ -23,8 +23,9 @@ public class RobotContainer {
   //private final Controllers m_controllers = new Controllers();
   // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
-  private final Shooter m_shooter = new Shooter();
+  //private final Shooter m_shooter = new Shooter();
   private final HangArms m_hangArms = new HangArms();
+  private final IntakeArm m_intakeArm = new IntakeArm();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
@@ -46,8 +47,9 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
-    m_shooter.setDefaultCommand(new Shoot(m_shooter));
+    //m_shooter.setDefaultCommand(new Shoot(m_shooter));
     m_hangArms.setDefaultCommand(new Hang(m_hangArms));
+    m_intakeArm.setDefaultCommand(new Intake(m_intakeArm));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);

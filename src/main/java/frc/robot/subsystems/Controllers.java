@@ -39,6 +39,8 @@ public class Controllers extends SubsystemBase {
     SmartDashboard.putBoolean("Run Joy B", runController.getBButton());
     SmartDashboard.putBoolean("Run Joy X", runController.getXButton());
     SmartDashboard.putBoolean("Run Joy Y", runController.getYButton());
+
+    SmartDashboard.putNumber("Run LJoy Y", gunController.getLeftY());
     
   }
 }
