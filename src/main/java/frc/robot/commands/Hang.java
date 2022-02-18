@@ -52,10 +52,10 @@ public class Hang extends CommandBase {
       m_hangArms.runActuatingArms(0);
     }
      if (driveController.getYButton()) {  // Y button winch in static arms
-      m_hangArms.runWinchArms(-0.5);
+      m_hangArms.runWinchArms(-1);
 
     } else if (driveController.getAButton()) { // A button winch out static arms
-      m_hangArms.runWinchArms(0.5);
+      m_hangArms.runWinchArms(1);
 
     } else {
       m_hangArms.runWinchArms(0);
