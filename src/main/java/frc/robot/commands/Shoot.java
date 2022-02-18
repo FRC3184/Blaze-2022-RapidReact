@@ -3,10 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -14,8 +11,6 @@ public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter m_shooter;
-
-  private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * Creates a new ExampleCommand.
