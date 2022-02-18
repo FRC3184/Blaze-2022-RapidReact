@@ -79,7 +79,7 @@ public class RobotContainer {
     // Left Bumper   = winch out
     new JoystickButton(m_driverController, Button.kLeftBumper.value).whenPressed(new WinchOut(m_hangArms));
     // Right Bumper  = actuate out
-    // new JoystickButton(m_driverController, Button.kLeftBumper).whenPressed(command);
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new ActuateOut(m_hangArms));
     // Right Trigger = actuate in
     // DPad Up       = retract intake
     new POVButton(m_driverController, 0).whenPressed(new RetractIntake(m_intakeArm));
