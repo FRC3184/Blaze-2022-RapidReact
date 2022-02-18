@@ -38,7 +38,8 @@ public class TankDrive extends CommandBase {
   public void execute() {
     SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
     SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
-    m_drivetrain.drive(-driveController.getLeftY(), -driveController.getRightY());
+    m_drivetrain.drive(-(Math.pow(driveController.getLeftY(), 3)), 
+                       -(Math.pow(driveController.getRightY(), 3)));
   }
 
   // Called once the command ends or is interrupted.
