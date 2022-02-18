@@ -35,13 +35,7 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getLeftTriggerAxis() > 0.1)
-    {
       m_shooter.runShooter(2000, 2000);
-    }
-    else {
-      m_shooter.runShooter(0, 0);
-    }
   }
 
   // Called once the command ends or is interrupted.

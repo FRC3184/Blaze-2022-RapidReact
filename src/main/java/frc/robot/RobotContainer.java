@@ -6,12 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,7 +27,7 @@ public class RobotContainer {
   //private final Controllers m_controllers = new Controllers();
   // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
-  //private final Shooter m_shooter = new Shooter();
+  private final Shooter m_shooter = new Shooter();
   private final HangArms m_hangArms = new HangArms();
   private final IntakeArm m_intakeArm = new IntakeArm();
 
@@ -49,7 +53,7 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
     //m_shooter.setDefaultCommand(new Shoot(m_shooter));
     m_hangArms.setDefaultCommand(new Hang(m_hangArms));
-    m_intakeArm.setDefaultCommand(new Intake(m_intakeArm));
+    //m_intakeArm.setDefaultCommand(new Intake(m_intakeArm));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
@@ -64,7 +68,31 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    // RUNNER JOYSTICK
+    // drivetrain is already handled above
+
+    // GUNNER JOYSTICK
+    // DPad Left     = intake
+    // new POVButton(m_driverController, 270).whenPressed();
+    // DPad Right    = outtake
+    // new POVButton(m_driverController, 90).whenPressed();
+    // Left Trigger  = winch in 
+    
+    // Left Bumper   = winch out
+    // new JoystickButton(m_driverController, Button.kLeftBumper).whenPressed(command);
+    // Right Bumper  = actuate out
+    // new JoystickButton(m_driverController, Button.kLeftBumper).whenPressed(command);
+    // Right Trigger = actuate in
+    // DPad Up       = lift intake
+    // new POVButton(m_driverController, 0).whenPressed();
+    // DPad Down     = deploy intake
+    // new POVButton(m_driverController, 180).whenPressed();
+    // A Button      = shoot
+    new JoystickButton(m_driverController, Button.kA.value).whenPressed(new Shoot(m_shooter));
+    // reverse shooter
+
+  }
 
   public Drivetrain getRobotDrive() {
     return m_drivetrain;

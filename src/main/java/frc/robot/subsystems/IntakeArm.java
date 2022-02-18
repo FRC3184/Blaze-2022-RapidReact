@@ -28,9 +28,13 @@ public class IntakeArm extends SubsystemBase {
 
     }
 
-    public void runIntakeRoller(double rollerSpeed) {
+    public void intake(double rollerSpeed) {
         m_IntakeRoller.set(VictorSPXControlMode.PercentOutput, rollerSpeed);
-      }
+    }
+
+    public void outake(double rollerSpeed) {
+        m_IntakeRoller.set(VictorSPXControlMode.PercentOutput, -rollerSpeed);
+    }
 
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders() {

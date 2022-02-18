@@ -35,20 +35,20 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getLeftTriggerAxis() > 0.1) {
-      m_intakeArm.runIntakeRoller(driveController.getLeftTriggerAxis());
-    } else if (driveController.getRightTriggerAxis() > 0.1) {
-      m_intakeArm.runIntakeRoller(-driveController.getRightTriggerAxis());
-    } else {
-      m_intakeArm.runIntakeRoller(0.0);
-    }
+    // if (driveController.getLeftTriggerAxis() > 0.1) {
+    //   m_intakeArm.runIntakeRoller(driveController.getLeftTriggerAxis());
+    // } else if (driveController.getRightTriggerAxis() > 0.1) {
+    //   m_intakeArm.runIntakeRoller(-driveController.getRightTriggerAxis());
+    // } else {
+    //   m_intakeArm.runIntakeRoller(0.0);
+    // }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeArm.runIntakeRoller(0.0);
+    //m_intakeArm.runIntakeRoller(0.0);
   }
 
   // Returns true when the command should end.
