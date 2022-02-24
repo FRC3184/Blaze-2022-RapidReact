@@ -38,13 +38,13 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
     SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
     SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
-    m_drivetrain.drive(-driveController.getLeftY(), -driveController.getRightY());
+    m_drivetrain.arcadeDrive(-driveController.getLeftY(), driveController.getRightX());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.drive(0.0, 0.0);
+    m_drivetrain.arcadeDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.

@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.IntakeArm;
+
+import org.ejml.dense.block.MatrixOps_DDRB;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -35,13 +38,22 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (driveController.getLeftTriggerAxis() > 0.1) {
-    //   m_intakeArm.runIntakeRoller(driveController.getLeftTriggerAxis());
-    // } else if (driveController.getRightTriggerAxis() > 0.1) {
-    //   m_intakeArm.runIntakeRoller(-driveController.getRightTriggerAxis());
-    // } else {
-    //   m_intakeArm.runIntakeRoller(0.0);
-    // }
+    if (driveController.getRightTriggerAxis() > 0.1) {
+      m_intakeArm.intake(.5);
+    } else if (driveController.getRightBumper()) {
+      m_intakeArm.outake(.5);
+    } else {
+      m_intakeArm.intake(0);
+    }
+
+    if (driveController.getLeftBumper()){
+      m_intakeArm.PivotUp(.5);
+    } else if (driveController.getLeftTriggerAxis()> 0.1){
+      m_intakeArm.PivotDown(.5);
+    } else {
+      m_intakeArm.PivotDown(0);
+    }
+    
 
   }
 

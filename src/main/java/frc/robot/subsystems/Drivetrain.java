@@ -101,8 +101,12 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public void drive(double leftSpeed, double rightSpeed) {
+  public void tankDrive(double leftSpeed, double rightSpeed) {
     m_drive.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public void arcadeDrive(double speed, double rotation) {
+    m_drive.arcadeDrive(speed, rotation);
   }
 
   public void testDrive(double leftSpeed, double rightSpeed) {

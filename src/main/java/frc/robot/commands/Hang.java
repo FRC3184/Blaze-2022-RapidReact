@@ -15,7 +15,7 @@ public class Hang extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final HangArms m_hangArms;
-  private double armspeed = .25;
+  private double armspeed = .125;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -37,10 +37,10 @@ public class Hang extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getLeftTriggerAxis()>0){
-      armspeed = .125;
+    if (driveController.getBButton()){
+      armspeed = .0625;
     } else{
-      armspeed = .25;
+      armspeed = .125;
     }
     if (driveController.getPOV() == 0) {   // d-pad up is pressed actuate arms forward
       m_hangArms.runActuatingArms(armspeed);
@@ -52,10 +52,10 @@ public class Hang extends CommandBase {
       m_hangArms.runActuatingArms(0);
     }
      if (driveController.getYButton()) {  // Y button winch in static arms
-      m_hangArms.runWinchArms(-1);
+      m_hangArms.runWinchArms(-.35);
 
     } else if (driveController.getAButton()) { // A button winch out static arms
-      m_hangArms.runWinchArms(1);
+      m_hangArms.runWinchArms(.75);
 
     } else {
       m_hangArms.runWinchArms(0);

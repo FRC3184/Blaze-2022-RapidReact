@@ -48,14 +48,14 @@ public class ShooterTuning extends CommandBase {
     SmartDashboard.putNumber("Second Shooter Wheel Speed", shootSpeed);
 
     if (driveController.getAButton()) {
-      m_drivetrain.drive(shootSpeed, grabSpeed);
+      m_drivetrain.tankDrive(shootSpeed, grabSpeed);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.drive(0.0, 0.0);
+    m_drivetrain.tankDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.

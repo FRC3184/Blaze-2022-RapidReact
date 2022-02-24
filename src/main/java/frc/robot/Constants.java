@@ -31,9 +31,11 @@ public final class Constants {
     // Constants for the intake
     public static final class IntakeConstants {
         public static final int kIntakeRollerMotorPort = 12;
+        public static final int kIntakePivotMotorPort = 13;
 
         // Motor inverted?
         public static final boolean intakeRollerInverted = false;
+        public static final boolean kIntakePivotInverted = true;
     }
 
     // Constants for the shooter

@@ -36,6 +36,8 @@ public class RobotContainer {
   private final Command m_simpleAuto = null;
   private final Command m_complexAuto = null;
   private final Command m_autoTest = new AutonomousTest(m_drivetrain);
+  private final Command m_auto = new Autonomous(m_drivetrain);
+  
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -50,15 +52,16 @@ public class RobotContainer {
 
     // Configure default commands
     // Set the default drive command to tank drive
-    m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     //m_shooter.setDefaultCommand(new Shoot(m_shooter));
     m_hangArms.setDefaultCommand(new Hang(m_hangArms));
-    //m_intakeArm.setDefaultCommand(new Intake(m_intakeArm));
+    m_intakeArm.setDefaultCommand(new Intake(m_intakeArm));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     m_chooser.addOption("Complex Auto", m_complexAuto);
     m_chooser.addOption("Auto Test", m_autoTest);
+    m_chooser.addOption("Auto", m_auto);
     SmartDashboard.putData("Select Autonomous", m_chooser);
   }
 

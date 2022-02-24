@@ -39,16 +39,16 @@ public class TurnTime extends CommandBase {
   @Override
   public void execute() {
     if (m_left) {
-      m_drive.drive(-m_speed, m_speed);
+      m_drive.tankDrive(-m_speed, m_speed);
     } else {
-      m_drive.drive(m_speed, -m_speed);
+      m_drive.tankDrive(m_speed, -m_speed);
     }
     
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0, 0);
+    m_drive.tankDrive(0, 0);
   }
 
   @Override
