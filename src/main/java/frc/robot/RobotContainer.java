@@ -35,9 +35,7 @@ public class RobotContainer {
   // A simple autonomous routine that shoots the loaded frisbees
   private final Command m_simpleAuto = null;
   private final Command m_complexAuto = null;
-  private final Command m_autoTest = new AutonomousTest(m_drivetrain);
-  private final Command m_auto = new Autonomous(m_drivetrain);
-  
+  private final Command m_autoTest = new AutonomousTest(m_drivetrain);  
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -61,7 +59,6 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
     m_chooser.addOption("Complex Auto", m_complexAuto);
     m_chooser.addOption("Auto Test", m_autoTest);
-    m_chooser.addOption("Auto", m_auto);
     SmartDashboard.putData("Select Autonomous", m_chooser);
   }
 
