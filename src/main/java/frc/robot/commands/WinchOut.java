@@ -38,14 +38,14 @@ public class WinchOut extends CommandBase {
       m_hangArms.runWinchArms(0);
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  // // Returns true when the command should end.
+  // @Override
+  // public boolean isFinished() {
+  //   return false;
+  // }
 
-  @Override
-  public boolean runsWhenDisabled() {
-    return false;
-  }
+  // @Override
+  // public boolean runsWhenDisabled() {
+  //   return false;
+  // }
 }
