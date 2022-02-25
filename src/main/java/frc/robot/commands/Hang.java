@@ -15,7 +15,7 @@ public class Hang extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final HangArms m_hangArms;
-  private double armspeed = .125;
+  //private double armspeed = .125;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
