@@ -45,8 +45,8 @@ public final class Constants {
         public static final int kKickerMotorPort = 14;
 
         // Motor inverted?
-        public static final boolean highShooterInverted = true;
-        public static final boolean lowShooterInverted = false;
+        public static final boolean highShooterInverted = false;
+        public static final boolean lowShooterInverted = true;
         public static final boolean kickerInverted = false;
     }
 
