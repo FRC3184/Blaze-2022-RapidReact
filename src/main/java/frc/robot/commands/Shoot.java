@@ -38,15 +38,4 @@ public class Shoot extends CommandBase {
   public void end(boolean interrupted) {
     m_shooter.runShooter(0.0, 0.0);
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return false;
-  }
 }

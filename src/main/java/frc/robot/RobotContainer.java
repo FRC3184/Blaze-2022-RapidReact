@@ -54,7 +54,7 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
-    m_hangArms.setDefaultCommand(new WinchIn(m_hangArms));
+    m_hangArms.setDefaultCommand(new Hang(m_hangArms));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
@@ -75,24 +75,25 @@ public class RobotContainer {
 
     // GUNNER JOYSTICK
     // DPad Left     = intake
-    new POVButton(m_driverController, 270).whenPressed(new Intake(m_intakeArm));
+    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeArm));
     // DPad Right    = outtake
-    new POVButton(m_driverController, 90).whenPressed(new Outtake(m_intakeArm));
-    // Right Trigger  = winch in - LOOK IN WINCH IN COMMAND 
+    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeArm));
+
+    // Right Trigger  = winch in - LOOK IN HANG IN COMMAND 
+    // Left Trigger   = actuate in - LOOK IN HANG IN COMMAND
+
     // Right Bumper   = winch out
     new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangArms));
-    // Left Trigger   = actuate in - LOOK IN ACTUATE IN COMMAND
     // Left Bumper  = actuate out
     new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangArms));
-    // new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new WinchIn(m_hangArms));
-    // Right Trigger = actuate in
     // DPad Up       = retract intake
-    // new POVButton(m_driverController, 0).whenPressed(new RetractIntake(m_intakeArm));
+    new POVButton(m_driverController, 0).whenHeld(new RetractIntake(m_intakeArm));
     // DPad Down     = deploy intake
-    // new POVButton(m_driverController, 180).whenPressed(new DeployIntake(m_intakeArm));
+    new POVButton(m_driverController, 180).whenHeld(new DeployIntake(m_intakeArm));
     // A Button      = shoot
-    // new JoystickButton(m_driverController, Button.kA.value).whenPressed(new Shoot(m_shooter));
-    // reverse shooter
+    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_shooter));
+    // X Button      = kick
+    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_shooter));
 
   }
 
