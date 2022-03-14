@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.HangArms;
+import frc.robot.subsystems.Hang_Actuate;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Hang extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final HangArms m_hangArms;
+  private final Hang_Actuate m_hangArms;
   //private double armspeed = .125;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
@@ -24,7 +24,7 @@ public class Hang extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Hang(HangArms subsystem) {
+  public Hang(Hang_Actuate subsystem) {
     m_hangArms = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_hangArms);
@@ -42,18 +42,11 @@ public class Hang extends CommandBase {
     } else {
       m_hangArms.runActuatingArms(0);
     }
-
-    if (driveController.getRightTriggerAxis() > 0.1) {
-      m_hangArms.runWinchArms(0.5);  
-    } else {
-      m_hangArms.runWinchArms(0);
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_hangArms.runWinchArms(0);
       m_hangArms.runActuatingArms(0);
   }
 

@@ -3,21 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.IntakeArm;
+import frc.robot.subsystems.Intake_Actuate;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class DeployIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final IntakeArm m_intakeArm;
+  private final Intake_Actuate m_intakeArm;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DeployIntake(IntakeArm subsystem) {
+  public DeployIntake(Intake_Actuate subsystem) {
     m_intakeArm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_intakeArm);
@@ -30,7 +30,7 @@ public class DeployIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeArm.deployIntake(0.25);
+    m_intakeArm.deployIntake(0.1);
   }
 
   // Called once the command ends or is interrupted.

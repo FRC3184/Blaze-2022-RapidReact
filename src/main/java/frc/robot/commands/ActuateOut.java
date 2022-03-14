@@ -3,20 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.HangArms;
+import frc.robot.subsystems.Hang_Actuate;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class ActuateOut extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final HangArms m_hangArms;
+  private final Hang_Actuate m_hangArms;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ActuateOut(HangArms subsystem) {
+  public ActuateOut(Hang_Actuate subsystem) {
     m_hangArms = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_hangArms);
