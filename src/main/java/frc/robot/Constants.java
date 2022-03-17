@@ -64,7 +64,10 @@ public final class Constants {
         public static final int kActuateLeft = 18;
         public static final int kActuateRight = 6;
 
-        public static final int hangActuateLimitPort = 0;
+        public static final int hangActuateUpLeftLimitPort = 0;
+        public static final int hangActuateUpRightLimitPort = 1;
+        public static final int hangActuateDownLeftLimitPort = 2;
+        public static final int hangActuateDownRightLimitPort = 3;
 
         // Motor inverted?
         public static final boolean winchLeftInverted = false;

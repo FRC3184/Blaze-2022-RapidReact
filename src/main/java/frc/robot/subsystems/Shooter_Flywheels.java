@@ -19,7 +19,7 @@ public class Shooter_Flywheels extends SubsystemBase {
     private final RelativeEncoder m_lowShooterkEncoder = m_Low_ShooterW.getEncoder();
 
     // Shooter PID variables 
-    private SparkMaxPIDController m_frontShootPID, m_backShootPID, m_kickPID;
+    private SparkMaxPIDController m_frontShootPID, m_backShootPID;
     public double kP, kI, kD, kIz, kFF; 
     public double kMaxOut, kMinOut, maxRPM;
     private int shootSpeed;

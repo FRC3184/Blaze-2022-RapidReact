@@ -20,7 +20,10 @@ public class Hang_Actuate extends SubsystemBase {
     private final RelativeEncoder m_actuateLEncoder = m_ActuateL.getEncoder();
     private final RelativeEncoder m_actuateREncoder = m_ActuateR.getEncoder();
 
-    DigitalInput hangActuateLimit;
+    DigitalInput hangActuateUpLeftLimit;
+    DigitalInput hangActuateUpRightLimit;
+    DigitalInput hangActuateDownLeftLimit;
+    DigitalInput hangActuateDownRightLimit;
 
     public Hang_Actuate() {
         m_ActuateL.setInverted(HangConstants.actuateLeftInverted);
@@ -29,7 +32,10 @@ public class Hang_Actuate extends SubsystemBase {
         m_actuateLEncoder.setVelocityConversionFactor(1.0);
         m_actuateREncoder.setVelocityConversionFactor(1.0);
 
-        hangActuateLimit = new DigitalInput(HangConstants.hangActuateLimitPort);
+        hangActuateUpLeftLimit = new DigitalInput(HangConstants.hangActuateUpLeftLimitPort);
+        hangActuateUpRightLimit = new DigitalInput(HangConstants.hangActuateUpRightLimitPort);
+        hangActuateDownLeftLimit = new DigitalInput(HangConstants.hangActuateDownLeftLimitPort);
+        hangActuateDownRightLimit = new DigitalInput(HangConstants.hangActuateDownRightLimitPort);
 
         resetEncoders();
 
@@ -60,11 +66,16 @@ public class Hang_Actuate extends SubsystemBase {
         m_actuateREncoder.setPosition(0);
     }
 
-    public boolean getHangAcutateLimit() {
-        return hangActuateLimit.get();
+    public boolean getHangUpAcutateLimit() {
+        return hangActuateUpLeftLimit.get() && hangActuateUpRightLimit.get();
+    }
+
+    public boolean getHangDownActuateLimit() {
+        return hangActuateDownLeftLimit.get() && hangActuateDownRightLimit.get();
     }
 
     public void dashboardOut() {
-        SmartDashboard.putBoolean("HangActuateLimit", getHangAcutateLimit());
+        SmartDashboard.putBoolean("HangUpActuateLimit", getHangUpAcutateLimit());
+        SmartDashboard.putBoolean("HangDownActuateLimit", getHangDownActuateLimit());
       }
 }
