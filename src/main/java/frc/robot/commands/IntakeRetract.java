@@ -7,20 +7,20 @@ import frc.robot.subsystems.Intake_Actuate;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class DeployIntake extends CommandBase {
+public class IntakeRetract extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Intake_Actuate m_intakeArm;
+  private final Intake_Actuate m_intakeActuate;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DeployIntake(Intake_Actuate subsystem) {
-    m_intakeArm = subsystem;
+  public IntakeRetract(Intake_Actuate subsystem) {
+    m_intakeActuate = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeArm);
+    addRequirements(m_intakeActuate);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +30,12 @@ public class DeployIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeArm.deployIntake(0.1);
+    m_intakeActuate.retractIntake(0.15);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeArm.deployIntake(0.0);
+    m_intakeActuate.retractIntake(0.0);
   }
 }

@@ -3,24 +3,32 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.Shooter_Flywheels;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Shooter m_shooter;
+  private final Shooter_Flywheels m_flywheels;
+  private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
+  
+  private int fireSpeed = 5000;
+  private int stopSpeed = 0;
+
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Shoot(Shooter subsystem) {
-    m_shooter = subsystem;
+  public Shoot(Shooter_Flywheels subsystem) {
+    m_flywheels = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter);
+    addRequirements(m_flywheels);
+    m_flywheels.setShotSpeed(fireSpeed);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +38,18 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_shooter.runShooter(2000, 2000);
+    if (driveController.getAButton()){
+      m_flywheels.setShotSpeed(fireSpeed); 
+    } else {
+      m_flywheels.setShotSpeed(stopSpeed);
+    }
+    m_flywheels.runShooter();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.runShooter(0.0, 0.0);
+    m_flywheels.setShotSpeed(stopSpeed);
+    m_flywheels.runShooter();
   }
 }

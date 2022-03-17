@@ -30,9 +30,13 @@ public class RobotContainer {
   //private final Controllers m_controllers = new Controllers();
   // The robot's subsystems
   private final Drivetrain m_drivetrain = new Drivetrain();
-  private final Shooter m_shooter = new Shooter();
-  private final HangArms m_hangArms = new HangArms();
-  private final IntakeArm m_intakeArm = new IntakeArm();
+  private final Shooter_Flywheels m_flywheel = new Shooter_Flywheels();
+  private final Shooter_Kicker m_kicker = new Shooter_Kicker();
+  private final Hang_Actuate m_hangActuate = new Hang_Actuate();
+  private final Hang_Winch m_hangWinch = new Hang_Winch();
+  private final Intake_Actuate m_intakeAcutate = new Intake_Actuate();
+  private final Intake_Roller m_intakeRoller = new Intake_Roller();
+  private final Intake_Centerer m_intakeCenterer = new Intake_Centerer();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
@@ -54,7 +58,8 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
-    m_hangArms.setDefaultCommand(new Hang(m_hangArms));
+    m_hangActuate.setDefaultCommand(new ActuateIn(m_hangActuate));
+    m_hangWinch.setDefaultCommand(new WinchIn(m_hangWinch));
 
     // Configure autonomous options
     m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
@@ -75,26 +80,60 @@ public class RobotContainer {
 
     // GUNNER JOYSTICK
     // DPad Left     = intake
-    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeArm));
+    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeRoller));
     // DPad Right    = outtake
-    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeArm));
+    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeRoller));
 
     // Right Trigger  = winch in - LOOK IN HANG IN COMMAND 
     // Left Trigger   = actuate in - LOOK IN HANG IN COMMAND
 
     // Right Bumper   = winch out
-    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangArms));
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangWinch));
     // Left Bumper  = actuate out
-    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangArms));
+    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangActuate));
     // DPad Up       = retract intake
-    new POVButton(m_driverController, 0).whenHeld(new RetractIntake(m_intakeArm));
+    new POVButton(m_driverController, 0).whenHeld(new IntakeRetract(m_intakeAcutate));
     // DPad Down     = deploy intake
-    new POVButton(m_driverController, 180).whenHeld(new DeployIntake(m_intakeArm));
+    new POVButton(m_driverController, 180).whenHeld(new IntakeDeploy(m_intakeAcutate));
     // A Button      = shoot
-    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_shooter));
+    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_flywheel));
     // X Button      = kick
-    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_shooter));
+    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_kicker));
+    // left joy click= center in
+    new JoystickButton(m_driverController, Button.kLeftStick.value).whenHeld(new CenterIntake(m_intakeCenterer));
+    // right joy click = center out 
+    new JoystickButton(m_driverController, Button.kRightStick.value).whenHeld(new CenterOuttake(m_intakeCenterer));
+  }
 
+  private void configureCompButtonBindings() {
+    // RUNNER JOYSTICK
+    // drivetrain is already handled above
+
+    // GUNNER JOYSTICK
+    // DPad Left     = intake
+    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeRoller));
+    // DPad Right    = outtake
+    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeRoller));
+
+    // Right Trigger  = winch in - LOOK IN HANG IN COMMAND 
+    // Left Trigger   = actuate in - LOOK IN HANG IN COMMAND
+
+    // Right Bumper   = winch out
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangWinch));
+    // Left Bumper  = actuate out
+    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangActuate));
+    // DPad Up       = retract intake
+    new POVButton(m_driverController, 0).whenHeld(new IntakeRetract(m_intakeAcutate));
+    // DPad Down     = deploy intake
+    new POVButton(m_driverController, 180).whenHeld(new IntakeDeploy(m_intakeAcutate));
+    // A Button      = shoot
+    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_flywheel));
+    // X Button      = kick
+    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_kicker));
+    // left joy click= center in
+    new JoystickButton(m_driverController, Button.kLeftStick.value).whenHeld(new CenterIntake(m_intakeCenterer));
+    // right joy click = center out 
+    new JoystickButton(m_driverController, Button.kRightStick.value).whenHeld(new CenterOuttake(m_intakeCenterer));
   }
 
   public Drivetrain getRobotDrive() {

@@ -3,24 +3,24 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class Kick extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Shooter m_shooter;
+  private final Shooter_Kicker m_kicker;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Kick(Shooter subsystem) {
-    m_shooter = subsystem;
+  public Kick(Shooter_Kicker subsystem) {
+    m_kicker = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter);
+    addRequirements(m_kicker);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +30,12 @@ public class Kick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_shooter.runKicker(2000);
+      m_kicker.runKicker(2000);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.runKicker(0.0);
+    m_kicker.runKicker(0.0);
   }
 }

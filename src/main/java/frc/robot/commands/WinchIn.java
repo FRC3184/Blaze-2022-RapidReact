@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.HangArms;
+import frc.robot.subsystems.Hang_Winch;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class WinchIn extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final HangArms m_hangArms;
+  private final Hang_Winch m_hangWinch;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
   /**
@@ -20,10 +20,10 @@ public class WinchIn extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public WinchIn(HangArms subsystem) {
-    m_hangArms = subsystem;
+  public WinchIn(Hang_Winch subsystem) {
+    m_hangWinch = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_hangArms);
+    addRequirements(m_hangWinch);
   }
 
   // Called when the command is initially scheduled.
@@ -34,15 +34,15 @@ public class WinchIn extends CommandBase {
   @Override
   public void execute() {
     if (driveController.getRightTriggerAxis() > 0.1) {
-      m_hangArms.runWinchArms(0.5);  
+      m_hangWinch.runWinchArms(1);  
     } else {
-      m_hangArms.runWinchArms(0);
+      m_hangWinch.runWinchArms(0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_hangArms.runWinchArms(0);
+      m_hangWinch.runWinchArms(0);
   }
 }

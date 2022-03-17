@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 
@@ -18,12 +20,16 @@ public class Hang_Actuate extends SubsystemBase {
     private final RelativeEncoder m_actuateLEncoder = m_ActuateL.getEncoder();
     private final RelativeEncoder m_actuateREncoder = m_ActuateR.getEncoder();
 
+    DigitalInput hangActuateLimit;
+
     public Hang_Actuate() {
         m_ActuateL.setInverted(HangConstants.actuateLeftInverted);
         m_ActuateR.setInverted(HangConstants.actuateRightInverted);
 
         m_actuateLEncoder.setVelocityConversionFactor(1.0);
         m_actuateREncoder.setVelocityConversionFactor(1.0);
+
+        hangActuateLimit = new DigitalInput(HangConstants.hangActuateLimitPort);
 
         resetEncoders();
 
@@ -34,7 +40,7 @@ public class Hang_Actuate extends SubsystemBase {
 
     @Override
     public void periodic() {
-    dashboardOut();
+        dashboardOut();
 
     }
 
@@ -54,7 +60,11 @@ public class Hang_Actuate extends SubsystemBase {
         m_actuateREncoder.setPosition(0);
     }
 
-    public void dashboardOut() {
-
+    public boolean getHangAcutateLimit() {
+        return hangActuateLimit.get();
     }
+
+    public void dashboardOut() {
+        SmartDashboard.putBoolean("HangActuateLimit", getHangAcutateLimit());
+      }
 }

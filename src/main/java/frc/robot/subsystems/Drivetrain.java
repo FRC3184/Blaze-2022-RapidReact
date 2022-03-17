@@ -65,8 +65,12 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotors = new MotorControllerGroup(
       m_rightFrontMotor, m_rightBackMotor);
 
-    m_leftMotors.setInverted(DriveConstants.leftInverted);
-    m_rightMotors.setInverted(DriveConstants.rightInverted);
+    m_leftFrontMotor.setInverted(DriveConstants.leftInverted);
+    m_leftBackMotor.setInverted(DriveConstants.leftInverted);
+    m_rightFrontMotor.setInverted(DriveConstants.rightInverted);
+    m_rightBackMotor.setInverted(DriveConstants.rightInverted);
+
+    //m_leftMotors.setInverted(isInverted);
 
     m_leftFrontEncoder.setVelocityConversionFactor(1.0);
     m_leftBackEncoder.setVelocityConversionFactor(1.0);
@@ -144,20 +148,20 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void dashboardOut() {
-    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
-    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
+    // SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+    // SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+    // SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+    // SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
 
-    SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
+    // SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
+    // SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
+    // SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
+    // SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
 
-    if (ModeConstants.navxDebug)
-    {
-      SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
-      SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
-    }
+    // if (ModeConstants.navxDebug)
+    // {
+    //   SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
+    //   SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
+    // }
   }
 }
