@@ -31,11 +31,13 @@ public class DriveDistance extends CommandBase {
   public void initialize() {
     clicks = m_drive.inchToClicks(m_inches);
     m_drive.resetEncoders();
+    m_drive.resetEncoders();
+    m_drive.resetEncoders();
   }
 
   @Override
   public void execute() {
-    m_drive.drive(-m_speed, -m_speed);
+    m_drive.drive(m_speed, m_speed);
   }
 
   @Override

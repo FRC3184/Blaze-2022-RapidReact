@@ -4,11 +4,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 // import frc.robot.Constants.ModeConstants;
+import frc.robot.Constants.ModeConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -109,14 +111,16 @@ public class Drivetrain extends SubsystemBase {
     m_drive.tankDrive(leftSpeed, rightSpeed);
   }
 
-  public void testDrive(double leftSpeed, double rightSpeed) {
-    m_drive.tankDrive(leftSpeed, rightSpeed);
+  public void aDrive(double xSpeed, double zRotation) {
+    m_drive.arcadeDrive(xSpeed, zRotation);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
+    m_leftFrontEncoder.setPosition(0);
+    m_leftBackEncoder.setPosition(0);
+    m_rightFrontEncoder.setPosition(0);
+    m_rightBackEncoder.setPosition(0);
   }
 
   public double inchToClicks(double inches) {
@@ -158,10 +162,10 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
     // SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
 
-    // if (ModeConstants.navxDebug)
-    // {
-    //   SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
-    //   SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
-    // }
+    if (ModeConstants.navxDebug)
+    {
+      SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
+      SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
+    }
   }
 }

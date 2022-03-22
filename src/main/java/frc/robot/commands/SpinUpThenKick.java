@@ -5,18 +5,24 @@
 package frc.robot.commands;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter_Kicker;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
-public class Shoot extends CommandBase {
+public class SpinUpThenKick extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Shooter_Flywheels m_flywheels;
-  private XboxController gunnerController = new XboxController(OIConstants.kGunnerControllerPort);
-  
+  private final Shooter_Kicker m_kicker;
+  private final Shooter_Flywheels m_flywheel;
+
   private int fireSpeed = 1200;
   private int stopSpeed = 0;
+
+  private final double m_mSecs;
+  private double endTime;
 
 
   /**
@@ -24,44 +30,41 @@ public class Shoot extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Shoot(Shooter_Flywheels subsystem) {
-    m_flywheels = subsystem;
+  public SpinUpThenKick(Shooter_Kicker kickSS, Shooter_Flywheels flywheelSS, int shotSpeed) {
+    m_kicker = kickSS;
+    m_flywheel = flywheelSS;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_flywheels);
-    m_flywheels.setShotSpeed(fireSpeed);
+    addRequirements(m_kicker);
+    m_mSecs = 2500;
+    fireSpeed = shotSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    double startTime = System.currentTimeMillis();
+    endTime = startTime + this.m_mSecs;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (gunnerController.getRightTriggerAxis() > 0.1){
-      fireSpeed = 1200;
-    } else if (gunnerController.getLeftTriggerAxis() > 0.1) {
-      fireSpeed = 1900; 
-    } else if (gunnerController.getLeftBumper()) {
-      fireSpeed = 2500;
-    } else if (gunnerController.getRightBumper()) {
-      fireSpeed = -1200;
-    } else {
-      fireSpeed = 0;
-    }
-    m_flywheels.setShotSpeed(fireSpeed);
-    m_flywheels.runShooter();
+    m_flywheel.setShotSpeed(fireSpeed);
+    m_flywheel.runShooter();
+    Timer.delay(1);
+    m_kicker.runKicker(1000);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flywheels.setShotSpeed(stopSpeed);
-    m_flywheels.runShooter();
+    m_flywheel.setShotSpeed(0);
+    m_flywheel.runShooter();
+    m_kicker.runKicker(0);
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return System.currentTimeMillis() >= endTime;
   }
 }

@@ -51,6 +51,9 @@ public final class Constants {
         public static final int kLowShooterMotorPort = 10;
         public static final int kKickerMotorPort = 12;
 
+        public static final int highODSPort = 0;
+        public static final int lowODSPort = 5;
+
         // Motor inverted?
         public static final boolean highShooterInverted = true;
         public static final boolean lowShooterInverted = false;
@@ -113,5 +116,6 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kGunnerControllerPort = 1;
     }
 }

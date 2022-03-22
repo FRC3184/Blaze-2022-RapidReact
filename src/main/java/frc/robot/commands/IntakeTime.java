@@ -5,44 +5,41 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake_Actuate;
+import frc.robot.subsystems.Intake_Roller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveTime extends CommandBase {
-  private final Drivetrain m_drive;
+public class IntakeTime extends CommandBase {
+  private final Intake_Roller m_intakeRoller;
   private final double m_mSecs;
-  private final double m_speed;
   private double endTime;
 
   /**
    * Creates a new DriveTime.
    *
    * @param mSecs The number of milliseconds the robot will drive
-   * @param speed The speed at which the robot will drive
    * @param drive The drive subsystem on which this command will run
    */
-  public DriveTime(double mSecs, double speed, Drivetrain drive) {
+  public IntakeTime(double mSecs, Intake_Roller intake) {
     m_mSecs = mSecs;
-    m_speed = speed;
-    m_drive = drive;
-    addRequirements(m_drive);
+    m_intakeRoller = intake;
+    addRequirements(m_intakeRoller);
   }
 
   @Override
   public void initialize() {
-    m_drive.resetEncoders();
     double startTime = System.currentTimeMillis();
     endTime = startTime + this.m_mSecs;
-    m_drive.resetEncoders();
   }
 
   @Override
   public void execute() {
-    m_drive.drive(-m_speed, -m_speed);
+    m_intakeRoller.intake(0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0, 0);
+    m_intakeRoller.intake(0);
   }
 
   @Override

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+// import edu.wpi.first.wpilibj.CameraServer;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -12,7 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.AutonomousTest;
+import frc.robot.commands.auto.SpinUpTest;
+import frc.robot.commands.auto.Taxi;
+import frc.robot.commands.auto.Taxi_2Ball;
+import frc.robot.commands.auto.Taxi_3Ball;
+import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,35 +42,47 @@ public class RobotContainer {
   private final Intake_Actuate m_intakeAcutate = new Intake_Actuate();
   private final Intake_Roller m_intakeRoller = new Intake_Roller();
   private final Intake_Centerer m_intakeCenterer = new Intake_Centerer();
+  private final Sensor_ODS odsHigh = new Sensor_ODS();
+  private final LimeLight limelight = new LimeLight();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
   private final Command m_simpleAuto = null;
   private final Command m_complexAuto = null;
-  private final Command m_autoTest = new AutonomousTest(m_drivetrain);
+  private final Command spinuptest = new SpinUpTest(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
+  private final Command m_taxiOnly = new Taxi(m_drivetrain);
+  private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
+  private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
+  //private final Command m_autoTest = new Taxi_2Ball(m_drivetrain);
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController m_gunnerController = new XboxController(OIConstants.kGunnerControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    configureCompButtonBindings();
 
     // Configure default commands
     // Set the default drive command to tank drive
-    m_drivetrain.setDefaultCommand(new TankDrive(m_drivetrain));
-    m_hangActuate.setDefaultCommand(new ActuateIn(m_hangActuate));
-    m_hangWinch.setDefaultCommand(new WinchIn(m_hangWinch));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_flywheel.setDefaultCommand(new Shoot(m_flywheel));
+    m_intakeRoller.setDefaultCommand(new Intake(m_intakeRoller, m_intakeCenterer));
 
     // Configure autonomous options
-    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Complex Auto", m_complexAuto);
-    m_chooser.addOption("Auto Test", m_autoTest);
+    //m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    //m_chooser.addOption("Complex Auto", m_complexAuto);
+    m_chooser.setDefaultOption("DONT RUN - Taxi Only", m_taxiOnly);
+    m_chooser.addOption("2 Ball Auto", m_2Ball);
+    m_chooser.addOption("DONT RUN - spin up test", spinuptest);
+    m_chooser.addOption("DONT RUN - 3 Ball Auto", m_3Ball);
     SmartDashboard.putData("Select Autonomous", m_chooser);
+
+    // CameraServer.getInstance().startAutmomaticCapture();
   }
 
   /**
@@ -74,66 +91,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
-    // RUNNER JOYSTICK
-    // drivetrain is already handled above
-
-    // GUNNER JOYSTICK
-    // DPad Left     = intake
-    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeRoller));
-    // DPad Right    = outtake
-    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeRoller));
-
-    // Right Trigger  = winch in - LOOK IN HANG IN COMMAND 
-    // Left Trigger   = actuate in - LOOK IN HANG IN COMMAND
-
-    // Right Bumper   = winch out
-    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangWinch));
-    // Left Bumper  = actuate out
-    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangActuate));
-    // DPad Up       = retract intake
-    new POVButton(m_driverController, 0).whenHeld(new IntakeRetract(m_intakeAcutate));
-    // DPad Down     = deploy intake
-    new POVButton(m_driverController, 180).whenHeld(new IntakeDeploy(m_intakeAcutate));
-    // A Button      = shoot
-    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_flywheel));
-    // X Button      = kick
-    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_kicker));
-    // left joy click= center in
-    new JoystickButton(m_driverController, Button.kLeftStick.value).whenHeld(new CenterIntake(m_intakeCenterer));
-    // right joy click = center out 
-    new JoystickButton(m_driverController, Button.kRightStick.value).whenHeld(new CenterOuttake(m_intakeCenterer));
-  }
 
   private void configureCompButtonBindings() {
     // RUNNER JOYSTICK
     // drivetrain is already handled above
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new IntakeRetract(m_intakeAcutate));
+    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
 
     // GUNNER JOYSTICK
-    // DPad Left     = intake
-    new POVButton(m_driverController, 270).whenHeld(new Intake(m_intakeRoller));
-    // DPad Right    = outtake
-    new POVButton(m_driverController, 90).whenHeld(new Outtake(m_intakeRoller));
-
-    // Right Trigger  = winch in - LOOK IN HANG IN COMMAND 
-    // Left Trigger   = actuate in - LOOK IN HANG IN COMMAND
-
-    // Right Bumper   = winch out
-    new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new WinchOut(m_hangWinch));
-    // Left Bumper  = actuate out
-    new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new ActuateOut(m_hangActuate));
-    // DPad Up       = retract intake
-    new POVButton(m_driverController, 0).whenHeld(new IntakeRetract(m_intakeAcutate));
-    // DPad Down     = deploy intake
-    new POVButton(m_driverController, 180).whenHeld(new IntakeDeploy(m_intakeAcutate));
-    // A Button      = shoot
-    new JoystickButton(m_driverController, Button.kA.value).whenHeld(new Shoot(m_flywheel));
-    // X Button      = kick
-    new JoystickButton(m_driverController, Button.kX.value).whenHeld(new Kick(m_kicker));
-    // left joy click= center in
-    new JoystickButton(m_driverController, Button.kLeftStick.value).whenHeld(new CenterIntake(m_intakeCenterer));
-    // right joy click = center out 
-    new JoystickButton(m_driverController, Button.kRightStick.value).whenHeld(new CenterOuttake(m_intakeCenterer));
+    //new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootReverse(m_flywheel));
+    new JoystickButton(m_gunnerController, Button.kY.value).whenHeld(new WinchOut(m_hangWinch));
+    new JoystickButton(m_gunnerController, Button.kA.value).whenHeld(new WinchIn(m_hangWinch));
+    new JoystickButton(m_gunnerController, Button.kX.value).whenHeld(new IntakeRetract(m_intakeAcutate));
+    new JoystickButton(m_gunnerController, Button.kB.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
+    new POVButton(m_gunnerController, 0).whenHeld(new ActuateIn(m_hangActuate));
+    new POVButton(m_gunnerController, 180).whenHeld(new ActuateOut(m_hangActuate));
+    new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new KickIn(m_kicker));
+    new POVButton(m_gunnerController, 270).whenHeld(new KickOut(m_kicker));
+    new JoystickButton(m_gunnerController, Button.kRightStick.value).whenHeld(new CenterIntake(m_intakeCenterer));
+    new POVButton(m_gunnerController, 90).whenHeld(new CenterOuttake(m_intakeCenterer));
+    // new JoystickButton(m_gunnerController, Button.kLeftBumper.value).whenHeld(new FenderShot(m_flywheel));
   }
 
   public Drivetrain getRobotDrive() {

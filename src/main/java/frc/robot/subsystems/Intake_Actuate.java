@@ -33,11 +33,19 @@ public class Intake_Actuate extends SubsystemBase {
     }
 
     public void retractIntake(double speed) {
+        if (Math.abs(speed) > 0.1)
+        {
+            speed = 0.1;
+        }
         m_IntakeArmLeft.set(speed);
         m_IntakeArmRight.set(speed);
     }
 
     public void deployIntake(double speed) {
+        if (Math.abs(speed) > 0.1)
+        {
+            speed = 0.1;
+        }
         m_IntakeArmLeft.set(-speed);
         m_IntakeArmRight.set(-speed);
     }

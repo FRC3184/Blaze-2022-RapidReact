@@ -33,7 +33,7 @@ public class ActuateIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getLeftTriggerAxis() > 0.1 && m_hangArms.getHangUpAcutateLimit()) {
+    if (m_hangArms.getHangUpAcutateLimit()) {
       m_hangArms.runActuatingArms(-0.1);
     } else {
       m_hangArms.runActuatingArms(0);

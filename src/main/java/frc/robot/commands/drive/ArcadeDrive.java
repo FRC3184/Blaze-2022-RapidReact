@@ -15,6 +15,7 @@ public class ArcadeDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Drivetrain m_drivetrain;
+  double scaleFactor = 0.75;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -38,13 +39,20 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
     SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
     SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
-    m_drivetrain.drive(-driveController.getLeftY(), -driveController.getRightY());
+    if (driveController.getAButtonReleased()) {
+      if (scaleFactor == 0.75) {
+        scaleFactor = 0.5;
+      } else {
+        scaleFactor = 0.75;
+      }
+    }
+    m_drivetrain.aDrive(-driveController.getLeftY()*scaleFactor, driveController.getRightX()*scaleFactor);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.drive(0.0, 0.0);
+    m_drivetrain.aDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.

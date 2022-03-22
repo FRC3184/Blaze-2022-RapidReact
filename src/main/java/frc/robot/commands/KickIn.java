@@ -7,7 +7,7 @@ import frc.robot.subsystems.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Kick extends CommandBase {
+public class KickIn extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter_Kicker m_kicker;
@@ -17,7 +17,7 @@ public class Kick extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Kick(Shooter_Kicker subsystem) {
+  public KickIn(Shooter_Kicker subsystem) {
     m_kicker = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_kicker);
@@ -30,7 +30,7 @@ public class Kick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_kicker.runKicker(2000);
+      m_kicker.runKicker(1000);
   }
 
   // Called once the command ends or is interrupted.
