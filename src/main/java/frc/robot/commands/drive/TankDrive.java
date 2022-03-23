@@ -2,20 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Hang_Actuate;
-
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Hang extends CommandBase {
+public class TankDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Hang_Actuate m_hangArms;
-  //private double armspeed = .125;
+  private final Drivetrain m_drivetrain;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -24,10 +23,10 @@ public class Hang extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Hang(Hang_Actuate subsystem) {
-    m_hangArms = subsystem;
+  public TankDrive(Drivetrain subsystem) {
+    m_drivetrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_hangArms);
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -37,17 +36,17 @@ public class Hang extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getLeftTriggerAxis() > 0.1) {
-      m_hangArms.runActuatingArms(-0.1);
-    } else {
-      m_hangArms.runActuatingArms(0);
-    }
+    SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
+    SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
+
+    m_drivetrain.aDrive(-driveController.getLeftY(), 
+                       -driveController.getRightY());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_hangArms.runActuatingArms(0);
+    m_drivetrain.tankDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.

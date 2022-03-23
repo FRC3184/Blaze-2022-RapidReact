@@ -3,18 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake_Centerer;
+import frc.robot.subsystems.Intake_Roller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArcadeDrive extends CommandBase {
+public class RollerIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Drivetrain m_drivetrain;
+  private final Intake_Roller m_intakeRoller;
+  private final Intake_Centerer m_intakeCenter;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -23,10 +23,12 @@ public class ArcadeDrive extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArcadeDrive(Drivetrain subsystem) {
-    m_drivetrain = subsystem;
+  public RollerIntake(Intake_Roller subsystem, Intake_Centerer centerSubsystem) {
+    m_intakeRoller = subsystem;
+    m_intakeCenter = centerSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drivetrain);
+    addRequirements(m_intakeRoller);
+    addRequirements(m_intakeCenter);
   }
 
   // Called when the command is initially scheduled.
@@ -36,25 +38,22 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
-    m_drivetrain.arcadeDrive(-driveController.getLeftY(), driveController.getRightX());
+    if (driveController.getRightTriggerAxis() > 0.1){
+      m_intakeRoller.intake(0.5);
+      m_intakeCenter.intake(0.1);
+    } else if (driveController.getLeftTriggerAxis() > 0.1) {
+      m_intakeRoller.outtake(0.5);
+      m_intakeCenter.outtake(0.1);
+    } else {
+      m_intakeRoller.intake(0.0);
+      m_intakeCenter.intake(0.0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.arcadeDrive(0.0, 0.0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return false;
+    m_intakeRoller.intake(0.0);
+    m_intakeCenter.intake(0.0);
   }
 }

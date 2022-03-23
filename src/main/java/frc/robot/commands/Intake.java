@@ -3,12 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.IntakeArm;
-
-import org.ejml.dense.block.MatrixOps_DDRB;
-
+import frc.robot.subsystems.Intake_Centerer;
+import frc.robot.subsystems.Intake_Roller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -16,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Intake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final IntakeArm m_intakeArm;
+  private final Intake_Roller m_intakeRoller;
+  private final Intake_Centerer m_intakeCenter;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -25,10 +23,12 @@ public class Intake extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Intake(IntakeArm subsystem) {
-    m_intakeArm = subsystem;
+  public Intake(Intake_Roller subsystem, Intake_Centerer centerSubsystem) {
+    m_intakeRoller = subsystem;
+    m_intakeCenter = centerSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeArm);
+    addRequirements(m_intakeRoller);
+    addRequirements(m_intakeCenter);
   }
 
   // Called when the command is initially scheduled.
@@ -38,39 +38,27 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getRightTriggerAxis() > 0.1) {
-      m_intakeArm.intake(.5);
-    } else if (driveController.getRightBumper()) {
-      m_intakeArm.outake(.5);
+    if (driveController.getRightTriggerAxis() > 0.1){
+      m_intakeRoller.intake(0.5);
+      m_intakeCenter.intake(0.1);
+    } else if (driveController.getLeftTriggerAxis() > 0.1) {
+      m_intakeRoller.outtake(0.5);
+      m_intakeCenter.outtake(0.1);
     } else {
-      m_intakeArm.intake(0);
+      m_intakeRoller.intake(0.0);
+      m_intakeCenter.intake(0.0);
     }
-
-    if (driveController.getLeftBumper()){
-      m_intakeArm.PivotUp(.5);
-    } else if (driveController.getLeftTriggerAxis()> 0.1){
-      m_intakeArm.PivotDown(.5);
-    } else {
-      m_intakeArm.PivotDown(0);
-    }
-    
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_intakeArm.runIntakeRoller(0.0);
+    m_intakeRoller.intake(0.0);
+    m_intakeCenter.intake(0.0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
     return false;
   }
 }

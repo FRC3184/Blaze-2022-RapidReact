@@ -30,30 +30,47 @@ public final class Constants {
 
     // Constants for the intake
     public static final class IntakeConstants {
-        public static final int kIntakeRollerMotorPort = 12;
-        public static final int kIntakePivotMotorPort = 13;
+        public static final int kIntakeRollerMotorPort = 14;
+        public static final int kLeftIntakeArmMotorPort = 19;
+        public static final int kRightIntakeArmMotorPort = 5;
+        public static final int kCentererLeftMotorPort = 13;
+        public static final int kCentererRightMotorPort = 4;
 
         // Motor inverted?
         public static final boolean intakeRollerInverted = false;
-        public static final boolean kIntakePivotInverted = true;
+        public static final boolean intakeLeftArmInverted = true;
+        public static final boolean intakeRightArmInverted = false;
+        public static final boolean intakeCentererLeftInverted = true;
+        public static final boolean intakeCentererRightInverted = false;
+
     }
 
     // Constants for the shooter
     public static final class ShooterConstants {
-        public static final int kFrontShooterMotorPort = 6;
-        public static final int kBackShooterMotorPort = 7;
+        public static final int kHighShooterMotorPort = 11;
+        public static final int kLowShooterMotorPort = 10;
+        public static final int kKickerMotorPort = 12;
+
+        public static final int highODSPort = 0;
+        public static final int lowODSPort = 5;
 
         // Motor inverted?
-        public static final boolean frontShooterInverted = true;
-        public static final boolean backShooterInverted = false;
+        public static final boolean highShooterInverted = true;
+        public static final boolean lowShooterInverted = false;
+        public static final boolean kickerInverted = true;
     }
 
     // Constants for the shooter
     public static final class HangConstants {
-        public static final int kWinchLeft = 8;
+        public static final int kWinchLeft = 15;
         public static final int kWinchRight = 9;
-        public static final int kActuateLeft = 10;
-        public static final int kActuateRight = 11;
+        public static final int kActuateLeft = 18;
+        public static final int kActuateRight = 6;
+
+        public static final int hangActuateUpLeftLimitPort = 0;
+        public static final int hangActuateUpRightLimitPort = 1;
+        public static final int hangActuateDownLeftLimitPort = 2;
+        public static final int hangActuateDownRightLimitPort = 3;
 
         // Motor inverted?
         public static final boolean winchLeftInverted = false;
@@ -66,10 +83,10 @@ public final class Constants {
     public static final class DriveConstants {
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
-        public static final int kLeftFrontMotorPort = 2;
-        public static final int kLeftBackMotorPort = 3;
-        public static final int kRightFrontMotorPort = 4;
-        public static final int kRightBackMotorPort = 5;
+        public static final int kLeftFrontMotorPort = 16;
+        public static final int kLeftBackMotorPort = 17;
+        public static final int kRightFrontMotorPort = 8;
+        public static final int kRightBackMotorPort = 7;
 
         // Motor grouping for encoders
         public static final int[] kLeftEncoderPorts = new int[] {kLeftFrontMotorPort, kLeftBackMotorPort};
@@ -99,5 +116,6 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kGunnerControllerPort = 1;
     }
 }

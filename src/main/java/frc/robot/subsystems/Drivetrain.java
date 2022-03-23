@@ -2,22 +2,15 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ModeConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class Drivetrain extends SubsystemBase {
   // Create instance of DriveConstants based on config
@@ -38,23 +31,7 @@ public class Drivetrain extends SubsystemBase {
   private final MotorControllerGroup m_rightMotors;
 
   // The robot's drive
-  private final DifferentialDrive m_drive;
-
-  // The left-side drive encoder
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1]);
-
-  // The right-side drive encoder
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1]);
-
-  // gyro 
-  AHRS gyroDrive;
-  PIDController turnController;
+  private final DifferentialDrive m_drive; 
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -65,23 +42,17 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotors = new MotorControllerGroup(
       m_rightFrontMotor, m_rightBackMotor);
 
-    m_leftMotors.setInverted(DriveConstants.leftInverted);
-    m_rightMotors.setInverted(DriveConstants.rightInverted);
+    m_leftFrontMotor.setInverted(DriveConstants.leftInverted);
+    m_leftBackMotor.setInverted(DriveConstants.leftInverted);
+    m_rightFrontMotor.setInverted(DriveConstants.rightInverted);
+    m_rightBackMotor.setInverted(DriveConstants.rightInverted);
+
+    //m_leftMotors.setInverted(isInverted);
 
     m_leftFrontEncoder.setVelocityConversionFactor(1.0);
     m_leftBackEncoder.setVelocityConversionFactor(1.0);
     m_rightFrontEncoder.setVelocityConversionFactor(1.0);
     m_rightBackEncoder.setVelocityConversionFactor(1.0);
-
-    // initialize the gyro
-    try {
-      /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
-      /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-      /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-      gyroDrive = new AHRS(SPI.Port.kMXP); 
-    } catch (RuntimeException ex ) {
-        DriverStation.reportError("Drivetrain.java...Error instantiating navX-MXP:  " + ex.getMessage(), true);
-    }
 
     resetEncoders();
 
@@ -105,18 +76,16 @@ public class Drivetrain extends SubsystemBase {
     m_drive.tankDrive(leftSpeed, rightSpeed);
   }
 
-  public void arcadeDrive(double speed, double rotation) {
-    m_drive.arcadeDrive(speed, rotation);
-  }
-
-  public void testDrive(double leftSpeed, double rightSpeed) {
-    m_drive.tankDrive(leftSpeed, rightSpeed);
+  public void aDrive(double xSpeed, double zRotation) {
+    m_drive.arcadeDrive(xSpeed, zRotation);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
+    m_leftFrontEncoder.setPosition(0);
+    m_leftBackEncoder.setPosition(0);
+    m_rightFrontEncoder.setPosition(0);
+    m_rightBackEncoder.setPosition(0);
   }
 
   public double inchToClicks(double inches) {
@@ -139,29 +108,15 @@ public class Drivetrain extends SubsystemBase {
     return (Math.abs(leftAvg) + Math.abs(rightAvg)) / 2.0;
   }
 
-  public double getYaw() {
-    return gyroDrive.getYaw();
-  }
-
-  public void resetHeading() {
-    gyroDrive.zeroYaw();
-  }
-
   public void dashboardOut() {
-    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
-    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
+    // SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+    // SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+    // SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+    // SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
 
-    SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
-
-    if (ModeConstants.navxDebug)
-    {
-      SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
-      SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
-    }
+    // SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
+    // SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
+    // SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
+    // SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
   }
 }
