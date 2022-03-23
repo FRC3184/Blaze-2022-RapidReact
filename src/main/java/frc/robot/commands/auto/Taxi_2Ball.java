@@ -6,12 +6,10 @@ package frc.robot.commands.auto;
 
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveDistanceWithIntake;
-import frc.robot.commands.Intake;
-import frc.robot.commands.IntakeDeployTime;
+import frc.robot.commands.IntakeDeploy;
 import frc.robot.commands.IntakeTime;
 import frc.robot.commands.SpinUpThenKick;
 import frc.robot.commands.SpinUpThenKickWithCenter;
-import frc.robot.commands.TurnGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake_Actuate;
 import frc.robot.subsystems.Intake_Centerer;
@@ -51,7 +49,7 @@ public class Taxi_2Ball extends SequentialCommandGroup {
         // shoot first ball
         new SpinUpThenKick(m_kicker,m_flywheels, 2100),
         // deploy intake
-        new IntakeDeployTime(200, m_intakeActuate),
+        new IntakeDeploy(m_intakeActuate, 200),
         // turn on intake, start driving forward
         new DriveDistanceWithIntake(2.5, 0.5, m_drivetrain, m_intakeRoller),
         new IntakeTime(2000, m_intakeRoller),
@@ -60,7 +58,6 @@ public class Taxi_2Ball extends SequentialCommandGroup {
         // start up shooter wheel
         // run center and kicker wheel
         new SpinUpThenKickWithCenter(m_kicker, m_flywheels, m_intakeCenterer, m_intakeRoller, 2100)
-        
     );
   }
 }
