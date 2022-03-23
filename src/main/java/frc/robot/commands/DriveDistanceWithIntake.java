@@ -40,13 +40,13 @@ public class DriveDistanceWithIntake extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.drive(m_speed, m_speed);
+    m_drive.aDrive(m_speed, m_speed);
     m_roller.intake(0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0, 0);
+    m_drive.aDrive(0, 0);
     m_roller.intake(0);
   }
 

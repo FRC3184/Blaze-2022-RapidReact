@@ -81,6 +81,7 @@ public final class Constants {
 
     // Constants for the drivetrain
     public static final class DriveConstants {
+        public static final double inchToClickScaler = 0.405;
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
         public static final int kLeftFrontMotorPort = 16;

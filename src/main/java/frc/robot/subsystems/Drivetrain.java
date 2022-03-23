@@ -1,5 +1,4 @@
 /* Functions for the drivetrain subsystem */
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -89,11 +88,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double inchToClicks(double inches) {
-    double clicks;
-    
-    clicks = inches * 10;
-
-    return clicks;
+    return inches * DriveConstants.inchToClickScaler;
   }
 
   /**
@@ -109,14 +104,14 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void dashboardOut() {
-    // SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
-    // SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
-    // SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
-    // SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
+    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
 
-    // SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
-    // SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
-    // SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
-    // SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
+    SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
+    SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
+    SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
+    SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
   }
 }
