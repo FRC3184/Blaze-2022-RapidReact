@@ -3,15 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Intake_Centerer;
 import frc.robot.subsystems.Intake_Roller;
 import frc.robot.subsystems.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter_Kicker;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
 public class SpinUpThenKickWithCenter extends CommandBase {

@@ -22,7 +22,7 @@ public class Shooter_Flywheels extends SubsystemBase {
     private SparkMaxPIDController m_frontShootPID, m_backShootPID;
     public double kP, kI, kD, kIz, kFF; 
     public double kMaxOut, kMinOut, maxRPM;
-    private int shootSpeed;
+    private double shootSpeed;
 
 
     public Shooter_Flywheels() {
@@ -89,11 +89,11 @@ public class Shooter_Flywheels extends SubsystemBase {
         m_backShootPID.setReference(backSetpoint, CANSparkMax.ControlType.kVelocity);
     }
 
-    public int getShotSpeed() {
+    public double getShotSpeed() {
         return shootSpeed;
     }
 
-    public void setShotSpeed(int speed) {
+    public void setShotSpeed(double speed) {
         shootSpeed = speed;
     }
 

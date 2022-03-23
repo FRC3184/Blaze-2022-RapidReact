@@ -3,13 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter_Kicker;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
 public class SpinUpThenKick extends CommandBase {
@@ -19,7 +16,6 @@ public class SpinUpThenKick extends CommandBase {
   private final Shooter_Flywheels m_flywheel;
 
   private int fireSpeed = 1200;
-  private int stopSpeed = 0;
 
   private final double m_mSecs;
   private double endTime;

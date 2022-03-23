@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.Sensor_Limelight;
 import frc.robot.subsystems.Shooter_Flywheels;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,21 +15,24 @@ public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter_Flywheels m_flywheels;
+  private final Sensor_Limelight m_limelight;
   private XboxController gunnerController = new XboxController(OIConstants.kGunnerControllerPort);
   
-  private int fireSpeed = 1200;
+  private double fireSpeed = ShooterConstants.defShotRPM;
   private int stopSpeed = 0;
 
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param flywheel The subsystem used by this command.
    */
-  public Shoot(Shooter_Flywheels subsystem) {
-    m_flywheels = subsystem;
+  public Shoot(Shooter_Flywheels flywheel, Sensor_Limelight limelight) {
+    m_flywheels = flywheel;
+    m_limelight = limelight;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_flywheels);
+    addRequirements(m_limelight);
     m_flywheels.setShotSpeed(fireSpeed);
   }
 
@@ -63,5 +68,11 @@ public class Shoot extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public double calcShotSpeedWithLimelight() {
+    double targetDist = m_limelight.getTargetDist();
+    double shotSpeed = ShooterConstants.defShotRPM  + targetDist;
+    return shotSpeed;
   }
 }

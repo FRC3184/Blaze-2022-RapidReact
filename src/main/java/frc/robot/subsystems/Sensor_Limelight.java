@@ -18,15 +18,12 @@ public class Sensor_Limelight extends SubsystemBase {
     public Sensor_Limelight() {
 
         //dashboardOut();
-    }
-    
-    
+    } 
 
     @Override
     public void periodic() {
         dashboardOut();
         getLimelightValues();
-
     }
 
     @Override
@@ -50,7 +47,7 @@ public class Sensor_Limelight extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledmode").setNumber(0);
     }
 
-    public boolean skewedTarget() {
+    public boolean isSkewed() {
         ts = limeTable.getEntry("ts");
         tsVal = ts.getDouble(0.0);
         if (tsVal > skewTarget - skewDeadzone && tsVal < skewTarget + skewDeadzone ) {
@@ -60,8 +57,13 @@ public class Sensor_Limelight extends SubsystemBase {
         }
     }
 
+    public double getTargetDist() {
+        
+
+        return 0.0;
+    }
+
     public void dashboardOut() {
         SmartDashboard.putNumber("limelightskew", tsVal);
-
     }
 }

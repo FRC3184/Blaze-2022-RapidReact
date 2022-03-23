@@ -5,11 +5,7 @@
 package frc.robot.commands.auto;
 
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.Intake;
-import frc.robot.commands.IntakeDeploy;
-import frc.robot.commands.TurnGyro;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake_Actuate;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */

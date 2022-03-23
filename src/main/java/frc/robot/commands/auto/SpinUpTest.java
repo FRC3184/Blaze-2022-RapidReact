@@ -4,14 +4,7 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveDistanceWithIntake;
-import frc.robot.commands.Intake;
-import frc.robot.commands.IntakeDeployTime;
-import frc.robot.commands.IntakeTime;
-import frc.robot.commands.SpinUpThenKick;
 import frc.robot.commands.SpinUpThenKickWithCenter;
-import frc.robot.commands.TurnGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake_Actuate;
 import frc.robot.subsystems.Intake_Centerer;
@@ -24,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class SpinUpTest extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  private final Drivetrain m_drivetrain;
-  private final Intake_Actuate m_intakeActuate;
   private final Intake_Roller m_intakeRoller;
   private final Intake_Centerer m_intakeCenterer;
   private final Shooter_Flywheels m_flywheels;
@@ -40,8 +31,6 @@ public class SpinUpTest extends SequentialCommandGroup {
                     Intake_Actuate intakeActSS, Intake_Roller rollerSS, Intake_Centerer centererSS, 
                     Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS) {
 
-    m_drivetrain = driveSS;
-    m_intakeActuate = intakeActSS;
     m_intakeRoller = rollerSS;
     m_intakeCenterer = centererSS;
     m_flywheels = flywheelsSS;

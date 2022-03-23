@@ -7,8 +7,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Sensor_NavX;
 
-import java.util.NavigableMap;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnGyro extends CommandBase {

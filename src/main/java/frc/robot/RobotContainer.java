@@ -13,11 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.auto.SpinUpTest;
-import frc.robot.commands.auto.Taxi;
-import frc.robot.commands.auto.Taxi_2Ball;
-import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.drive.TankDrive;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.drive.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -41,13 +38,10 @@ public class RobotContainer {
   private final Intake_Actuate m_intakeAcutate = new Intake_Actuate();
   private final Intake_Roller m_intakeRoller = new Intake_Roller();
   private final Intake_Centerer m_intakeCenterer = new Intake_Centerer();
-  private final Sensor_ODS odsHigh = new Sensor_ODS();
   private final Sensor_Limelight limelight = new Sensor_Limelight();
 
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
-  private final Command m_simpleAuto = null;
-  private final Command m_complexAuto = null;
   private final Command spinuptest = new SpinUpTest(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
   private final Command m_taxiOnly = new Taxi(m_drivetrain);
   private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
@@ -68,14 +62,12 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
-    m_flywheel.setDefaultCommand(new Shoot(m_flywheel));
+    m_flywheel.setDefaultCommand(new Shoot(m_flywheel, limelight));
     m_intakeRoller.setDefaultCommand(new Intake(m_intakeRoller, m_intakeCenterer));
 
     // Configure autonomous options
-    //m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    //m_chooser.addOption("Complex Auto", m_complexAuto);
-    m_chooser.setDefaultOption("DONT RUN - Taxi Only", m_taxiOnly);
-    m_chooser.addOption("2 Ball Auto", m_2Ball);
+    m_chooser.setDefaultOption("2 Ball Auto", m_2Ball);
+    m_chooser.addOption("DONT RUN - Taxi Only", m_taxiOnly);
     m_chooser.addOption("DONT RUN - spin up test", spinuptest);
     SmartDashboard.putData("Select Autonomous", m_chooser);
 

@@ -10,32 +10,59 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IntakeDeploy extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Intake_Actuate m_intakeArm;
+  private final Intake_Actuate m_intakeActuate;
+  private final double m_mSecs;
+  private double endTime;
+  private boolean timerOn = false;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeDeploy(Intake_Actuate subsystem) {
-    m_intakeArm = subsystem;
+  public IntakeDeploy(Intake_Actuate intake) {
+    m_intakeActuate = intake;
+    m_mSecs = 0;
+    timerOn = false;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeArm);
+    addRequirements(m_intakeActuate);
+  }
+
+  public IntakeDeploy(Intake_Actuate intake, double mSecs) {
+    m_mSecs = mSecs;
+    m_intakeActuate = intake;
+    timerOn = true;
+     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_intakeActuate);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (timerOn) {
+      double startTime = System.currentTimeMillis();
+      endTime = startTime + this.m_mSecs;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeArm.deployIntake(0.1);
+    m_intakeActuate.deployIntake(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeArm.deployIntake(0.0);
+    m_intakeActuate.deployIntake(0.0);
+  }
+
+  @Override
+  public boolean isFinished() {
+    if (timerOn){
+      return System.currentTimeMillis() >= endTime;
+    } else {
+      return false;
+    }
   }
 }

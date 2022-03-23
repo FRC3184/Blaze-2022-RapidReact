@@ -5,11 +5,10 @@
 package frc.robot.commands.auto;
 
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.Intake;
-import frc.robot.commands.IntakeDeploy;
-import frc.robot.commands.TurnGyro;
+import frc.robot.commands.SpinUpThenKick;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake_Actuate;
+import frc.robot.subsystems.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
@@ -17,20 +16,24 @@ public class Taxi_1Ball extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final Drivetrain m_drivetrain;
-  private final Intake_Actuate m_intakeActuate;
+  private final Shooter_Flywheels m_flywheels;
+  private final Shooter_Kicker m_kicker;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param driveSS The subsystem used by this command.
    */
-  public Taxi_1Ball(Drivetrain driveSS, Intake_Actuate intakeActSS) {
+  public Taxi_1Ball(Drivetrain driveSS, Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS) {
 
     m_drivetrain = driveSS;
-    m_intakeActuate = intakeActSS;
+    m_flywheels = flywheelsSS;
+    m_kicker = kickerSS;
 
     addCommands(
-      new DriveDistance(10, 0.5, m_drivetrain)
+      // shoot first ball
+      new SpinUpThenKick(m_kicker,m_flywheels, 2100),
+      new DriveDistance(50, 0.5, m_drivetrain)
     );
   }
 }

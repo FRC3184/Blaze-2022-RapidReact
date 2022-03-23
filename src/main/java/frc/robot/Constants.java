@@ -47,6 +47,8 @@ public final class Constants {
 
     // Constants for the shooter
     public static final class ShooterConstants {
+        public static final double defShotRPM = 2500;
+
         public static final int kHighShooterMotorPort = 11;
         public static final int kLowShooterMotorPort = 10;
         public static final int kKickerMotorPort = 12;
