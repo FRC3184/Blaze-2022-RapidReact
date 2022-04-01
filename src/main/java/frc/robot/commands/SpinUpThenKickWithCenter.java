@@ -3,10 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Intake_Centerer;
-import frc.robot.subsystems.Intake_Roller;
-import frc.robot.subsystems.Shooter_Flywheels;
-import frc.robot.subsystems.Shooter_Kicker;
+import frc.robot.subsystems.Intake.Intake_Centerer;
+import frc.robot.subsystems.Intake.Intake_Roller;
+import frc.robot.subsystems.Shooter.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -39,7 +39,7 @@ public class SpinUpThenKickWithCenter extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_kicker);
-    m_mSecs = 3000;
+    m_mSecs = 1500;
     fireSpeed = shotSpeed;
   }
 
@@ -54,12 +54,8 @@ public class SpinUpThenKickWithCenter extends CommandBase {
   @Override
   public void execute() {
     m_flywheel.setShotSpeed(fireSpeed);
-    m_flywheel.runShooter();
-    Timer.delay(1);
-    m_centerer.outtake(0.1);
-    m_kicker.runKicker(1000);
-    m_roller.intake(0.5);
-    Timer.delay(1);
+    m_flywheel.runShooter();   
+    Timer.delay(0.5);
     m_centerer.intake(0.1);
     m_kicker.runKicker(1000);
     m_roller.intake(0.5);
@@ -72,6 +68,7 @@ public class SpinUpThenKickWithCenter extends CommandBase {
     m_flywheel.runShooter();
     m_centerer.intake(stopSpeed);
     m_kicker.runKicker(stopSpeed);
+    m_roller.intake(stopSpeed);
   }
 
   @Override

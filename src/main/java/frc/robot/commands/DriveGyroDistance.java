@@ -4,16 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drive.Drivetrain;
-import frc.robot.subsystems.Intake.Intake_Roller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Sensors.Sensor_NavX;
 
-public class DriveDistanceWithIntake extends CommandBase {
+public class DriveGyroDistance extends CommandBase {
   private final Drivetrain m_drive;
-  private final Intake_Roller m_roller;
+  private final Sensor_NavX m_navX;
+
   private final double m_inches;
-  private final double m_speed;
+  private double m_speed;
   private double clicks;
+  private double targetHeading = 0;
+  private double error, delta;
+  private double kP = 0.05;
 
   /**
    * Creates a new DriveTime.
@@ -22,31 +26,33 @@ public class DriveDistanceWithIntake extends CommandBase {
    * @param speed The speed at which the robot will drive
    * @param drive The drive subsystem on which this command will run
    */
-  public DriveDistanceWithIntake(double inches, double speed, Drivetrain drive, Intake_Roller rollerSS) {
+  public DriveGyroDistance(double inches, double speed, Drivetrain drive, Sensor_NavX navX) {
     m_inches = inches;
     m_speed = speed;
     m_drive = drive;
-    m_roller = rollerSS;
-    addRequirements(m_drive);
-    addRequirements(m_roller);
+    m_navX = navX;
+    addRequirements(m_drive, m_navX);
   }
 
   @Override
   public void initialize() {
     clicks = m_drive.inchToClicks(m_inches);
     m_drive.resetEncoders();
+    m_drive.resetEncoders();
+    m_drive.resetEncoders();
+    m_navX.resetHeading();
   }
 
   @Override
   public void execute() {
-    m_drive.tankDrive(m_speed, m_speed);
-    m_roller.intake(0.5);
+    error = -targetHeading;
+    delta = error * kP;
+    m_drive.tankDrive(m_speed + delta, m_speed - delta);
   }
 
   @Override
   public void end(boolean interrupted) {
     m_drive.tankDrive(0, 0);
-    m_roller.intake(0);
   }
 
   @Override

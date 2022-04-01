@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Intake_Centerer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake.Intake_Centerer;
 
 /** An example command that uses an example subsystem. */
 public class CenterOuttake extends CommandBase {

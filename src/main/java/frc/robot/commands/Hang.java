@@ -5,8 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Hang_Actuate;
-
+import frc.robot.subsystems.Hang.Hang_Actuate;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

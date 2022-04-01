@@ -1,5 +1,7 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
@@ -15,15 +17,22 @@ public class Intake_Actuate extends SubsystemBase {
     private final RelativeEncoder m_IntakeArmLeftEnc = m_IntakeArmLeft.getEncoder();
     private final RelativeEncoder m_IntakeArmRightEnc = m_IntakeArmRight.getEncoder();
 
+    DigitalInput intakeActuateUpLeftLimit = new DigitalInput(IntakeConstants.intakeActuateUpLeftLimitPort);;
+    DigitalInput intakeActuateUpRightLimit = new DigitalInput(IntakeConstants.intakeActuateUpRightLimitPort);
+    DigitalInput intakeActuateDownLeftLimit = new DigitalInput(IntakeConstants.intakeActuateDownLeftLimitPort);
+    DigitalInput intakeActuateDownRightLimit = new DigitalInput(IntakeConstants.intakeActuateDownRightLimitPort);
+
     public Intake_Actuate() {
         m_IntakeArmLeft.setInverted(IntakeConstants.intakeLeftArmInverted);
         m_IntakeArmRight.setInverted(IntakeConstants.intakeRightArmInverted);
+        dashboardOut();
     }
     
     
 
     @Override
     public void periodic() {
+        dashboardOut();
 
     }
 
@@ -37,8 +46,14 @@ public class Intake_Actuate extends SubsystemBase {
         {
             speed = 0.1;
         }
-        m_IntakeArmLeft.set(speed);
-        m_IntakeArmRight.set(speed);
+
+        if (intakeActuateUpLeftLimit.get() && intakeActuateUpRightLimit.get()) {
+            m_IntakeArmLeft.set(speed);
+            m_IntakeArmRight.set(speed);
+        } else {
+            m_IntakeArmLeft.set(0);
+            m_IntakeArmRight.set(0);
+        }
     }
 
     public void deployIntake(double speed) {
@@ -46,8 +61,14 @@ public class Intake_Actuate extends SubsystemBase {
         {
             speed = 0.1;
         }
-        m_IntakeArmLeft.set(-speed);
-        m_IntakeArmRight.set(-speed);
+
+        if (intakeActuateDownLeftLimit.get() && intakeActuateDownRightLimit.get()) {
+            m_IntakeArmLeft.set(-speed);
+            m_IntakeArmRight.set(-speed);
+        } else {
+            m_IntakeArmLeft.set(0);
+            m_IntakeArmRight.set(0);
+        }
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
@@ -58,6 +79,10 @@ public class Intake_Actuate extends SubsystemBase {
     }
 
     public void dashboardOut() {
+        SmartDashboard.putBoolean("intake down left", intakeActuateDownLeftLimit.get());
+        SmartDashboard.putBoolean("intake down right", intakeActuateDownRightLimit.get());
+        SmartDashboard.putBoolean("intake up left", intakeActuateUpLeftLimit.get());
+        SmartDashboard.putBoolean("intake up right", intakeActuateUpRightLimit.get());
         
     }
 }

@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Hang_Actuate;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Hang.Hang_Actuate;
 
 /** An example command that uses an example subsystem. */
 public class ActuateIn extends CommandBase {
@@ -30,11 +30,11 @@ public class ActuateIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_hangArms.getHangUpAcutateLimit()) {
+    // if (m_hangArms.getHangUpAcutateLimit()) {
       m_hangArms.runActuatingArms(-0.1);
-    } else {
-      m_hangArms.runActuatingArms(0);
-    }  
+    // } else {
+    //   m_hangArms.runActuatingArms(0);
+    // }  
   }
 
   // Called once the command ends or is interrupted.

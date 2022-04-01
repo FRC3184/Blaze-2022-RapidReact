@@ -4,8 +4,8 @@
 
 package frc.robot.commands;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Intake_Centerer;
-import frc.robot.subsystems.Intake_Roller;
+import frc.robot.subsystems.Intake.Intake_Centerer;
+import frc.robot.subsystems.Intake.Intake_Roller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -38,16 +38,8 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (driveController.getRightTriggerAxis() > 0.1){
       m_intakeRoller.intake(0.5);
       m_intakeCenter.intake(0.1);
-    } else if (driveController.getLeftTriggerAxis() > 0.1) {
-      m_intakeRoller.outtake(0.5);
-      m_intakeCenter.outtake(0.1);
-    } else {
-      m_intakeRoller.intake(0.0);
-      m_intakeCenter.intake(0.0);
-    }
   }
 
   // Called once the command ends or is interrupted.

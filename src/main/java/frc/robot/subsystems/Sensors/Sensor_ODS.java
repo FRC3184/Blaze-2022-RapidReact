@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -9,9 +9,9 @@ public class Sensor_ODS extends SubsystemBase {
 
     AnalogInput sensor_ods;
 
-    public Sensor_ODS() {
-        sensor_ods = new AnalogInput(ShooterConstants.highODSPort);
-        //dashboardOut();
+    public Sensor_ODS(int portNum) {
+        sensor_ods = new AnalogInput(portNum);
+        dashboardOut();
     }
 
     @Override
@@ -26,6 +26,10 @@ public class Sensor_ODS extends SubsystemBase {
 
     public void getLimelightValues() {
 
+    }
+
+    public double getODSVal() {
+        return sensor_ods.getValue();
     }
 
     public void dashboardOut() {

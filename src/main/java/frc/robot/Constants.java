@@ -22,6 +22,11 @@ public final class Constants {
         sim
     }
 
+    public enum TurnDir {
+        left, 
+        right
+    }
+
     public static final class ModeConstants {
 
         public static final Modes mode = Modes.test;
@@ -36,6 +41,13 @@ public final class Constants {
         public static final int kCentererLeftMotorPort = 13;
         public static final int kCentererRightMotorPort = 4;
 
+        public static final int intakeActuateUpLeftLimitPort = 6;
+        public static final int intakeActuateUpRightLimitPort = 7;
+        public static final int intakeActuateDownLeftLimitPort = 8;
+        public static final int intakeActuateDownRightLimitPort = 9;
+
+        public static final double defIntakePower = 0.3;
+
         // Motor inverted?
         public static final boolean intakeRollerInverted = false;
         public static final boolean intakeLeftArmInverted = true;
@@ -48,18 +60,25 @@ public final class Constants {
     // Constants for the shooter
     public static final class ShooterConstants {
         public static final double defShotRPM = 2500;
+        public static final double defKickerOutRPM = -1500;
+        public static final double defKickerInRPM = 1000;
+        public static final double defHoodRPM = 1000;
 
-        public static final int kHighShooterMotorPort = 11;
-        public static final int kLowShooterMotorPort = 10;
+        public static final int kBackShooterMotorPort = 1;
+        public static final int kFrontShooterMotorPort = 10;
         public static final int kKickerMotorPort = 12;
+        public static final int kHoodMotorPort = 11;
 
         public static final int highODSPort = 0;
         public static final int lowODSPort = 5;
+        public static final int hoodDownLimitPort = 3;
+        public static final int hoodUpLimitPort = 2;
 
         // Motor inverted?
-        public static final boolean highShooterInverted = true;
-        public static final boolean lowShooterInverted = false;
+        public static final boolean frontShooterInverted = true;
+        public static final boolean backShooterInverted = true;
         public static final boolean kickerInverted = true;
+        public static final boolean hoodInverted = false;
     }
 
     // Constants for the shooter
@@ -71,19 +90,21 @@ public final class Constants {
 
         public static final int hangActuateUpLeftLimitPort = 0;
         public static final int hangActuateUpRightLimitPort = 1;
-        public static final int hangActuateDownLeftLimitPort = 2;
-        public static final int hangActuateDownRightLimitPort = 3;
+        // public static final int hangActuateDownLeftLimitPort = 2;
+        // public static final int hangActuateDownRightLimitPort = 3;
+        public static final int hangWinchLeftLimitPort = 4;
+        public static final int hangWinchRightLimitPort = 5;
 
         // Motor inverted?
         public static final boolean winchLeftInverted = false;
         public static final boolean winchRightInverted = true;
         public static final boolean actuateLeftInverted = false;
         public static final boolean actuateRightInverted = true;
-    }
+    } 
 
     // Constants for the drivetrain
     public static final class DriveConstants {
-        public static final double inchToClickScaler = 0.405;
+        public static final double inchToClickScaler = 0.40;
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
         public static final int kLeftFrontMotorPort = 16;
@@ -120,5 +141,9 @@ public final class Constants {
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
         public static final int kGunnerControllerPort = 1;
+    }
+
+    public double degToRad (double deg) {
+        return deg * (3.14159 / 180.0);
     }
 }

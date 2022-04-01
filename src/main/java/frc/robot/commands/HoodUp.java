@@ -3,24 +3,26 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.Shooter.Shooter_Hood;
+import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake.Intake_Centerer;
 
 /** An example command that uses an example subsystem. */
-public class CenterIntake extends CommandBase {
+public class HoodUp extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Intake_Centerer m_centerer;
+  private final Shooter_Hood m_hood;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public CenterIntake(Intake_Centerer subsystem) {
-    m_centerer = subsystem;
+  public HoodUp(Shooter_Hood subsystem) {
+    m_hood = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_centerer);
+    addRequirements(m_hood);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +32,12 @@ public class CenterIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_centerer.intake(0.3);
+      m_hood.runHood(ShooterConstants.defHoodRPM);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_centerer.intake(0.0);
+    m_hood.stopHood();
   }
 }

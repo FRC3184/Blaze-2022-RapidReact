@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Hang_Winch;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Hang.Hang_Winch;
 
 /** An example command that uses an example subsystem. */
 public class WinchOut extends CommandBase {

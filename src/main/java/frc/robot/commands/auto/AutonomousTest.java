@@ -4,9 +4,13 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.commands.TurnGyro;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Sensor_NavX;
+import frc.robot.Constants.TurnDir;
+import frc.robot.commands.CenterTarget;
+import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DriveGyroDistance;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Sensors.Sensor_Limelight;
+import frc.robot.subsystems.Sensors.Sensor_NavX;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
@@ -15,18 +19,22 @@ public class AutonomousTest extends SequentialCommandGroup {
 
   private final Drivetrain m_drivetrain;
   private final Sensor_NavX m_navX;
+  private final Sensor_Limelight m_limelight;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param drive The subsystem used by this command.
    */
-  public AutonomousTest(Drivetrain subsystem, Sensor_NavX navX) {
-    m_drivetrain = subsystem;
+  public AutonomousTest(Drivetrain drive, Sensor_NavX navX, Sensor_Limelight lime) {
+    m_drivetrain = drive;
     m_navX = navX;
+    m_limelight = lime;
     addCommands(
         // drive straight for 5 seconds
-        new TurnGyro(true, 45.0, 0.2, m_drivetrain, m_navX)
+        // new CenterTarget(TurnDir.right, 45.0, 0.3, m_drivetrain, m_navX, m_limelight)
+        new DriveGyroDistance(72, 0.3, m_drivetrain, m_navX)
+        // new DriveDistance(5, 0.3, m_drivetrain)
     );
   }
 }

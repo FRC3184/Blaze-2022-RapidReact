@@ -1,5 +1,7 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Hang;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 
@@ -18,12 +20,18 @@ public class Hang_Winch extends SubsystemBase {
     private final RelativeEncoder m_WinchLEncoder = m_WinchL.getEncoder();
     private final RelativeEncoder m_WinchREncoder = m_WinchR.getEncoder();
 
+    DigitalInput hangWinchLeftLimit;
+    DigitalInput hangWinchRightLimit;
+
     public Hang_Winch() {
         m_WinchL.setInverted(HangConstants.winchLeftInverted);
         m_WinchR.setInverted(HangConstants.winchRightInverted);
 
         m_WinchLEncoder.setVelocityConversionFactor(1.0);
         m_WinchREncoder.setVelocityConversionFactor(1.0);
+
+        hangWinchLeftLimit = new DigitalInput(HangConstants.hangWinchLeftLimitPort);
+        hangWinchRightLimit = new DigitalInput(HangConstants.hangWinchRightLimitPort);
 
         resetEncoders();
 
@@ -44,8 +52,17 @@ public class Hang_Winch extends SubsystemBase {
     }
 
     public void runWinchArms(double WinchSpeed) {
-        m_WinchL.set(WinchSpeed);
-        m_WinchR.set(WinchSpeed);
+        if (hangWinchLeftLimit.get() || WinchSpeed < 0){
+            m_WinchL.set(WinchSpeed);
+        } else {
+            m_WinchL.set(0);
+        }
+
+        if (hangWinchRightLimit.get() || WinchSpeed < 0) {
+            m_WinchR.set(WinchSpeed);
+        } else {
+            m_WinchR.set(0);
+        }
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
@@ -54,7 +71,13 @@ public class Hang_Winch extends SubsystemBase {
         m_WinchREncoder.setPosition(0);
     }
 
+    public boolean getWinchLimit() {
+        return hangWinchLeftLimit.get() && hangWinchRightLimit.get();
+    }
+
     public void dashboardOut() {
+        SmartDashboard.putBoolean("Winch Left", hangWinchLeftLimit.get());
+        SmartDashboard.putBoolean("Winch Right", hangWinchRightLimit.get());
 
     }
 }

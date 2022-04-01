@@ -4,20 +4,21 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Sensor_NavX;
-
+import frc.robot.Constants.TurnDir;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Sensors.Sensor_NavX;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnGyro extends CommandBase {
   private final Drivetrain m_drive;
   private final Sensor_NavX m_navX;
-  private final boolean m_left;
+  private final TurnDir m_dir;
   private final double m_angle;
-  private final double m_speed;
+  private double m_speed;
   private double targetHeading;
   private double lowLimit;
   private double upLimit;
+  private double error;
   private static final double deadzone = 3.0;
 
   /**
@@ -27,8 +28,8 @@ public class TurnGyro extends CommandBase {
    * @param angle The desired turn angle
    * @param speed The speed of the turn
    */
-  public TurnGyro(boolean left, double angle, double speed, Drivetrain drive, Sensor_NavX navX) {
-    m_left = left;
+  public TurnGyro(TurnDir dir, double angle, double speed, Drivetrain drive, Sensor_NavX navX) {
+    m_dir = dir;
     m_angle = angle;
     m_speed = speed;
     m_drive = drive;
@@ -39,7 +40,7 @@ public class TurnGyro extends CommandBase {
   @Override
   public void initialize() {
     m_navX.resetHeading();
-    if(m_left) {
+    if(m_dir == TurnDir.left) {
       targetHeading = -m_angle;
     } else {
       targetHeading = m_angle;
@@ -50,7 +51,12 @@ public class TurnGyro extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_left) {
+    error = targetHeading - m_navX.getYaw();
+    if (Math.abs(error) < 5) {
+      m_speed = 0.2;
+    }
+
+    if (m_dir == TurnDir.left) {
       m_drive.tankDrive(-m_speed, m_speed);
     } else {
       m_drive.tankDrive(m_speed, -m_speed);

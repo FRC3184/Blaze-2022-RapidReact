@@ -3,7 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.Shooter_Kicker;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -30,7 +31,7 @@ public class KickOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_kicker.runKicker(-1500);
+      m_kicker.runKicker(ShooterConstants.defKickerOutRPM);
   }
 
   // Called once the command ends or is interrupted.

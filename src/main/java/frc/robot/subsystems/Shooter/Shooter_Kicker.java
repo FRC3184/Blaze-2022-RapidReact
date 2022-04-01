@@ -1,5 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.ShooterConstants;
@@ -49,14 +50,14 @@ public class Shooter_Kicker extends SubsystemBase {
         m_kickPID.setFF(kFF);
         m_kickPID.setOutputRange(kMinOut, kMaxOut);
 
-        //dashboardOut();
+        dashboardOut();
     }
     
     
 
     @Override
     public void periodic() {
-    //dashboardOut();
+        dashboardOut();
 
     }
 
@@ -83,6 +84,6 @@ public class Shooter_Kicker extends SubsystemBase {
 
 
     public void dashboardOut() {
-
+        SmartDashboard.putNumber("Kicker Vel", m_kickerEncoder.getVelocity());
     }
 }

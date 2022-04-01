@@ -4,8 +4,8 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Intake_Actuate;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake.Intake_Actuate;
 
 public class IntakeRetractTime extends CommandBase {
   private final Intake_Actuate m_intakeActuate;

@@ -6,9 +6,9 @@ package frc.robot.commands.auto;
 
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.SpinUpThenKick;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter_Flywheels;
-import frc.robot.subsystems.Shooter_Kicker;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Shooter.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */

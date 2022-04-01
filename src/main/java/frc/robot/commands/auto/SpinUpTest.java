@@ -5,12 +5,12 @@
 package frc.robot.commands.auto;
 
 import frc.robot.commands.SpinUpThenKickWithCenter;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake_Actuate;
-import frc.robot.subsystems.Intake_Centerer;
-import frc.robot.subsystems.Intake_Roller;
-import frc.robot.subsystems.Shooter_Flywheels;
-import frc.robot.subsystems.Shooter_Kicker;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Intake.Intake_Actuate;
+import frc.robot.subsystems.Intake.Intake_Centerer;
+import frc.robot.subsystems.Intake.Intake_Roller;
+import frc.robot.subsystems.Shooter.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */

@@ -5,7 +5,7 @@
 package frc.robot.commands.drive;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Drive.Drivetrain;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -15,7 +15,9 @@ public class ArcadeDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Drivetrain m_drivetrain;
-  double scaleFactor = 0.75;
+  double fastSpeed = 1.0;
+  double slowSpeed = 0.5;
+  double scaleFactor = fastSpeed;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -40,10 +42,10 @@ public class ArcadeDrive extends CommandBase {
     SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
     SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
     if (driveController.getAButtonReleased()) {
-      if (scaleFactor == 0.75) {
-        scaleFactor = 0.5;
+      if (scaleFactor == fastSpeed) {
+        scaleFactor = slowSpeed;
       } else {
-        scaleFactor = 0.75;
+        scaleFactor = fastSpeed;
       }
     }
     m_drivetrain.aDrive(-driveController.getLeftY()*scaleFactor, driveController.getRightX()*scaleFactor);

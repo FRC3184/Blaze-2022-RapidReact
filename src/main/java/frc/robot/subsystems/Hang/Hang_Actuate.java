@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Hang;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,8 +34,8 @@ public class Hang_Actuate extends SubsystemBase {
 
         hangActuateUpLeftLimit = new DigitalInput(HangConstants.hangActuateUpLeftLimitPort);
         hangActuateUpRightLimit = new DigitalInput(HangConstants.hangActuateUpRightLimitPort);
-        hangActuateDownLeftLimit = new DigitalInput(HangConstants.hangActuateDownLeftLimitPort);
-        hangActuateDownRightLimit = new DigitalInput(HangConstants.hangActuateDownRightLimitPort);
+        // hangActuateDownLeftLimit = new DigitalInput(HangConstants.hangActuateDownLeftLimitPort);
+        // hangActuateDownRightLimit = new DigitalInput(HangConstants.hangActuateDownRightLimitPort);
 
         resetEncoders();
 
@@ -66,16 +66,16 @@ public class Hang_Actuate extends SubsystemBase {
         m_actuateREncoder.setPosition(0);
     }
 
-    public boolean getHangUpAcutateLimit() {
-        return hangActuateUpLeftLimit.get() && hangActuateUpRightLimit.get();
-    }
+    // public boolean getHangUpAcutateLimit() {
+    //     return hangActuateUpLeftLimit.get() && hangActuateUpRightLimit.get();
+    // }
 
-    public boolean getHangDownActuateLimit() {
-        return hangActuateDownLeftLimit.get() && hangActuateDownRightLimit.get();
-    }
+    // public boolean getHangDownActuateLimit() {
+    //     return hangActuateDownLeftLimit.get() && hangActuateDownRightLimit.get();
+    // }
 
     public void dashboardOut() {
-        SmartDashboard.putBoolean("HangUpActuateLimit", getHangUpAcutateLimit());
-        SmartDashboard.putBoolean("HangDownActuateLimit", getHangDownActuateLimit());
+        // SmartDashboard.putBoolean("HangUpActuateLimit", getHangUpAcutateLimit());
+        // SmartDashboard.putBoolean("HangDownActuateLimit", getHangDownActuateLimit());
       }
 }
