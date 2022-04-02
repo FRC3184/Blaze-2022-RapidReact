@@ -3,6 +3,7 @@ package frc.robot.subsystems.Hang;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 
 import frc.robot.Constants.*;
@@ -76,8 +77,9 @@ public class Hang_Winch extends SubsystemBase {
     }
 
     public void dashboardOut() {
-        SmartDashboard.putBoolean("Winch Left", hangWinchLeftLimit.get());
-        SmartDashboard.putBoolean("Winch Right", hangWinchRightLimit.get());
-
+        if (ModeConstants.hangWinchDebug) {
+            SmartDashboard.putBoolean("Winch Left", hangWinchLeftLimit.get());
+            SmartDashboard.putBoolean("Winch Right", hangWinchRightLimit.get());
+        }
     }
 }
