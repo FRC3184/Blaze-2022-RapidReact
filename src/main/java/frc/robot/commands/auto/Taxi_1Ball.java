@@ -4,8 +4,8 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.commands.DriveDistance;
 import frc.robot.commands.SpinUpThenKick;
+import frc.robot.commands.navigation.DriveDistance;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
@@ -33,7 +33,7 @@ public class Taxi_1Ball extends SequentialCommandGroup {
     addCommands(
       // shoot first ball
       new SpinUpThenKick(m_kicker,m_flywheels, 2100),
-      new DriveDistance(50, 0.5, m_drivetrain)
+      new DriveDistance(45, 0.5, m_drivetrain)
     );
   }
 }

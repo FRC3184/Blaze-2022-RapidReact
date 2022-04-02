@@ -2,6 +2,8 @@ package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
+
+import frc.robot.Constants.ModeConstants;
 import frc.robot.Constants.ShooterConstants;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -101,8 +103,8 @@ public class Shooter_Flywheels extends SubsystemBase {
         frontSpeed = speed * 2.0;
         backSpeed = speed;
 
-        if (frontSpeed > 5000) {
-            frontSpeed = 5000;
+        if (frontSpeed > 7000) {
+            frontSpeed = 7000;
             backSpeed = frontSpeed / 2.0;
         }
     }
@@ -111,11 +113,11 @@ public class Shooter_Flywheels extends SubsystemBase {
         frontSpeed = speedF;
         backSpeed = speedB;
 
-        if (frontSpeed > 5000) {
-            frontSpeed = 5000;
+        if (frontSpeed > 7000) {
+            frontSpeed = 7000;
         }
-        if (backSpeed > 5000) {
-            backSpeed = 5000;
+        if (backSpeed > 7000) {
+            backSpeed = 7000;
         }
     }
 
@@ -123,12 +125,6 @@ public class Shooter_Flywheels extends SubsystemBase {
     public void resetEncoders() {
         m_backShooterEncoder.setPosition(0);
         m_frontShooterkEncoder.setPosition(0);
-    }
-
-    public double inchToClicks(double inches) {
-        double clicks;
-        clicks = inches * 10;
-        return clicks;
     }
 
     public double[] getFlyWheelSpeed () { 
@@ -144,18 +140,20 @@ public class Shooter_Flywheels extends SubsystemBase {
         {
             return false;
         } else {
-            return (/*flySpeed[0] == refSpeed[0] &&*/ flySpeed[1] >= refSpeed[1]);
+            return (flySpeed[0] >= refSpeed[0] && flySpeed[1] >= refSpeed[1]);
         }
       }
 
 
     public void dashboardOut() {
-        SmartDashboard.putNumber("Back Shoot Enc", m_backShooterEncoder.getPosition());
-        SmartDashboard.putNumber("Front Shoot Enc", m_frontShooterkEncoder.getPosition());
+        if (ModeConstants.shootFlywheelDebug) {
+            SmartDashboard.putNumber("Big Wheel Enc", m_backShooterEncoder.getPosition());
+            SmartDashboard.putNumber("Little Wheel Enc", m_frontShooterkEncoder.getPosition());
 
-        SmartDashboard.putNumber("Back Shoot Vel", m_backShooterEncoder.getVelocity());
-        SmartDashboard.putNumber("Front Shoot Vel", m_frontShooterkEncoder.getVelocity());
+            SmartDashboard.putNumber("Big Shoot Vel", m_backShooterEncoder.getVelocity());
+            SmartDashboard.putNumber("Little Shoot Vel", m_frontShooterkEncoder.getVelocity());
 
-        SmartDashboard.putBoolean("Shooter upToSpeed", flywheelUpToSpeed());
+            SmartDashboard.putBoolean("Shooter upToSpeed", flywheelUpToSpeed());
+        }
     }
 }

@@ -30,7 +30,18 @@ public final class Constants {
     public static final class ModeConstants {
 
         public static final Modes mode = Modes.test;
-        public static final boolean navxDebug = true;
+        public static final boolean navxDebug = false;
+        public static final boolean driveDebug = false;
+        public static final boolean intakeRollerDebug = false;
+        public static final boolean intakeCenterDebug = false;
+        public static final boolean intakeActuateDebug = false;
+        public static final boolean shootKickerDebug = false;
+        public static final boolean shootFlywheelDebug = true;
+        public static final boolean shootHoodDebug = true;
+        public static final boolean hangActuateDebug = false;
+        public static final boolean hangWinchDebug = true;
+
+ 
     }
 
     // Constants for the intake
@@ -63,6 +74,8 @@ public final class Constants {
         public static final double defKickerOutRPM = -1500;
         public static final double defKickerInRPM = 1000;
         public static final double defHoodRPM = 1000;
+
+        public static final double ODSlimit = 200;
 
         public static final int kBackShooterMotorPort = 1;
         public static final int kFrontShooterMotorPort = 10;

@@ -2,8 +2,9 @@ package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
+
+import frc.robot.Constants.ModeConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.commands.Shoot;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -27,9 +28,7 @@ public class Shooter_Hood extends SubsystemBase {
     private SparkMaxPIDController m_hoodPID;
     private double kP, kI, kD, kIz, kFF; 
     private double kMaxOut, kMinOut, maxRPM;
-    private double currPos, targetPos;
-    private double hoodDeadZone = 0.25;
-    private double runSpeed = ShooterConstants.defHoodRPM;
+
 
     public Shooter_Hood() {
         m_hood.setInverted(ShooterConstants.hoodInverted);
@@ -91,32 +90,12 @@ public class Shooter_Hood extends SubsystemBase {
         return m_hoodEncoder.getPosition();
     }
 
-    // encoder values go from 0 -> 14ish
-    public void setHoodPos(double encVal){
-        currPos = m_hoodEncoder.getPosition();
-        targetPos = encVal;
-
-        double error = targetPos - currPos;
-
-        SmartDashboard.putNumber("HOOD Curr Pos", currPos);
-        SmartDashboard.putNumber("HOOD Target", targetPos);
-
-        if (Math.abs(error) < 1) {
-            runSpeed = runSpeed / 2.0;
-        }
-
-        if (error > hoodDeadZone) {
-            m_hoodPID.setReference(runSpeed, CANSparkMax.ControlType.kVelocity);
-        } else if (error < -hoodDeadZone) {
-            m_hoodPID.setReference(-runSpeed, CANSparkMax.ControlType.kVelocity);
-        } else {
-            m_hoodPID.setReference(0, CANSparkMax.ControlType.kVelocity);
-        }
-    }
-
     public void stopHood() {
         m_hoodPID.setReference(0, CANSparkMax.ControlType.kVelocity);
-        runSpeed = ShooterConstants.defHoodRPM;
+    }
+
+    public boolean getHoodDownLimit () {
+        return hoodDownLimit.get();
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
@@ -124,16 +103,12 @@ public class Shooter_Hood extends SubsystemBase {
         m_hoodEncoder.setPosition(0);
     }
 
-    public double inchToClicks(double inches) {
-        double clicks;
-        clicks = inches * 10;
-        return clicks;
-    }
-
     public void dashboardOut() {
-        SmartDashboard.putNumber("Hood Enc", m_hoodEncoder.getPosition());
-        SmartDashboard.putNumber("Hood Vel", m_hoodEncoder.getVelocity());
-        SmartDashboard.putBoolean("Hood Up Limit", hoodUpLimit.get());
-        SmartDashboard.putBoolean("Hood Down Limit", hoodDownLimit.get());
+        if (ModeConstants.shootHoodDebug) {
+            SmartDashboard.putNumber("Hood Enc", m_hoodEncoder.getPosition());
+            SmartDashboard.putNumber("Hood Vel", m_hoodEncoder.getVelocity());
+            SmartDashboard.putBoolean("Hood Up Limit", hoodUpLimit.get());
+            SmartDashboard.putBoolean("Hood Down Limit", hoodDownLimit.get());
+        }
     }
 }

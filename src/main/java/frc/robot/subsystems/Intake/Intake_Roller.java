@@ -2,6 +2,7 @@ package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ModeConstants;
 
 import com.revrobotics.CANSparkMax;
 //import com.revrobotics.RelativeEncoder;
@@ -40,6 +41,9 @@ public class Intake_Roller extends SubsystemBase {
     }
 
     public void dashboardOut() {
+        if (ModeConstants.intakeRollerDebug) {
+            
+        }
         
     }
 }

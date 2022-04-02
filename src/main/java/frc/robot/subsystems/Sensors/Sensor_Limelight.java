@@ -10,7 +10,7 @@ public class Sensor_Limelight extends SubsystemBase {
 
     NetworkTable limeTable = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tv, tx, ty, ta, ts;
-    double tsVal;
+    double tsVal, txVal;
     boolean tvVal;
 
     double skewTarget = -45.0;
@@ -54,8 +54,14 @@ public class Sensor_Limelight extends SubsystemBase {
 
     public double getSkew () {
         ts = limeTable.getEntry("ts");
-        tsVal = ts.getDouble(-1);
+        tsVal = ts.getDouble(100);
         return tsVal;
+    }
+
+    public double getRotate () {
+        tx = limeTable.getEntry("tx");
+        txVal = tx.getDouble(100);
+        return txVal;
     }
 
     public boolean hasValidTarget() {
@@ -78,21 +84,25 @@ public class Sensor_Limelight extends SubsystemBase {
             return false;
         }
     }
-
-    public double getTargetDist() {
-        double highGoalHeight           = 104.0; // inches
-        double limelightHeightFromFloor = 38.0;  // inches
-        double limelightAngleFromFloor  = Math.toRadians(20.0); // radians
-        double limelightTargetAngle = Math.toRadians(limeTable.getEntry("ty").getDouble(100));
-
-        return (highGoalHeight - limelightHeightFromFloor) / Math.tan(limelightAngleFromFloor + limelightTargetAngle);
+    public double getDistFromFender() {
+        double limeAngle = limeTable.getEntry("ty").getDouble(100);
+        return (0.0084 * Math.pow(limeAngle, 2)) - (0.3072 * limeAngle) + (3.4474);
     }
+
+    // public double getTargetDist() {
+    //     double highGoalHeight           = 104.0; // inches
+    //     double limelightHeightFromFloor = 38.0;  // inches
+    //     double limelightAngleFromFloor  = Math.toRadians(20.0); // radians
+    //     double limelightTargetAngle = Math.toRadians(limeTable.getEntry("ty").getDouble(100));
+
+    //     return (highGoalHeight - limelightHeightFromFloor) / Math.tan(limelightAngleFromFloor + limelightTargetAngle);
+    // }
 
     public void dashboardOut() {
         SmartDashboard.putNumber("limelightskew", tsVal);
         SmartDashboard.putNumber("limelight angle", limeTable.getEntry("tx").getDouble(100));
         SmartDashboard.putNumber("limelight angle horizontal", limeTable.getEntry("ty").getDouble(100));
-        SmartDashboard.putNumber("Distance to Target", getTargetDist());
+        SmartDashboard.putNumber("Distance to Target", getDistFromFender());
         SmartDashboard.putNumber("Limelight LED Mode", limeTable.getEntry("ledMode").getDouble(100));
         SmartDashboard.putNumber("Valid Target", limeTable.getEntry("tv").getDouble(-1));
     }

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModeConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -104,14 +105,16 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void dashboardOut() {
-    SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
-    SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
-    SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
+    if (ModeConstants.driveDebug) {
+      SmartDashboard.putNumber("Left Front Encoder", m_leftFrontEncoder.getPosition());
+      SmartDashboard.putNumber("Left Back Encoder", m_leftBackEncoder.getPosition());
+      SmartDashboard.putNumber("Right Front Encoder", m_rightFrontEncoder.getPosition());
+      SmartDashboard.putNumber("Right Back Encoder", m_rightBackEncoder.getPosition());
 
-    SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
+      SmartDashboard.putNumber("Left Front Vel", m_leftFrontEncoder.getVelocity());
+      SmartDashboard.putNumber("Left Back Vel", m_leftBackEncoder.getVelocity());
+      SmartDashboard.putNumber("Right Front Vel", m_rightFrontEncoder.getVelocity());
+      SmartDashboard.putNumber("Right Back Vel", m_rightBackEncoder.getVelocity());
+    }
   }
 }

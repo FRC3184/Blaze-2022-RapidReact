@@ -18,8 +18,6 @@ public class Common {
 
     private boolean upToSpeed = false;
     private boolean ballHigh = false; 
-    private boolean ballLow = false;
-    private boolean fireAway = false; 
 
     public Common() {
 

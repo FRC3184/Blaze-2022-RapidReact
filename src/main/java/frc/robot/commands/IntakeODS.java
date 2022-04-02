@@ -3,13 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake.Intake_Centerer;
 import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_ODS;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -21,7 +19,9 @@ public class IntakeODS extends CommandBase {
   private final Shooter_Kicker m_kicker;
   private final Sensor_ODS m_odsHigh;
 
-  private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
+  private final double m_mSecs;
+  private double endTime;
+  private boolean timerOn = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -33,22 +33,40 @@ public class IntakeODS extends CommandBase {
     m_intakeCenter = centerSubsystem;
     m_kicker = kicker;
     m_odsHigh = odsHigh;
+    m_mSecs = 0;
+    timerOn = false;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_intakeRoller, m_intakeCenter, m_kicker);
+  }
+
+  public IntakeODS(Intake_Roller subsystem, Intake_Centerer centerSubsystem, Shooter_Kicker kicker, Sensor_ODS odsHigh, double time) {
+    m_intakeRoller = subsystem;
+    m_intakeCenter = centerSubsystem;
+    m_kicker = kicker;
+    m_odsHigh = odsHigh;
+    m_mSecs = time;
+    timerOn= true;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_intakeRoller, m_intakeCenter, m_kicker);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (timerOn) {
+      double startTime = System.currentTimeMillis();
+      endTime = startTime + this.m_mSecs;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_odsHigh.getODSVal() < 15.0){
+    if (m_odsHigh.getODSVal() < ShooterConstants.ODSlimit){
       m_intakeRoller.intake(0.5);
       m_intakeCenter.intake(0.1);
       m_kicker.runKicker(ShooterConstants.defKickerInRPM);
-    } else if (m_odsHigh.getODSVal() > 15.0) {
+    } else if (m_odsHigh.getODSVal() > ShooterConstants.ODSlimit) {
       m_intakeRoller.intake(0.5);
       m_intakeCenter.intake(0.0);
       m_kicker.runKicker(0);
@@ -65,5 +83,14 @@ public class IntakeODS extends CommandBase {
     m_intakeRoller.intake(0.0);
     m_intakeCenter.intake(0.0);
     m_kicker.runKicker(0);
+  }
+
+  @Override
+  public boolean isFinished() {
+    if (timerOn){
+      return System.currentTimeMillis() >= endTime;
+    } else {
+      return false;
+    }
   }
 }

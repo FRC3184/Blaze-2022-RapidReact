@@ -5,6 +5,7 @@
 package frc.robot.commands.auto;
 
 import frc.robot.Common;
+import frc.robot.Constants.TurnDir;
 import frc.robot.commands.HoodSetPosNew;
 import frc.robot.commands.ShootAssist;
 import frc.robot.commands.ShootSpinUp;
@@ -16,6 +17,7 @@ import frc.robot.commands.independant.ZeroHood;
 import frc.robot.commands.navigation.DriveDistance;
 import frc.robot.commands.navigation.DriveDistanceWithIntake;
 import frc.robot.commands.navigation.DriveGyroDistance;
+import frc.robot.commands.navigation.TurnGyro;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Intake.Intake_Actuate;
 import frc.robot.subsystems.Intake.Intake_Centerer;
@@ -29,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class Taxi_2Ball extends SequentialCommandGroup {
+public class Taxi_3Ball extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final Drivetrain m_drivetrain;
@@ -48,7 +50,7 @@ public class Taxi_2Ball extends SequentialCommandGroup {
    *
    * @param driveSS The subsystem used by this command.
    */
-  public Taxi_2Ball(Drivetrain driveSS, 
+  public Taxi_3Ball(Drivetrain driveSS, 
                     Intake_Actuate intakeActSS, Intake_Roller rollerSS, Intake_Centerer centererSS, 
                     Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS, Sensor_Limelight lime, Shooter_Hood hood, Sensor_NavX navx, Common common) {
 
@@ -65,18 +67,20 @@ public class Taxi_2Ball extends SequentialCommandGroup {
 
 
     addCommands(
-        // shoot first ball
-        new ZeroHood(m_hood),
-        new HoodSetPosNew(m_hood, m_limelight, true),
-        new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, 2000)),
         // deploy intake
         new IntakeDeploy(m_intakeActuate, 200),
-        // turn on intake, start driving forward
-        new ParallelCommandGroup(new DriveGyroDistance(45, 0.5, m_drivetrain, m_navx), new Intake(2000, m_intakeRoller)),
-        // // drive back to goal
-        // new DriveGyroDistance(45, -0.5, m_drivetrain, m_navx),
-        // // start up shooter wheel
-        // // run center and kicker wheel
+        // drive to ball 2
+        new ParallelCommandGroup(new DriveGyroDistance(43, 0.5, m_drivetrain, m_navx), new Intake(4000, m_intakeRoller)),
+        // alignment pivot
+        new TurnGyro(TurnDir.right, 6, 0.5, m_drivetrain, m_navx),
+        // shoot 2 balls
+        new HoodSetPosNew(m_hood, m_limelight, true),
+        new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, 2000)),
+        // pivot towards third ball
+        new TurnGyro(TurnDir.right, 100, 0.5, m_drivetrain, m_navx),
+        new ParallelCommandGroup(new DriveGyroDistance(165, 0.5, m_drivetrain, m_navx), new Intake(4000, m_intakeRoller)),
+        // align and shoot
+        new TurnGyro(TurnDir.left, 42, 0.5, m_drivetrain, m_navx),
         new HoodSetPosNew(m_hood, m_limelight, true),
         new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, 2000)));
   }

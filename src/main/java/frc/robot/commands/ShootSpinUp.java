@@ -4,9 +4,9 @@
 
 package frc.robot.commands;
 import frc.robot.Common;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
+import frc.robot.subsystems.Shooter.Shooter_Hood;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -16,18 +16,45 @@ public class ShootSpinUp extends CommandBase {
   private final Shooter_Flywheels m_flywheels;
   private final Sensor_Limelight m_limelight;
   private final Common m_common;
-  private double shootRPM;
+  private double m_mSecs;
+  private double endTime;
+  private boolean timerOn = false;
+  private double [] shootRPM = {0,0};
+  private boolean speedInput = false;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param flywheel The subsystem used by this command.
    */
-  public ShootSpinUp(Common common, Shooter_Flywheels flywheel, Sensor_Limelight limelight, double RPM) {
+
+  public ShootSpinUp(Common common, Shooter_Flywheels flywheel, Sensor_Limelight limelight) {
     m_flywheels = flywheel;
     m_limelight = limelight;
     m_common = common;
-    shootRPM = RPM;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_flywheels);
+  }
+
+  public ShootSpinUp(Common common, Shooter_Flywheels flywheel, Sensor_Limelight limelight, double time) {
+    m_flywheels = flywheel;
+    m_limelight = limelight;
+    m_common = common;
+    m_mSecs = time;
+    timerOn = true;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_flywheels);
+  }
+
+  public ShootSpinUp(Common common, Shooter_Flywheels flywheel, Sensor_Limelight limelight, double frontRPM, double backRPM) {
+    m_flywheels = flywheel;
+    m_limelight = limelight;
+    m_common = common;
+    shootRPM[0] = frontRPM;
+    shootRPM[1] = backRPM;
+    speedInput = true;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_flywheels);
@@ -35,13 +62,22 @@ public class ShootSpinUp extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (timerOn) {
+        double startTime = System.currentTimeMillis();
+        endTime = startTime + this.m_mSecs;
+      }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //   m_flywheels.setShotSpeed(calcShotSpeedWithLimelight());
-      m_flywheels.setShotSpeed(shootRPM);
+      if (speedInput) {
+          
+      } else {
+        shootRPM = calcShotSpeedWithLimelight();
+      }
+      m_flywheels.setShotSpeed(shootRPM[0], shootRPM[1]);
       m_flywheels.runShooter();
       m_common.setUpToSpeed(m_flywheels.flywheelUpToSpeed());
   }
@@ -55,12 +91,25 @@ public class ShootSpinUp extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    if (timerOn){
+        return System.currentTimeMillis() >= endTime;
+      } else {
+        return false;
+      }
   }
 
-  public double calcShotSpeedWithLimelight() {
-    double targetDist = m_limelight.getTargetDist();
-    double shotSpeed = ShooterConstants.defShotRPM  + targetDist;
-    return shotSpeed;
+  public double[] calcShotSpeedWithLimelight() {
+    // double targetDist = m_limelight.getDistFromFender();
+    double speed[] = {0, 0};
+
+    speed[0] = 4000;
+    speed[1] = 2000;
+
+    return speed;
+  }
+
+  public double calcHoodWithLimelight() {
+    double targetDist = m_limelight.getDistFromFender();
+    return targetDist + 1;
   }
 }

@@ -5,9 +5,8 @@
 package frc.robot.commands.auto;
 
 import frc.robot.Constants.TurnDir;
-import frc.robot.commands.CenterTarget;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveGyroDistance;
+import frc.robot.commands.navigation.DriveDistance;
+import frc.robot.commands.navigation.DriveGyroDistance;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Sensors.Sensor_NavX;

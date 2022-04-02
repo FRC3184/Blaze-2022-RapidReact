@@ -4,7 +4,7 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.commands.DriveDistance;
+import frc.robot.commands.navigation.DriveDistance;
 import frc.robot.subsystems.Drive.Drivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -24,7 +24,7 @@ public class Taxi extends SequentialCommandGroup {
     m_drivetrain = driveSS;
 
     addCommands(
-        new DriveDistance(2, 0.4, m_drivetrain)
+        new DriveDistance(45, 0.4, m_drivetrain)
     );
   }
 }

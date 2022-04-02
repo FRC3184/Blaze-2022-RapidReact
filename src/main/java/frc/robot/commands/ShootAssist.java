@@ -12,6 +12,7 @@ import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -22,6 +23,10 @@ public class ShootAssist extends CommandBase {
   private final Shooter_Kicker m_kicker;
   private final Intake_Centerer m_center;
   private final Common m_common;
+
+  private double m_mSecs;
+  private double endTime;
+  private boolean timerOn = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -35,16 +40,32 @@ public class ShootAssist extends CommandBase {
     m_common = common;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_kicker, m_center);
+  }
 
+  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, double time) {
+    m_limelight = limelight;
+    m_kicker = kicker;
+    m_center = center;
+    m_common = common;
+    m_mSecs = time;
+    timerOn = true;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_kicker, m_center);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (timerOn) {
+      double startTime = System.currentTimeMillis();
+      endTime = startTime + this.m_mSecs;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putBoolean("UP TO SPEED AUTO", m_common.getUpToSpeed());
       if (m_common.getUpToSpeed()) {
         m_kicker.runKicker(ShooterConstants.defKickerInRPM);
         m_center.intake(IntakeConstants.defIntakePower);
@@ -63,12 +84,10 @@ public class ShootAssist extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
-  }
-
-  public double calcShotSpeedWithLimelight() {
-    double targetDist = m_limelight.getTargetDist();
-    double shotSpeed = ShooterConstants.defShotRPM  + targetDist;
-    return shotSpeed;
+    if (timerOn){
+      return System.currentTimeMillis() >= endTime;
+    } else {
+      return false;
+    }
   }
 }

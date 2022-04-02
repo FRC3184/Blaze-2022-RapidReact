@@ -10,23 +10,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class HoodSetPos extends CommandBase {
+public class HoodSetPosNew extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter_Hood m_hood;
   private final Sensor_Limelight m_limelight;
   private double targetPos, currPos, error, speed;
-  private double hoodDeadZone = 0.1;
+  private double hoodDeadZone = 0.5;
+  private boolean m_auto = false;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public HoodSetPos(Shooter_Hood subsystem, Sensor_Limelight lime) {
+  public HoodSetPosNew(Shooter_Hood subsystem, Sensor_Limelight lime) {
     m_hood = subsystem;
     m_limelight = lime;
-    targetPos = calcHoodWithLimelight();
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_hood);
+  }
+
+  public HoodSetPosNew(Shooter_Hood subsystem, Sensor_Limelight lime, boolean auto) {
+    m_hood = subsystem;
+    m_limelight = lime;
+    m_auto = auto;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_hood);
   }
@@ -34,13 +42,16 @@ public class HoodSetPos extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    targetPos = calcHoodWithLimelight();
+    currPos = m_hood.getHoodEnc();
+    error = targetPos - currPos;
     speed = ShooterConstants.defHoodRPM;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      calcHoodWithLimelight();
+      targetPos = calcHoodWithLimelight();
       currPos = m_hood.getHoodEnc();
       error = targetPos - currPos;
 
@@ -49,8 +60,8 @@ public class HoodSetPos extends CommandBase {
       SmartDashboard.putNumber("Current pos", currPos);
 
 
-      if (Math.abs(error) < 1) {
-          speed = speed / 2.0;
+      if (Math.abs(error) < 0.5) {
+          speed = ShooterConstants.defHoodRPM / 3.0;
       }
     
       if (error > hoodDeadZone) {
@@ -65,11 +76,20 @@ public class HoodSetPos extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_hood.runHood(0);
 
   }
 
+  @Override
+  public boolean isFinished() {
+    if (m_auto){
+      return Math.abs(error) < hoodDeadZone;
+    } else {
+      return false;
+    }
+  }
+
   public double calcHoodWithLimelight() {
-    targetPos = m_limelight.getDistFromFender() + 1.5;
-    return targetPos;
+    return m_limelight.getDistFromFender() + 1.5;
   }
 }

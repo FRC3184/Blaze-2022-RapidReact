@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ModeConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -79,10 +80,11 @@ public class Intake_Actuate extends SubsystemBase {
     }
 
     public void dashboardOut() {
-        SmartDashboard.putBoolean("intake down left", intakeActuateDownLeftLimit.get());
-        SmartDashboard.putBoolean("intake down right", intakeActuateDownRightLimit.get());
-        SmartDashboard.putBoolean("intake up left", intakeActuateUpLeftLimit.get());
-        SmartDashboard.putBoolean("intake up right", intakeActuateUpRightLimit.get());
-        
+        if (ModeConstants.intakeActuateDebug) {
+            SmartDashboard.putBoolean("intake down left", intakeActuateDownLeftLimit.get());
+            SmartDashboard.putBoolean("intake down right", intakeActuateDownRightLimit.get());
+            SmartDashboard.putBoolean("intake up left", intakeActuateUpLeftLimit.get());
+            SmartDashboard.putBoolean("intake up right", intakeActuateUpRightLimit.get());
+        }
     }
 }

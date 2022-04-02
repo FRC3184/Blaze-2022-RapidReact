@@ -15,7 +15,16 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
-import frc.robot.commands.drive.*;
+import frc.robot.commands.driveModes.*;
+import frc.robot.commands.independant.ActuateIn;
+import frc.robot.commands.independant.ActuateOut;
+import frc.robot.commands.independant.HoodDown;
+import frc.robot.commands.independant.HoodUp;
+import frc.robot.commands.independant.IntakeDeploy;
+import frc.robot.commands.independant.IntakeRetract;
+import frc.robot.commands.independant.Outtake;
+import frc.robot.commands.independant.WinchIn;
+import frc.robot.commands.independant.WinchOut;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Hang.Hang_Actuate;
 import frc.robot.subsystems.Hang.Hang_Winch;
@@ -28,12 +37,9 @@ import frc.robot.subsystems.Sensors.Sensor_ODS;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Hood;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
-import frc.robot.JoystickAnalogButton;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-//import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -60,13 +66,10 @@ public class RobotContainer {
   // private final Sensor_Pixy m_pixy = new Sensor_Pixy();
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
-  private final Command spinuptest = new SpinUpTest(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
   private final Command m_taxiOnly = new Taxi(m_drivetrain);
-  private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker);
+  private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
   private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_navX);
-  private final Command m_autoTest= new AutonomousTest(m_drivetrain, m_navX, m_limelight);
-
-  //private final Command m_autoTest = new Taxi_2Ball(m_drivetrain);
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -92,11 +95,9 @@ public class RobotContainer {
     // Configure autonomous options
     m_chooser.addOption("Taxi Only", m_taxiOnly);
     m_chooser.addOption("2 Ball", m_2Ball);
-    m_chooser.addOption("3 Ball", m_taxiOnly);
-    m_chooser.addOption("4 Ball", m_taxiOnly);
+    m_chooser.addOption("3 Ball", m_3Ball);
+    m_chooser.addOption("4 Ball", m_2Ball);
     m_chooser.setDefaultOption("5 Ball", m_5Ball);
-    m_chooser.addOption("DONT RUN - spin up test", spinuptest);
-    m_chooser.addOption("DONT RUN - AutoTest", m_autoTest);
     SmartDashboard.putData("Select Autonomous", m_chooser);
 
     // CameraServer.getInstance().startAutmomaticCapture();
@@ -116,6 +117,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
     m_driverTriggerL.whenHeld(new Outtake(m_intakeRoller, m_intakeCenterer));
     m_driverTriggerR.whenHeld(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh));
+    new JoystickButton(m_driverController, Button.kB.value).whenHeld(new LimelightCenter(0.5, m_drivetrain, m_limelight, false));
+
 
     // GUNNER JOYSTICK
     new JoystickButton(m_gunnerController, Button.kY.value).whenHeld(new WinchOut(m_hangWinch));
@@ -127,11 +130,11 @@ public class RobotContainer {
     new JoystickButton(m_gunnerController, Button.kBack.value).whenHeld(new HoodUp(m_hood));
     new JoystickButton(m_gunnerController, Button.kStart.value).whenHeld(new HoodDown(m_hood));
     new POVButton(m_gunnerController, 90).whenHeld(new ShootReverse(m_kicker));
-    new POVButton(m_gunnerController, 270).whenPressed(new HoodSetPos(m_hood, 22.5));
+    new POVButton(m_gunnerController, 270).whenReleased(new HoodSetPosNew(m_hood, m_limelight));
     new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer));
-    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 1500));
-    m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 2000));
-    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 2500));
+    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3000, 1500));
+    m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
+    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 5500, 2500));  // 5500, 2500
   }
 
   public Drivetrain getRobotDrive() {

@@ -5,13 +5,12 @@
 package frc.robot.commands.auto;
 
 import frc.robot.Constants.TurnDir;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveDistanceWithIntake;
-import frc.robot.commands.IntakeDeploy;
-import frc.robot.commands.IntakeTime;
 import frc.robot.commands.SpinUpThenKick;
 import frc.robot.commands.SpinUpThenKickWithCenter;
-import frc.robot.commands.TurnGyro;
+import frc.robot.commands.independant.Intake;
+import frc.robot.commands.independant.IntakeDeploy;
+import frc.robot.commands.navigation.DriveDistanceWithIntake;
+import frc.robot.commands.navigation.TurnGyro;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Intake.Intake_Actuate;
 import frc.robot.subsystems.Intake.Intake_Centerer;
@@ -51,9 +50,11 @@ public class Taxi_5Ball extends SequentialCommandGroup {
     m_navX = navX;
 
     addCommands(
+        // deploy intake
+        new IntakeDeploy(m_intakeActuate, 200),
         // spin up shooter, intake, drive towards ball
         new DriveDistanceWithIntake(43, 0.5, m_drivetrain, m_intakeRoller),
-        new IntakeTime(2000, m_intakeRoller),
+        new Intake(2000, m_intakeRoller),
         new TurnGyro(TurnDir.right, 6, 0.5, m_drivetrain, m_navX),
         // shoot 2 balls
         new SpinUpThenKick(m_kicker,m_flywheels, 2100),
@@ -62,14 +63,14 @@ public class Taxi_5Ball extends SequentialCommandGroup {
         new TurnGyro(TurnDir.right, 100, 0.5, m_drivetrain, m_navX),
         // spin up shooter, intake, drive towards ball
         new DriveDistanceWithIntake(165, 0.5, m_drivetrain, m_intakeRoller),
-        new IntakeTime(2000, m_intakeRoller),
+        new Intake(2000, m_intakeRoller),
         // line up on goal
         new TurnGyro(TurnDir.left, 42, 0.5, m_drivetrain, m_navX),
         // shoot 1 ball
         new SpinUpThenKickWithCenter(m_kicker, m_flywheels, m_intakeCenterer, m_intakeRoller, 2100),
         // drive towards human station, intake
         new DriveDistanceWithIntake(120, 0.5, m_drivetrain, m_intakeRoller),
-        new IntakeTime(2000, m_intakeRoller),
+        new Intake(2000, m_intakeRoller),
         new SpinUpThenKickWithCenter(m_kicker, m_flywheels, m_intakeCenterer, m_intakeRoller, 2100)
 
         // drive back toward shooting spot
