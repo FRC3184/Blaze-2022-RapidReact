@@ -36,7 +36,7 @@ public class IntakeODS extends CommandBase {
     m_mSecs = 0;
     timerOn = false;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeRoller, m_intakeCenter, m_kicker);
+    addRequirements(m_intakeRoller);
   }
 
   public IntakeODS(Intake_Roller subsystem, Intake_Centerer centerSubsystem, Shooter_Kicker kicker, Sensor_ODS odsHigh, double time) {
@@ -47,7 +47,7 @@ public class IntakeODS extends CommandBase {
     m_mSecs = time;
     timerOn= true;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeRoller, m_intakeCenter, m_kicker);
+    addRequirements(m_intakeRoller);
   }
 
   // Called when the command is initially scheduled.

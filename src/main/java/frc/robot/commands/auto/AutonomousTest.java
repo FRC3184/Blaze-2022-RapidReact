@@ -32,7 +32,7 @@ public class AutonomousTest extends SequentialCommandGroup {
     addCommands(
         // drive straight for 5 seconds
         // new CenterTarget(TurnDir.right, 45.0, 0.3, m_drivetrain, m_navX, m_limelight)
-        new DriveGyroDistance(72, 0.3, m_drivetrain, m_navX)
+        new DriveGyroDistance(200, 0.5, m_drivetrain, m_navX)
         // new DriveDistance(5, 0.3, m_drivetrain)
     );
   }

@@ -8,6 +8,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake.Intake_Centerer;
+import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
@@ -22,6 +23,7 @@ public class ShootAssist extends CommandBase {
   private final Sensor_Limelight m_limelight;
   private final Shooter_Kicker m_kicker;
   private final Intake_Centerer m_center;
+  private final Intake_Roller m_roller;
   private final Common m_common;
 
   private double m_mSecs;
@@ -33,19 +35,21 @@ public class ShootAssist extends CommandBase {
    *
    * @param flywheel The subsystem used by this command.
    */
-  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center) {
+  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller) {
     m_limelight = limelight;
     m_kicker = kicker;
     m_center = center;
+    m_roller = roller;
     m_common = common;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_kicker, m_center);
   }
 
-  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, double time) {
+  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller, double time) {
     m_limelight = limelight;
     m_kicker = kicker;
     m_center = center;
+    m_roller = roller;
     m_common = common;
     m_mSecs = time;
     timerOn = true;
@@ -69,9 +73,11 @@ public class ShootAssist extends CommandBase {
       if (m_common.getUpToSpeed()) {
         m_kicker.runKicker(ShooterConstants.defKickerInRPM);
         m_center.intake(IntakeConstants.defIntakePower);
+        m_roller.intake(0.5);
       } else {
         m_kicker.runKicker(0);
         m_center.intake(0);
+        m_roller.intake(0);
       }
   }
 
@@ -80,6 +86,7 @@ public class ShootAssist extends CommandBase {
   public void end(boolean interrupted) {
     m_kicker.runKicker(0);
     m_center.intake(0);
+    m_roller.intake(0);
   }
 
   @Override

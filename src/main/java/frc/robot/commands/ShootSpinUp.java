@@ -99,17 +99,16 @@ public class ShootSpinUp extends CommandBase {
   }
 
   public double[] calcShotSpeedWithLimelight() {
-    // double targetDist = m_limelight.getDistFromFender();
+    double targetDist = m_limelight.getDistFromFender();
     double speed[] = {0, 0};
-
-    speed[0] = 4000;
-    speed[1] = 2000;
+    if (targetDist > 10) {
+      speed[0] = 4000;
+      speed[1] = 2500;
+    } else {
+      speed[0] = 4000;
+      speed[1] = 2100;
+    }
 
     return speed;
-  }
-
-  public double calcHoodWithLimelight() {
-    double targetDist = m_limelight.getDistFromFender();
-    return targetDist + 1;
   }
 }

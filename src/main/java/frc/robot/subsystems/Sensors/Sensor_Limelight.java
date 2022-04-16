@@ -1,6 +1,10 @@
 package frc.robot.subsystems.Sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ModeConstants;
+
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -99,11 +103,14 @@ public class Sensor_Limelight extends SubsystemBase {
     // }
 
     public void dashboardOut() {
-        SmartDashboard.putNumber("limelightskew", tsVal);
-        SmartDashboard.putNumber("limelight angle", limeTable.getEntry("tx").getDouble(100));
-        SmartDashboard.putNumber("limelight angle horizontal", limeTable.getEntry("ty").getDouble(100));
+        if (ModeConstants.limelightDebug) {
+            SmartDashboard.putNumber("limelightskew", tsVal);
+            SmartDashboard.putNumber("limelight angle", limeTable.getEntry("tx").getDouble(100));
+            SmartDashboard.putNumber("limelight angle horizontal", limeTable.getEntry("ty").getDouble(100));
+            
+            SmartDashboard.putNumber("Limelight LED Mode", limeTable.getEntry("ledMode").getDouble(100));
+            SmartDashboard.putNumber("Valid Target", limeTable.getEntry("tv").getDouble(-1));
+        }
         SmartDashboard.putNumber("Distance to Target", getDistFromFender());
-        SmartDashboard.putNumber("Limelight LED Mode", limeTable.getEntry("ledMode").getDouble(100));
-        SmartDashboard.putNumber("Valid Target", limeTable.getEntry("tv").getDouble(-1));
     }
 }

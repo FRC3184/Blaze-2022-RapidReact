@@ -15,7 +15,7 @@ public class ArcadeDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Drivetrain m_drivetrain;
-  double fastSpeed = 0.9;
+  double fastSpeed = 1;
   double slowSpeed = 0.5;
   double scaleFactor = fastSpeed;
 

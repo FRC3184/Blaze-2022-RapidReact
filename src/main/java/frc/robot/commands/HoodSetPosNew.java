@@ -51,7 +51,12 @@ public class HoodSetPosNew extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      targetPos = calcHoodWithLimelight();
+    SmartDashboard.putNumber("Hood Calc", calcHoodWithLimelight());
+      if (calcHoodWithLimelight() > 24) {
+        targetPos = m_hood.getHoodEnc();
+      } else {
+        targetPos = calcHoodWithLimelight();
+      }
       currPos = m_hood.getHoodEnc();
       error = targetPos - currPos;
 
@@ -83,13 +88,13 @@ public class HoodSetPosNew extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_auto){
-      return Math.abs(error) < hoodDeadZone;
+      return (Math.abs(error) < hoodDeadZone || Math.abs(error) > 22);
     } else {
       return false;
     }
   }
 
   public double calcHoodWithLimelight() {
-    return m_limelight.getDistFromFender() + 1.5;
+    return m_limelight.getDistFromFender() + 1.75;
   }
 }

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.Sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ModeConstants;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,6 +33,8 @@ public class Sensor_ODS extends SubsystemBase {
     }
 
     public void dashboardOut() {
-        SmartDashboard.putNumber("ODS val", sensor_ods.getValue());
+        if (ModeConstants.odsDebug) {
+            SmartDashboard.putNumber("ODS val", sensor_ods.getValue());
+        }
     }
 }

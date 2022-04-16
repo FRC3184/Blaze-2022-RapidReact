@@ -29,17 +29,19 @@ public final class Constants {
 
     public static final class ModeConstants {
 
-        public static final Modes mode = Modes.test;
-        public static final boolean navxDebug = false;
+        public static final Modes mode = Modes.competition;
+        public static final boolean odsDebug = false;
+        public static final boolean navxDebug = true;
         public static final boolean driveDebug = false;
+        public static final boolean limelightDebug = false;
         public static final boolean intakeRollerDebug = false;
         public static final boolean intakeCenterDebug = false;
         public static final boolean intakeActuateDebug = false;
         public static final boolean shootKickerDebug = false;
-        public static final boolean shootFlywheelDebug = true;
-        public static final boolean shootHoodDebug = true;
+        public static final boolean shootFlywheelDebug = false;
+        public static final boolean shootHoodDebug = false;
         public static final boolean hangActuateDebug = false;
-        public static final boolean hangWinchDebug = true;
+        public static final boolean hangWinchDebug = false;
 
  
     }
@@ -117,7 +119,7 @@ public final class Constants {
 
     // Constants for the drivetrain
     public static final class DriveConstants {
-        public static final double inchToClickScaler = 0.40;
+        public static final double inchToClickScaler = 0.67/*89655*/;
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
         public static final int kLeftFrontMotorPort = 16;
@@ -132,6 +134,17 @@ public final class Constants {
         // Motor inverted?
         public static final boolean rightInverted = true;
         public static final boolean leftInverted = false;
+
+        public static final double kTurnP = 1;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+
+        public static final double kMaxTurnRateDegPerS = 100;
+        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+
+        public static final double kTurnToleranceDeg = 5;
+        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+        
 
         // Gyro PID Constants 
         /* The following PID Controller coefficients will need to be tuned */

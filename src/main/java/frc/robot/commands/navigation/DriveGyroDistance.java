@@ -4,6 +4,7 @@
 
 package frc.robot.commands.navigation;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
@@ -14,10 +15,13 @@ public class DriveGyroDistance extends CommandBase {
 
   private final double m_inches;
   private double m_speed;
+  private double m_lspeed;
+  private double m_rspeed;
   private double clicks;
   private double targetHeading = 0;
+  private double currHeading = 0;
   private double error, delta;
-  private double kP = 0.1;
+  private double kP = 0.027;
 
   /**
    * Creates a new DriveTime.
@@ -31,26 +35,35 @@ public class DriveGyroDistance extends CommandBase {
     m_speed = speed;
     m_drive = drive;
     m_navX = navX;
+    m_lspeed = 0;
+    m_rspeed = 0;
     addRequirements(m_drive, m_navX);
   }
 
   @Override
   public void initialize() {
+    dashboardOut();
     clicks = m_drive.inchToClicks(m_inches);
     m_drive.resetEncoders();
     m_drive.resetEncoders();
     m_drive.resetEncoders();
+    currHeading = m_navX.getYaw();
     m_navX.resetHeading();
+    m_lspeed = 0;
+    m_rspeed = 0;
   }
 
   @Override
   public void execute() {
-    error = -targetHeading;
-    delta = error * kP;
-    if (Math.abs(clicks - m_drive.getAverageEncoderDistance()) < 5) {
-      m_speed = m_speed / 2.0;
+    dashboardOut();
+    if (m_lspeed < m_speed || m_rspeed < m_speed)
+    {
+      m_lspeed += 0.0075;
+      m_rspeed += 0.0075;
     }
-    m_drive.tankDrive(m_speed + delta, m_speed - delta);
+    error = -(m_navX.getYaw());
+    delta = error * kP;
+    m_drive.tankDrive(m_lspeed + delta, m_rspeed - delta);
   }
 
   @Override
@@ -61,5 +74,16 @@ public class DriveGyroDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     return Math.abs(m_drive.getAverageEncoderDistance()) >= clicks;
+  }
+
+  public void dashboardOut() {
+    SmartDashboard.putNumber("LEFTDriveSpeed", m_lspeed);
+    SmartDashboard.putNumber("RIGHTDriveSpeed", m_rspeed);
+    SmartDashboard.putNumber("error", error);
+    SmartDashboard.putNumber("delta", delta);
+
+
+
+
   }
 }

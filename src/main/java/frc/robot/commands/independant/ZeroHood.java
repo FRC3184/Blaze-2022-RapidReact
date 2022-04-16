@@ -12,7 +12,8 @@ public class ZeroHood extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter_Hood m_hood;
-
+  private final double m_mSecs = 1000;
+  private double endTime;
   /**
    * Creates a new ExampleCommand.
    *
@@ -26,7 +27,10 @@ public class ZeroHood extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+      double startTime = System.currentTimeMillis();
+      endTime = startTime + this.m_mSecs;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -42,6 +46,6 @@ public class ZeroHood extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return !m_hood.getHoodDownLimit();
+    return !m_hood.getHoodDownLimit() || System.currentTimeMillis() >= endTime;
   }
 }

@@ -55,7 +55,16 @@ public class Sensor_NavX extends SubsystemBase {
         return gyroDrive.getYaw();
       }
     
-      public void resetHeading() {
-        gyroDrive.zeroYaw();
-      }
+        /**
+     * Returns the heading of the robot.
+     *
+     * @return the robot's heading in degrees, from 180 to 180
+     */
+    public double getHeading() {
+        return Math.IEEEremainder(gyroDrive.getAngle(), 360);
+    }
+    
+    public void resetHeading() {
+    gyroDrive.zeroYaw();
+    }
 }

@@ -38,6 +38,7 @@ import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Hood;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -66,10 +67,11 @@ public class RobotContainer {
   // private final Sensor_Pixy m_pixy = new Sensor_Pixy();
   // AUTONOMOUS ROUTINES
   // A simple autonomous routine that shoots the loaded frisbees
+  private final Command m_autoTest = new AutonomousTest(m_drivetrain, m_navX, m_limelight);
   private final Command m_taxiOnly = new Taxi(m_drivetrain);
   private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_navX);
+  private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -93,11 +95,12 @@ public class RobotContainer {
     // m_flywheel.setDefaultCommand(new Shoot(m_flywheel, m_limelight));
 
     // Configure autonomous options
-    m_chooser.addOption("Taxi Only", m_taxiOnly);
+    m_chooser.addOption("Auto Test", m_autoTest);
+    m_chooser.addOption("Taxi", m_taxiOnly);
     m_chooser.addOption("2 Ball", m_2Ball);
-    m_chooser.addOption("3 Ball", m_3Ball);
-    m_chooser.addOption("4 Ball", m_2Ball);
-    m_chooser.setDefaultOption("5 Ball", m_5Ball);
+    m_chooser.setDefaultOption("3 Ball", m_3Ball);
+    // m_chooser.addOption("4 Ball", m_2Ball);
+    m_chooser.addOption("5 Ball", m_5Ball);
     SmartDashboard.putData("Select Autonomous", m_chooser);
 
     // CameraServer.getInstance().startAutmomaticCapture();
@@ -130,11 +133,12 @@ public class RobotContainer {
     new JoystickButton(m_gunnerController, Button.kBack.value).whenHeld(new HoodUp(m_hood));
     new JoystickButton(m_gunnerController, Button.kStart.value).whenHeld(new HoodDown(m_hood));
     new POVButton(m_gunnerController, 90).whenHeld(new ShootReverse(m_kicker));
-    new POVButton(m_gunnerController, 270).whenReleased(new HoodSetPosNew(m_hood, m_limelight));
-    new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer));
+    new POVButton(m_gunnerController, 270).whenHeld(new HoodSetPosNew(m_hood, m_limelight));
+    new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller));
     new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3000, 1500));
-    m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
-    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 5500, 2500));  // 5500, 2500
+    m_gunnerTriggerR.whenHeld(new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheel, m_limelight), new HoodSetPosNew(m_hood, m_limelight)));
+    // m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
+    // m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 5500, 2500));  // 5500, 2500
   }
 
   public Drivetrain getRobotDrive() {

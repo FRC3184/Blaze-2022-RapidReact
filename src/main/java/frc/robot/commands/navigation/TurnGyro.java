@@ -19,6 +19,8 @@ public class TurnGyro extends CommandBase {
   private double lowLimit;
   private double upLimit;
   private double error;
+  private double kP = 0.05;
+  private double delta;
   private static final double deadzone = 3.0;
 
   /**
@@ -51,16 +53,22 @@ public class TurnGyro extends CommandBase {
 
   @Override
   public void execute() {
+    // negative = left, positive = right
     error = targetHeading - m_navX.getYaw();
-    if (Math.abs(error) < 5) {
-      m_speed = 0.2;
+    delta = Math.pow((error * 2), kP) - 1;
+    if (delta > 1.0) {
+      delta = 1.0;
+    } else if (delta < -1.0) {
+      delta = -1.0;
     }
+    m_drive.tankDrive(delta, -delta);
 
-    if (m_dir == TurnDir.left) {
-      m_drive.tankDrive(-m_speed, m_speed);
-    } else {
-      m_drive.tankDrive(m_speed, -m_speed);
-    }
+
+    // if (m_dir == TurnDir.left) {
+    //   m_drive.tankDrive(-m_speed - delta, m_speed);
+    // } else {
+    //   m_drive.tankDrive(m_speed - delta, -m_speed);
+    // }
   }
 
   @Override
