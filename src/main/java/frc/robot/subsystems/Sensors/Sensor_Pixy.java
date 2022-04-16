@@ -4,18 +4,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.ArrayList;
 
-import com.revrobotics.CANSparkMax;
-import frc.robot.Constants.ShooterConstants;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import io.github.pseudoresonance.pixy2api.*;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
-import io.github.pseudoresonance.pixy2api.links.SPILink;
-
-
 
 public class Sensor_Pixy extends SubsystemBase {
     

@@ -15,20 +15,18 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // Mode Setting
     public enum Modes {
         competition,
         test, 
         sim
     }
-
     public enum TurnDir {
         left, 
         right
     }
 
+    // sets the robot mode, and debug outputs
     public static final class ModeConstants {
-
         public static final Modes mode = Modes.competition;
         public static final boolean odsDebug = false;
         public static final boolean navxDebug = true;
@@ -39,29 +37,27 @@ public final class Constants {
         public static final boolean intakeActuateDebug = false;
         public static final boolean shootKickerDebug = false;
         public static final boolean shootFlywheelDebug = false;
-        public static final boolean shootHoodDebug = false;
+        public static final boolean shootHoodDebug = true;
         public static final boolean hangActuateDebug = false;
         public static final boolean hangWinchDebug = false;
-
- 
     }
 
     // Constants for the intake
     public static final class IntakeConstants {
+        // MOTOR PORTS
         public static final int kIntakeRollerMotorPort = 14;
         public static final int kLeftIntakeArmMotorPort = 19;
         public static final int kRightIntakeArmMotorPort = 5;
         public static final int kCentererLeftMotorPort = 13;
         public static final int kCentererRightMotorPort = 4;
-
+        // LIMIT SWITCH PORTS
         public static final int intakeActuateUpLeftLimitPort = 6;
         public static final int intakeActuateUpRightLimitPort = 7;
         public static final int intakeActuateDownLeftLimitPort = 8;
         public static final int intakeActuateDownRightLimitPort = 9;
-
+        // DEFAULT POWER SETTINGS
         public static final double defIntakePower = 0.3;
-
-        // Motor inverted?
+        // INVERSION SETTINGS
         public static final boolean intakeRollerInverted = false;
         public static final boolean intakeLeftArmInverted = true;
         public static final boolean intakeRightArmInverted = false;
@@ -78,7 +74,7 @@ public final class Constants {
         public static final double defHoodRPM = 1000;
 
         public static final double ODSlimit = 200;
-
+        // MOTOR PORTS
         public static final int kBackShooterMotorPort = 1;
         public static final int kFrontShooterMotorPort = 10;
         public static final int kKickerMotorPort = 12;
@@ -89,11 +85,13 @@ public final class Constants {
         public static final int hoodDownLimitPort = 3;
         public static final int hoodUpLimitPort = 2;
 
-        // Motor inverted?
+        public static final double hoodMaxEncVal = 45;
+
+        // INVERSION SETTINGS
         public static final boolean frontShooterInverted = true;
         public static final boolean backShooterInverted = true;
         public static final boolean kickerInverted = true;
-        public static final boolean hoodInverted = false;
+        public static final boolean hoodInverted = true;
     }
 
     // Constants for the shooter
@@ -110,7 +108,7 @@ public final class Constants {
         public static final int hangWinchLeftLimitPort = 4;
         public static final int hangWinchRightLimitPort = 5;
 
-        // Motor inverted?
+        // INVERSION SETTINGS
         public static final boolean winchLeftInverted = false;
         public static final boolean winchRightInverted = true;
         public static final boolean actuateLeftInverted = false;

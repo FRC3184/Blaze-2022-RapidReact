@@ -3,8 +3,6 @@ package frc.robot.subsystems.Sensors;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ModeConstants;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;

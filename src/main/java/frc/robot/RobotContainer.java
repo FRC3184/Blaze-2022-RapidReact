@@ -5,8 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-// import edu.wpi.first.wpilibj.CameraServer;
-//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -92,6 +90,7 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_intakeAcutate.setDefaultCommand(new IntakeRetract(m_intakeAcutate));
     // m_flywheel.setDefaultCommand(new Shoot(m_flywheel, m_limelight));
 
     // Configure autonomous options
@@ -119,7 +118,10 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new IntakeRetract(m_intakeAcutate));
     new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
     m_driverTriggerL.whenHeld(new Outtake(m_intakeRoller, m_intakeCenterer));
-    m_driverTriggerR.whenHeld(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh));
+    // m_driverTriggerR.whenHeld(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh));
+    m_driverTriggerR.whenHeld(new ParallelCommandGroup(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh), 
+                                                       new IntakeDeploy(m_intakeAcutate)));
+    // m_driverTriggerR.whenReleased(new IntakeRetract(m_intakeAcutate));
     new JoystickButton(m_driverController, Button.kB.value).whenHeld(new LimelightCenter(0.5, m_drivetrain, m_limelight, false));
 
 
