@@ -117,11 +117,10 @@ public class RobotContainer {
     // drivetrain is already handled above
     new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new IntakeRetract(m_intakeAcutate));
     new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
-    m_driverTriggerL.whenHeld(new Outtake(m_intakeRoller, m_intakeCenterer));
-    // m_driverTriggerR.whenHeld(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh));
+    m_driverTriggerL.whenHeld(new ParallelCommandGroup(new Outtake(m_intakeRoller, m_intakeCenterer), 
+                                                       new IntakeDeploy(m_intakeAcutate)));
     m_driverTriggerR.whenHeld(new ParallelCommandGroup(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh), 
                                                        new IntakeDeploy(m_intakeAcutate)));
-    // m_driverTriggerR.whenReleased(new IntakeRetract(m_intakeAcutate));
     new JoystickButton(m_driverController, Button.kB.value).whenHeld(new LimelightCenter(0.5, m_drivetrain, m_limelight, false));
 
 
@@ -137,8 +136,11 @@ public class RobotContainer {
     new POVButton(m_gunnerController, 90).whenHeld(new ShootReverse(m_kicker));
     new POVButton(m_gunnerController, 270).whenHeld(new HoodSetPosNew(m_hood, m_limelight));
     new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller));
-    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3000, 1500));
+    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 2800, 2600));  //small/big
     m_gunnerTriggerR.whenHeld(new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheel, m_limelight), new HoodSetPosNew(m_hood, m_limelight)));
+    
+    new JoystickButton(m_gunnerController, Button.kLeftBumper.value).whenHeld(new ParallelCommandGroup(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh), 
+                                                       new IntakeDeploy(m_intakeAcutate)));
     // m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
     // m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 5500, 2500));  // 5500, 2500
   }

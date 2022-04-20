@@ -44,14 +44,14 @@ public class Shooter_Flywheels extends SubsystemBase {
         m_frontShootPID = m_Front_ShooterW.getPIDController();
         m_backShootPID = m_Back_ShooterW.getPIDController();
         // PID coefficients
-        kP = 6e-5; 
+        kP = 10e-5; 
         kI = 0;
         kD = 0; 
         kIz = 0; 
-        kFF = 1.0 / 4700.0; 
+        kFF = 1.0 / 5500.0; 
         kMaxOut = 1; 
         kMinOut = -1;
-        maxRPM = 5700;
+        maxRPM = 5800;
 
         // set PID coefficients
         m_frontShootPID.setP(kP);
@@ -132,6 +132,8 @@ public class Shooter_Flywheels extends SubsystemBase {
         return flywheelSpeeds;
     }
 
+    private double flySpeedDZ = 100;
+
     public boolean flywheelUpToSpeed () {
         double[] flySpeed = getFlyWheelSpeed(); 
         double[] refSpeed = getShotSpeed();
@@ -140,7 +142,7 @@ public class Shooter_Flywheels extends SubsystemBase {
         {
             return false;
         } else {
-            return (flySpeed[0] >= refSpeed[0] && flySpeed[1] >= refSpeed[1]);
+            return (flySpeed[0] >= (refSpeed[0] - flySpeedDZ) && flySpeed[1] >= (refSpeed[1]-flySpeedDZ));
         }
       }
 

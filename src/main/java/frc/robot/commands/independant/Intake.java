@@ -5,6 +5,7 @@
 package frc.robot.commands.independant;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake.Intake_Roller;
 
 public class Intake extends CommandBase {
@@ -43,7 +44,7 @@ public class Intake extends CommandBase {
 
   @Override
   public void execute() {
-    m_intakeRoller.intake(0.5);
+    m_intakeRoller.intake(IntakeConstants.defIntakeRollerPow);
   }
 
   @Override

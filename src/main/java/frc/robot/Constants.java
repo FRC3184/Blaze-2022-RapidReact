@@ -29,14 +29,14 @@ public final class Constants {
     public static final class ModeConstants {
         public static final Modes mode = Modes.competition;
         public static final boolean odsDebug = false;
-        public static final boolean navxDebug = true;
+        public static final boolean navxDebug = false;
         public static final boolean driveDebug = false;
         public static final boolean limelightDebug = false;
         public static final boolean intakeRollerDebug = false;
         public static final boolean intakeCenterDebug = false;
         public static final boolean intakeActuateDebug = false;
         public static final boolean shootKickerDebug = false;
-        public static final boolean shootFlywheelDebug = false;
+        public static final boolean shootFlywheelDebug = true;
         public static final boolean shootHoodDebug = true;
         public static final boolean hangActuateDebug = false;
         public static final boolean hangWinchDebug = false;
@@ -56,7 +56,9 @@ public final class Constants {
         public static final int intakeActuateDownLeftLimitPort = 8;
         public static final int intakeActuateDownRightLimitPort = 9;
         // DEFAULT POWER SETTINGS
-        public static final double defIntakePower = 0.3;
+        public static final double defIntakeRollerPow = 0.5;
+        public static final double defCenterPow = 0.3;
+        public static final double defIntakeActuatePow = 0.15;
         // INVERSION SETTINGS
         public static final boolean intakeRollerInverted = false;
         public static final boolean intakeLeftArmInverted = true;
@@ -71,9 +73,9 @@ public final class Constants {
         public static final double defShotRPM = 2500;
         public static final double defKickerOutRPM = -1500;
         public static final double defKickerInRPM = 1000;
-        public static final double defHoodRPM = 1000;
+        public static final double defHoodRPM = 2000;
 
-        public static final double ODSlimit = 200;
+        public static final double ODSlimit = 100;
         // MOTOR PORTS
         public static final int kBackShooterMotorPort = 1;
         public static final int kFrontShooterMotorPort = 10;
@@ -133,15 +135,15 @@ public final class Constants {
         public static final boolean rightInverted = true;
         public static final boolean leftInverted = false;
 
-        public static final double kTurnP = 1;
-        public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+        public static final double kTurnP = 0.075;
+        public static final double kTurnI = 0; //0.00005; //0.0001; //0.002;
+        public static final double kTurnD = 0; //0.003; //0.0001;
 
         public static final double kMaxTurnRateDegPerS = 100;
         public static final double kMaxTurnAccelerationDegPerSSquared = 300;
 
-        public static final double kTurnToleranceDeg = 5;
-        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+        public static final double kTurnToleranceDeg = 1;
+        public static final double kTurnRateToleranceDegPerS = 1; // degrees per second
         
 
         // Gyro PID Constants 

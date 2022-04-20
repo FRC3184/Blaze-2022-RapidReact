@@ -96,6 +96,6 @@ public class HoodSetPosNew extends CommandBase {
 
   public double calcHoodWithLimelight() {
     // old value with 22 click = 1.75
-    return m_limelight.getDistFromFender() + 3.5;
+    return (m_limelight.getDistFromFender() + 1.75) * 2;
   }
 }

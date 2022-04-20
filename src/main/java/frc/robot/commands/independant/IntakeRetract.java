@@ -4,6 +4,7 @@
 
 package frc.robot.commands.independant;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Intake.Intake_Actuate;
 
 /** An example command that uses an example subsystem. */
@@ -49,7 +50,7 @@ public class IntakeRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeActuate.retractIntake(0.15);
+    m_intakeActuate.retractIntake(Constants.IntakeConstants.defIntakeActuatePow);
   }
 
   // Called once the command ends or is interrupted.

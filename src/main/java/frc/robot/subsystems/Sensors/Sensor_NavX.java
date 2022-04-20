@@ -48,6 +48,7 @@ public class Sensor_NavX extends SubsystemBase {
         {
             SmartDashboard.putBoolean("IMU_Connected", gyroDrive.isConnected());
             SmartDashboard.putNumber("IMU Yaw", gyroDrive.getYaw());
+            SmartDashboard.putNumber("IMU TEXT", gyroDrive.getYaw());
         }
     }
 

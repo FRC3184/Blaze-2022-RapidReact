@@ -76,8 +76,40 @@ public class Drivetrain extends SubsystemBase {
     m_drive.tankDrive(leftSpeed, rightSpeed);
   }
 
+  private double limitedSpeed;
+  private double currentSpeed;
+
   public void aDrive(double xSpeed, double zRotation) {
-    m_drive.arcadeDrive(xSpeed, zRotation);
+    limitedSpeed = xSpeed;
+    currentSpeed = (m_leftMotors.get() + m_rightMotors.get()) / 2.0;
+    limitedSpeed = motorRateLimit(xSpeed, currentSpeed, 0.03);
+    m_drive.arcadeDrive(limitedSpeed, zRotation, true);
+  }
+  public void aDriveAutoTurn(double xSpeed, double zRotation) {
+    m_drive.arcadeDrive(limitedSpeed, zRotation, true);
+  }
+
+  private double limitOut;
+
+  public double motorRateLimit(double target, double current, double rate) {
+    SmartDashboard.putNumber("Target", target);
+    SmartDashboard.putNumber("Current", current);
+    SmartDashboard.putNumber("Limited Output", limitOut);
+
+    if(target > 0.05 && limitOut < 0.05) {
+      limitOut = 0.05;
+    } if (target < -0.05 && limitOut > -0.05) {
+      limitOut = -0.05;
+    }
+
+    if((target - current) > rate) {
+      limitOut += rate;
+    } else if((current - target) > rate) {
+      limitOut -= rate;
+    } else {
+      limitOut = target;
+    }
+    return limitOut;
   }
 
   /** Resets the drive encoders to currently read a position of 0. */

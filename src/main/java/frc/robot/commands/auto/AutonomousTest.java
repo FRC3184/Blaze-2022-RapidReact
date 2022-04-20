@@ -4,8 +4,11 @@
 
 package frc.robot.commands.auto;
 
+import frc.robot.Constants;
 import frc.robot.commands.independant.CenterIntake;
 import frc.robot.commands.navigation.DriveGyroDistance;
+import frc.robot.commands.navigation.TurnGyro;
+import frc.robot.commands.navigation.TurnGyroPID;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
@@ -33,8 +36,9 @@ public class AutonomousTest extends SequentialCommandGroup {
         // new CenterTarget(TurnDir.right, 45.0, 0.3, m_drivetrain, m_navX, m_limelight)
         // new DriveGyroDistance(200, 0.5, m_drivetrain, m_navX)
         // new DriveDistance(5, 0.3, m_drivetrain)
-
         // new CenterIntake(m_center)
+        new TurnGyroPID(5, drive, navX)
+        // new TurnGyro(Constants.TurnDir.left, 45, 0.5, m_drivetrain, m_navX)
     );
   }
 }

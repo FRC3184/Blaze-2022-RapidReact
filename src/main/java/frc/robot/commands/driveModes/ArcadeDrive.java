@@ -16,7 +16,7 @@ public class ArcadeDrive extends CommandBase {
   
   private final Drivetrain m_drivetrain;
   double fastSpeed = 1;
-  double slowSpeed = 0.5;
+  double slowSpeed = 0.6;
   double scaleFactor = fastSpeed;
 
   private XboxController driveController = new XboxController(OIConstants.kDriverControllerPort);
@@ -47,6 +47,10 @@ public class ArcadeDrive extends CommandBase {
       } else {
         scaleFactor = fastSpeed;
       }
+    } else if (driveController.getRightBumper()){
+      scaleFactor = slowSpeed;
+    } else if (driveController.getRightBumperReleased()) {
+      scaleFactor = fastSpeed;
     }
     m_drivetrain.aDrive(-driveController.getLeftY()*scaleFactor, driveController.getRightX()*scaleFactor);
   }

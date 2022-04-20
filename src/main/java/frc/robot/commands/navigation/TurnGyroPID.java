@@ -7,12 +7,13 @@ package frc.robot.commands.navigation;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 /** A command that will turn the robot to the specified angle using a motion profile. */
-public class TurnGyroPID extends ProfiledPIDCommand {
+public class TurnGyroPID extends PIDCommand {
+
+  Sensor_NavX navX;
   /**
    * Turns to robot to the specified angle using a motion profile.
    *
@@ -21,19 +22,16 @@ public class TurnGyroPID extends ProfiledPIDCommand {
    */
   public TurnGyroPID(double targetAngleDegrees, Drivetrain drive, Sensor_NavX navx) {
     super(
-        new ProfiledPIDController(
+        new PIDController(
             DriveConstants.kTurnP,
             DriveConstants.kTurnI,
-            DriveConstants.kTurnD,
-            new TrapezoidProfile.Constraints(
-                DriveConstants.kMaxTurnRateDegPerS,
-                DriveConstants.kMaxTurnAccelerationDegPerSSquared)),
+            DriveConstants.kTurnD),
         // Close loop on heading
         navx::getHeading,
         // Set reference to target
         targetAngleDegrees,
         // Pipe output to turn robot
-        (output, setpoint) -> drive.aDrive(0, output),
+        output -> drive.aDriveAutoTurn(0, output),
         // Require the drive
         drive);
 
@@ -43,11 +41,13 @@ public class TurnGyroPID extends ProfiledPIDCommand {
     // setpoint before it is considered as having reached the reference
     getController()
         .setTolerance(DriveConstants.kTurnToleranceDeg, DriveConstants.kTurnRateToleranceDegPerS);
+    
+    // getController().se
   }
 
   @Override
   public boolean isFinished() {
     // End when the controller is at the reference.
-    return getController().atGoal();
+    return getController().atSetpoint();
   }
 }

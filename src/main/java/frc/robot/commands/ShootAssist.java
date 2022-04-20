@@ -7,6 +7,7 @@ import frc.robot.Common;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.independant.Intake;
 import frc.robot.subsystems.Intake.Intake_Centerer;
 import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
@@ -72,8 +73,8 @@ public class ShootAssist extends CommandBase {
     SmartDashboard.putBoolean("UP TO SPEED AUTO", m_common.getUpToSpeed());
       if (m_common.getUpToSpeed()) {
         m_kicker.runKicker(ShooterConstants.defKickerInRPM);
-        m_center.intake(IntakeConstants.defIntakePower);
-        m_roller.intake(0.5);
+        m_center.intake(IntakeConstants.defCenterPow);
+        m_roller.intake(IntakeConstants.defIntakeRollerPow);
       } else {
         m_kicker.runKicker(0);
         m_center.intake(0);
