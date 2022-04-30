@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class Taxi_2Ball extends SequentialCommandGroup {
+public class Left_Taxi_2Ball_Def2 extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final Drivetrain m_drivetrain;
@@ -49,7 +49,7 @@ public class Taxi_2Ball extends SequentialCommandGroup {
    *
    * @param driveSS The subsystem used by this command.
    */
-  public Taxi_2Ball(Drivetrain driveSS, 
+  public Left_Taxi_2Ball_Def2(Drivetrain driveSS, 
                     Intake_Actuate intakeActSS, Intake_Roller rollerSS, Intake_Centerer centererSS, 
                     Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS, Sensor_Limelight lime, Shooter_Hood hood, Sensor_NavX navx, Common common) {
 

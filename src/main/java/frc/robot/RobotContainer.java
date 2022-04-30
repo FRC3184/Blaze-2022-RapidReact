@@ -70,6 +70,21 @@ public class RobotContainer {
   private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
   private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
   private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_L1Ball = new Left_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
+  private final Command m_L2Ball = new Left_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_L2D1LBall = new Left_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_L2D1RBall = new Left_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_L2D2Ball = new Left_Taxi_2Ball_Def2(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_R1Ball = new Right_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
+  private final Command m_R2Ball = new Right_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_R3Ball = new Right_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_R2D1RBall = new Right_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_C1Ball = new Center_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
+  private final Command m_C2Ball = new Center_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_C3Ball = new Center_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_C4Ball = new Center_Taxi_4Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_C2D1LBall = new Center_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_C1D1Ball = new Center2_Taxi_1Ball_Def1(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -100,6 +115,21 @@ public class RobotContainer {
     m_chooser.setDefaultOption("3 Ball", m_3Ball);
     // m_chooser.addOption("4 Ball", m_2Ball);
     m_chooser.addOption("5 Ball", m_5Ball);
+    m_chooser.addOption("Left 1 Ball", m_L1Ball);
+    m_chooser.addOption("Left 2 Ball", m_L2Ball);
+    m_chooser.addOption("Left 2 Ball Def1L", m_L2D1LBall);
+    m_chooser.addOption("Left 2 Ball Def1R", m_L2D1RBall);
+    m_chooser.addOption("Left 2 Ball Def2", m_L2D2Ball);
+    m_chooser.addOption("Center 1 Ball", m_C1Ball);
+    m_chooser.addOption("Center 2 Ball", m_C2Ball);
+    m_chooser.addOption("Center 3 Ball", m_C3Ball);
+    m_chooser.addOption("Center 4 Ball", m_C4Ball);
+    m_chooser.addOption("Center 2 Ball Def1L", m_C2D1LBall);
+    m_chooser.addOption("CenterB 1 Ball Def1", m_C1D1Ball);
+    m_chooser.addOption("Right 1 Ball", m_R1Ball);
+    m_chooser.addOption("Right 2 Ball", m_R2Ball);
+    m_chooser.addOption("Right 2 Ball Def1R", m_R2D1RBall);
+    m_chooser.addOption("Right 3 Ball", m_R3Ball);
     SmartDashboard.putData("Select Autonomous", m_chooser);
 
     // CameraServer.getInstance().startAutmomaticCapture();
