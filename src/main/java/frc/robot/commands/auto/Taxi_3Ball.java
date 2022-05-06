@@ -6,7 +6,7 @@ package frc.robot.commands.auto;
 
 import frc.robot.Common;
 import frc.robot.Constants.TurnDir;
-import frc.robot.commands.HoodSetPosNew;
+import frc.robot.commands.HoodSetPos;
 import frc.robot.commands.IntakeODS;
 import frc.robot.commands.ShootAssist;
 import frc.robot.commands.ShootSpinUp;
@@ -76,7 +76,7 @@ public class Taxi_3Ball extends SequentialCommandGroup {
         // alignment pivot
         new TurnGyro(TurnDir.right, 6, 0.5, m_drivetrain, m_navx),
         // shoot 2 balls
-        new HoodSetPosNew(m_hood, m_limelight, true),
+        new HoodSetPos(m_hood, m_limelight, true),
         new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 2000)),
         // pivot towards third ball
         new TurnGyro(TurnDir.right, 100, 0.5, m_drivetrain, m_navx),
@@ -84,7 +84,7 @@ public class Taxi_3Ball extends SequentialCommandGroup {
         // align and shoot
         new TurnGyro(TurnDir.left, 55, 0.5, m_drivetrain, m_navx),
         new ZeroHood(m_hood),
-        new HoodSetPosNew(m_hood, m_limelight, true),
+        new HoodSetPos(m_hood, m_limelight, true),
         new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 2000)));
   }
 }

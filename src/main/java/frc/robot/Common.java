@@ -17,7 +17,9 @@ package frc.robot;
 public class Common {
 
     private boolean upToSpeed = false;
-    private boolean ballHigh = false; 
+    private boolean ballHigh = false;
+    public double smallFlySpeed = 0; 
+    public double bigFlySpeed = 0;
 
     public Common() {
 

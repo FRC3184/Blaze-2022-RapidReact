@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 /** A command that will turn the robot to the specified angle using a motion profile. */
 public class TurnGyroPID extends PIDCommand {
 
-  Sensor_NavX navX;
   /**
    * Turns to robot to the specified angle using a motion profile.
    *
    * @param targetAngleDegrees The angle to turn to
    * @param drive The drive subsystem to use
    */
+
+
   public TurnGyroPID(double targetAngleDegrees, Drivetrain drive, Sensor_NavX navx) {
     super(
         new PIDController(

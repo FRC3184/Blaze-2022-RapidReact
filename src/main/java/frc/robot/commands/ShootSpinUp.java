@@ -6,7 +6,6 @@ package frc.robot.commands;
 import frc.robot.Common;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
-import frc.robot.subsystems.Shooter.Shooter_Hood;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -98,16 +97,22 @@ public class ShootSpinUp extends CommandBase {
       }
   }
 
+  double speed[] = {0, 0};  //small big
+  double targetAngle = 0;
+
   public double[] calcShotSpeedWithLimelight() {
-    double targetDist = m_limelight.getDistFromFender();
-    double speed[] = {0, 0};
-    if (targetDist > 10) {
-      speed[0] = 4000;
-      speed[1] = 2500;
-    } else {
-      speed[0] = 4000;
-      speed[1] = 2100;
-    }
+    targetAngle = m_limelight.getTargetAngle();
+    
+    speed[0] = (0.0535*(Math.pow(targetAngle,3)))+(1.1854*(Math.pow(targetAngle, 2)))-(1.8222*targetAngle)+(1841.7);  //y = 0.0535x3 + 1.1854x2 - 1.8222x + 1841.7
+    speed[1] = (-0.0823*(Math.pow(targetAngle,3)))+(1.402*(Math.pow(targetAngle, 2)))-(29.47*targetAngle)+(2905.7); // y = -0.0823x3 + 1.402x2 - 29.47x + 2905.7
+
+    // if (targetAngle > 10) {
+    //   speed[0] = 4000;
+    //   speed[1] = 2500;
+    // } else {
+    //   speed[0] = 4000;
+    //   speed[1] = 2100;
+    // }
 
     return speed;
   }

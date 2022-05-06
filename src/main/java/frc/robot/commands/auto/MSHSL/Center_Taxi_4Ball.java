@@ -2,19 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.MSHSL;
 
 import frc.robot.Common;
 import frc.robot.Constants.TurnDir;
-import frc.robot.commands.HoodSetPosNew;
+import frc.robot.commands.HoodSetPos;
 import frc.robot.commands.IntakeODS;
 import frc.robot.commands.ShootAssist;
 import frc.robot.commands.ShootSpinUp;
 import frc.robot.commands.independant.HoodUp;
+import frc.robot.commands.independant.Intake;
 import frc.robot.commands.independant.IntakeDeploy;
+import frc.robot.commands.independant.IntakeRetract;
 import frc.robot.commands.independant.ZeroHood;
+import frc.robot.commands.independant.ZeroNavX;
 import frc.robot.commands.navigation.DriveGyroDistance;
 import frc.robot.commands.navigation.TurnGyro;
+import frc.robot.commands.navigation.TurnGyroPID;
+import frc.robot.commands.navigation.TurnGyroPIDTimeout;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Intake.Intake_Actuate;
 import frc.robot.subsystems.Intake.Intake_Centerer;
@@ -41,8 +46,8 @@ public class Center_Taxi_4Ball extends SequentialCommandGroup {
   private final Sensor_Limelight m_limelight;
   private final Shooter_Hood m_hood;
   private final Sensor_NavX m_navx;
-  private final Sensor_ODS m_ODSHigh;
   private final Common m_common;
+  private final Sensor_ODS m_ods;
 
   /**
    * Creates a new ExampleCommand.
@@ -53,38 +58,39 @@ public class Center_Taxi_4Ball extends SequentialCommandGroup {
                     Intake_Actuate intakeActSS, Intake_Roller rollerSS, Intake_Centerer centererSS, 
                     Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS, Sensor_Limelight lime, Shooter_Hood hood, Sensor_NavX navx, Sensor_ODS ods, Common common) {
 
-    m_drivetrain = driveSS;
-    m_intakeActuate = intakeActSS;
-    m_intakeRoller = rollerSS;
-    m_intakeCenterer = centererSS;
-    m_flywheels = flywheelsSS;
-    m_kicker = kickerSS;
-    m_common = common;
-    m_limelight = lime;
-    m_navx = navx;
-    m_ODSHigh = ods;
-    m_hood = hood;
+      m_drivetrain = driveSS;
+      m_intakeActuate = intakeActSS;
+      m_intakeRoller = rollerSS;
+      m_intakeCenterer = centererSS;
+      m_flywheels = flywheelsSS;
+      m_kicker = kickerSS;
+      m_common = common;
+      m_limelight = lime;
+      m_navx = navx;
+      m_hood = hood;
+      m_ods = ods;
 
 
     addCommands(
-        // deploy intake
-        new HoodUp(m_hood, 250),
-        new ZeroHood(m_hood),
-        new IntakeDeploy(m_intakeActuate, 200),
-        // drive to ball 2
-        new ParallelCommandGroup(new DriveGyroDistance(39, 0.5, m_drivetrain, m_navx), new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh, 2000)),
-        // alignment pivot
-        new TurnGyro(TurnDir.right, 6, 0.5, m_drivetrain, m_navx),
-        // shoot 2 balls
-        new HoodSetPosNew(m_hood, m_limelight, true),
-        new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 2000)),
-        // pivot towards third ball
-        new TurnGyro(TurnDir.right, 100, 0.5, m_drivetrain, m_navx),
-        new ParallelCommandGroup(new DriveGyroDistance(165, 0.5, m_drivetrain, m_navx), new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh, 4000)),
-        // align and shoot
-        new TurnGyro(TurnDir.left, 55, 0.5, m_drivetrain, m_navx),
-        new ZeroHood(m_hood),
-        new HoodSetPosNew(m_hood, m_limelight, true),
-        new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 2000)));
-  }
+      new ZeroNavX(m_navx),
+      new ParallelCommandGroup(new DriveGyroDistance(15, 0.7, m_drivetrain, m_navx), new IntakeDeploy(m_intakeActuate, 300)),
+      new TurnGyroPIDTimeout(-12, m_drivetrain, m_navx, 500),
+      new ParallelCommandGroup(new DriveGyroDistance(30, 0.7, m_drivetrain, m_navx), new IntakeDeploy(m_intakeActuate, 300), new Intake(2000, m_intakeRoller)),
+      // turn on intake, start driving forward
+      new ZeroNavX(m_navx),
+      // new ParallelCommandGroup(new DriveGyroDistance(35, 0.9, m_drivetrain, m_navx), new Intake(3000, m_intakeRoller)),
+      new ParallelCommandGroup(new IntakeRetract(m_intakeActuate, 300), new HoodUp(m_hood, 250)),
+      // new IntakeRetract(m_intakeActuate, 500),
+      // start up shooter wheel
+      // run center and kicker wheel
+      // new HoodUp(m_hood, 250),
+      new ZeroHood(m_hood),
+      new HoodSetPos(m_hood, m_limelight, true),
+      new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 3000)),
+      new ParallelCommandGroup(new TurnGyroPIDTimeout(15, m_drivetrain, m_navx, 700), new IntakeDeploy(m_intakeActuate, 500)),
+      // turn on intake, start driving forward
+      new ParallelCommandGroup(new DriveGyroDistance(145, 0.8, m_drivetrain, m_navx), new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ods, 5000)),
+      new Intake(3000, m_intakeRoller));
+      // new ParallelCommandGroup(new IntakeRetract(m_intakeActuate, 1000), new DriveGyroDistance(50, -0.75, m_drivetrain, m_navx)));
+    }
 }

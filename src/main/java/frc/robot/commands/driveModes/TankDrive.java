@@ -36,8 +36,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
+    // SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
+    // SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
 
     m_drivetrain.aDrive(-driveController.getLeftY(), 
                        -driveController.getRightY());

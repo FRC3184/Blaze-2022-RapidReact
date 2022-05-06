@@ -55,7 +55,8 @@ public class TurnGyro extends CommandBase {
   public void execute() {
     // negative = left, positive = right
     error = targetHeading - m_navX.getYaw();
-    delta = Math.pow((error * 2), kP) - 1;
+    // delta = Math.pow((error * 2), kP) - 1;
+    delta = error * 0.01;
     if (delta > 1.0) {
       delta = 1.0;
     } else if (delta < -1.0) {

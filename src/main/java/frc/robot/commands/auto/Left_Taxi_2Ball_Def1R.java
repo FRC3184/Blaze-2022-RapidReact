@@ -5,7 +5,7 @@
 package frc.robot.commands.auto;
 
 import frc.robot.Common;
-import frc.robot.commands.HoodSetPosNew;
+import frc.robot.commands.HoodSetPos;
 import frc.robot.commands.ShootAssist;
 import frc.robot.commands.ShootSpinUp;
 // import frc.robot.commands.SpinUpThenKick;
@@ -69,7 +69,7 @@ public class Left_Taxi_2Ball_Def1R extends SequentialCommandGroup {
         // shoot first ball
         new HoodUp(m_hood, 250),
         new ZeroHood(m_hood),
-        new HoodSetPosNew(m_hood, m_limelight, true),
+        new HoodSetPos(m_hood, m_limelight, true),
         new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 3000)),
         // deploy intake
         new IntakeDeploy(m_intakeActuate, 200),
@@ -80,7 +80,7 @@ public class Left_Taxi_2Ball_Def1R extends SequentialCommandGroup {
         // // start up shooter wheel
         // // run center and kicker wheel
         new ZeroHood(m_hood),
-        new HoodSetPosNew(m_hood, m_limelight, true),
+        new HoodSetPos(m_hood, m_limelight, true),
         new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 3000)));
   }
 }

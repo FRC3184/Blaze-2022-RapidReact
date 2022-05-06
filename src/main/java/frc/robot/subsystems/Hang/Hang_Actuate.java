@@ -74,7 +74,9 @@ public class Hang_Actuate extends SubsystemBase {
     // }
 
     public void dashboardOut() {
+        if (ModeConstants.hangActuateDebug) {
         // SmartDashboard.putBoolean("HangUpActuateLimit", getHangUpAcutateLimit());
         // SmartDashboard.putBoolean("HangDownActuateLimit", getHangDownActuateLimit());
-      }
+        }
+    }
 }

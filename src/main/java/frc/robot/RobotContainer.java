@@ -13,6 +13,11 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
+import frc.robot.commands.auto.MSHSL.Center_Taxi_2Ball;
+import frc.robot.commands.auto.MSHSL.Center_Taxi_4Ball;
+import frc.robot.commands.auto.MSHSL.Left_Taxi_2Ball;
+import frc.robot.commands.auto.MSHSL.Right_Taxi_2Ball;
+import frc.robot.commands.auto.MSHSL.Right_Taxi_2Ball_Def1R;
 import frc.robot.commands.driveModes.*;
 import frc.robot.commands.independant.ActuateIn;
 import frc.robot.commands.independant.ActuateOut;
@@ -97,6 +102,9 @@ public class RobotContainer {
   private JoystickAnalogButton m_gunnerTriggerR = new JoystickAnalogButton(m_gunnerController, 3);
   private JoystickAnalogButton m_gunnerTriggerL = new JoystickAnalogButton(m_gunnerController, 2);
 
+  private double smallWheelSpeed = 3000;
+  private double bigWheelSpeed = 5000;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -110,26 +118,26 @@ public class RobotContainer {
 
     // Configure autonomous options
     m_chooser.addOption("Auto Test", m_autoTest);
-    m_chooser.addOption("Taxi", m_taxiOnly);
-    m_chooser.addOption("2 Ball", m_2Ball);
-    m_chooser.setDefaultOption("3 Ball", m_3Ball);
-    // m_chooser.addOption("4 Ball", m_2Ball);
-    m_chooser.addOption("5 Ball", m_5Ball);
-    m_chooser.addOption("Left 1 Ball", m_L1Ball);
+    // m_chooser.addOption("Taxi", m_taxiOnly);
+    // m_chooser.addOption("2 Ball", m_2Ball);
+    // m_chooser.setDefaultOption("3 Ball", m_3Ball);
+    // // m_chooser.addOption("4 Ball", m_2Ball);
+    // m_chooser.addOption("5 Ball", m_5Ball);
+    // m_chooser.addOption("Left 1 Ball", m_L1Ball);
     m_chooser.addOption("Left 2 Ball", m_L2Ball);
-    m_chooser.addOption("Left 2 Ball Def1L", m_L2D1LBall);
-    m_chooser.addOption("Left 2 Ball Def1R", m_L2D1RBall);
-    m_chooser.addOption("Left 2 Ball Def2", m_L2D2Ball);
-    m_chooser.addOption("Center 1 Ball", m_C1Ball);
+    // m_chooser.addOption("Left 2 Ball Def1L", m_L2D1LBall);
+    // m_chooser.addOption("Left 2 Ball Def1R", m_L2D1RBall);
+    // m_chooser.addOption("Left 2 Ball Def2", m_L2D2Ball);
+    // m_chooser.addOption("Center 1 Ball", m_C1Ball);
     m_chooser.addOption("Center 2 Ball", m_C2Ball);
-    m_chooser.addOption("Center 3 Ball", m_C3Ball);
+    // m_chooser.addOption("Center 3 Ball", m_C3Ball);
     m_chooser.addOption("Center 4 Ball", m_C4Ball);
-    m_chooser.addOption("Center 2 Ball Def1L", m_C2D1LBall);
-    m_chooser.addOption("CenterB 1 Ball Def1", m_C1D1Ball);
-    m_chooser.addOption("Right 1 Ball", m_R1Ball);
+    // m_chooser.addOption("Center 2 Ball Def1L", m_C2D1LBall);
+    // m_chooser.addOption("CenterB 1 Ball Def1", m_C1D1Ball);
+    // m_chooser.addOption("Right 1 Ball", m_R1Ball);
     m_chooser.addOption("Right 2 Ball", m_R2Ball);
     m_chooser.addOption("Right 2 Ball Def1R", m_R2D1RBall);
-    m_chooser.addOption("Right 3 Ball", m_R3Ball);
+    // m_chooser.addOption("Right 3 Ball", m_R3Ball);
     SmartDashboard.putData("Select Autonomous", m_chooser);
 
     // CameraServer.getInstance().startAutmomaticCapture();
@@ -164,15 +172,16 @@ public class RobotContainer {
     new JoystickButton(m_gunnerController, Button.kBack.value).whenHeld(new HoodUp(m_hood));
     new JoystickButton(m_gunnerController, Button.kStart.value).whenHeld(new HoodDown(m_hood));
     new POVButton(m_gunnerController, 90).whenHeld(new ShootReverse(m_kicker));
-    new POVButton(m_gunnerController, 270).whenHeld(new HoodSetPosNew(m_hood, m_limelight));
+    new POVButton(m_gunnerController, 270).whenHeld(new HoodSetPos(m_hood, m_limelight));
     new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller));
-    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 2800, 2600));  //small/big
-    m_gunnerTriggerR.whenHeld(new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheel, m_limelight), new HoodSetPosNew(m_hood, m_limelight)));
+
+    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, smallWheelSpeed, bigWheelSpeed));  //small/big
+    m_gunnerTriggerR.whenHeld(new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheel, m_limelight), new HoodSetPos(m_hood, m_limelight)));
     
     new JoystickButton(m_gunnerController, Button.kLeftBumper.value).whenHeld(new ParallelCommandGroup(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh), 
                                                        new IntakeDeploy(m_intakeAcutate)));
     // m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
-    // m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 5500, 2500));  // 5500, 2500
+    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3400, 1700));  // small big
   }
 
   public Drivetrain getRobotDrive() {

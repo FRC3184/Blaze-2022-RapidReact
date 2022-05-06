@@ -5,10 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.simulation.BatterySim;
 //import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Common;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Common m_common = new Common();
 
   private RobotContainer m_robotContainer;
 
@@ -61,6 +64,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    // m_common.smallFlySpeed = SmartDashboard.getEntry("Small Wheel Speed").getDouble(m_common.smallFlySpeed);
+    // m_common.bigFlySpeed = SmartDashboard.getEntry("Big Wheel Speed").getDouble(m_common.bigFlySpeed);
+    // SmartDashboard.putNumber("Small Wheel Speed", m_common.smallFlySpeed);
+    // SmartDashboard.putNumber("Big Wheel Speed", m_common.bigFlySpeed);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

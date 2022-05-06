@@ -39,8 +39,8 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
+    // SmartDashboard.putNumber("Left Joystick", driveController.getLeftY());
+    // SmartDashboard.putNumber("Right Joystick", driveController.getRightY());
     if (driveController.getAButtonReleased()) {
       if (scaleFactor == fastSpeed) {
         scaleFactor = slowSpeed;

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class HoodSetPosNew extends CommandBase {
+public class HoodSetPos extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final Shooter_Hood m_hood;
@@ -24,14 +24,14 @@ public class HoodSetPosNew extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public HoodSetPosNew(Shooter_Hood subsystem, Sensor_Limelight lime) {
+  public HoodSetPos(Shooter_Hood subsystem, Sensor_Limelight lime) {
     m_hood = subsystem;
     m_limelight = lime;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_hood);
   }
 
-  public HoodSetPosNew(Shooter_Hood subsystem, Sensor_Limelight lime, boolean auto) {
+  public HoodSetPos(Shooter_Hood subsystem, Sensor_Limelight lime, boolean auto) {
     m_hood = subsystem;
     m_limelight = lime;
     m_auto = auto;
@@ -52,7 +52,7 @@ public class HoodSetPosNew extends CommandBase {
   @Override
   public void execute() {
     SmartDashboard.putNumber("Hood Calc", calcHoodWithLimelight());
-      if (calcHoodWithLimelight() > 24) {
+      if (calcHoodWithLimelight() > 45) {
         targetPos = m_hood.getHoodEnc();
       } else {
         targetPos = calcHoodWithLimelight();
@@ -88,7 +88,7 @@ public class HoodSetPosNew extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_auto){
-      return (Math.abs(error) < hoodDeadZone || Math.abs(error) > 22);
+      return (Math.abs(error) < hoodDeadZone || Math.abs(error) > 45);
     } else {
       return false;
     }
@@ -96,6 +96,8 @@ public class HoodSetPosNew extends CommandBase {
 
   public double calcHoodWithLimelight() {
     // old value with 22 click = 1.75
-    return (m_limelight.getDistFromFender() + 1.75) * 2;
+    // return (m_limelight.getDistFromFender() + 1.75) * 2;
+    return ((-0.9534 * m_limelight.getTargetAngle()) + 24.692); //y = -0.9534x + 24.692
+
   }
 }

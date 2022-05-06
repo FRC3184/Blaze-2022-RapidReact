@@ -86,6 +86,11 @@ public class Sensor_Limelight extends SubsystemBase {
             return false;
         }
     }
+
+    public double getTargetAngle() {
+        double limeAngle = limeTable.getEntry("ty").getDouble(100);
+        return limeAngle;
+    }
     public double getDistFromFender() {
         double limeAngle = limeTable.getEntry("ty").getDouble(100);
         return (0.0084 * Math.pow(limeAngle, 2)) - (0.3072 * limeAngle) + (3.4474);

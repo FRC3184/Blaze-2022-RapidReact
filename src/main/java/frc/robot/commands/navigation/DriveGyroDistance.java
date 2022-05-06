@@ -21,7 +21,7 @@ public class DriveGyroDistance extends CommandBase {
   private double targetHeading = 0;
   private double currHeading = 0;
   private double error, delta;
-  private double kP = 0.027;
+  private double kP = 0.01;
 
   /**
    * Creates a new DriveTime.
@@ -56,13 +56,18 @@ public class DriveGyroDistance extends CommandBase {
   @Override
   public void execute() {
     dashboardOut();
-    if (m_lspeed < m_speed || m_rspeed < m_speed)
+    if (m_speed > 0 && (m_lspeed < m_speed || m_rspeed < m_speed))
     {
-      m_lspeed += 0.0075;
-      m_rspeed += 0.0075;
+      m_lspeed += 0.02;
+      m_rspeed += 0.02;
+    } else if (m_speed < 0 && (m_lspeed > m_speed || m_rspeed > m_speed))
+    {
+      m_lspeed -= 0.02;
+      m_rspeed -= 0.02;
     }
     error = -(m_navX.getYaw());
-    delta = error * kP;
+    // delta = error * kP;
+    delta = 0;
     m_drive.tankDrive(m_lspeed + delta, m_rspeed - delta);
   }
 
@@ -77,10 +82,10 @@ public class DriveGyroDistance extends CommandBase {
   }
 
   public void dashboardOut() {
-    SmartDashboard.putNumber("LEFTDriveSpeed", m_lspeed);
-    SmartDashboard.putNumber("RIGHTDriveSpeed", m_rspeed);
-    SmartDashboard.putNumber("error", error);
-    SmartDashboard.putNumber("delta", delta);
+    // SmartDashboard.putNumber("LEFTDriveSpeed", m_lspeed);
+    // SmartDashboard.putNumber("RIGHTDriveSpeed", m_rspeed);
+    // SmartDashboard.putNumber("error", error);
+    // SmartDashboard.putNumber("delta", delta);
 
 
 

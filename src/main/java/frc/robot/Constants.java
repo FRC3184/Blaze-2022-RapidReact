@@ -29,17 +29,17 @@ public final class Constants {
     public static final class ModeConstants {
         public static final Modes mode = Modes.competition;
         public static final boolean odsDebug = false;
-        public static final boolean navxDebug = false;
+        public static final boolean navxDebug = true;
         public static final boolean driveDebug = false;
-        public static final boolean limelightDebug = false;
+        public static final boolean limelightDebug = true;
         public static final boolean intakeRollerDebug = false;
         public static final boolean intakeCenterDebug = false;
         public static final boolean intakeActuateDebug = false;
         public static final boolean shootKickerDebug = false;
         public static final boolean shootFlywheelDebug = true;
         public static final boolean shootHoodDebug = true;
-        public static final boolean hangActuateDebug = false;
-        public static final boolean hangWinchDebug = false;
+        public static final boolean hangActuateDebug = true;
+        public static final boolean hangWinchDebug = true;
     }
 
     // Constants for the intake
@@ -58,7 +58,7 @@ public final class Constants {
         // DEFAULT POWER SETTINGS
         public static final double defIntakeRollerPow = 0.5;
         public static final double defCenterPow = 0.3;
-        public static final double defIntakeActuatePow = 0.15;
+        public static final double defIntakeActuatePow = 0.2;
         // INVERSION SETTINGS
         public static final boolean intakeRollerInverted = false;
         public static final boolean intakeLeftArmInverted = true;
@@ -119,7 +119,7 @@ public final class Constants {
 
     // Constants for the drivetrain
     public static final class DriveConstants {
-        public static final double inchToClickScaler = 0.67/*89655*/;
+        public static final double inchToClickScaler = 0.62/*89655*/;
         // DRIVE CONSTANTS SHOULD DEFAULT TO COMP ROBOT SETTINGS
         // Motor CAN port
         public static final int kLeftFrontMotorPort = 16;
@@ -135,7 +135,7 @@ public final class Constants {
         public static final boolean rightInverted = true;
         public static final boolean leftInverted = false;
 
-        public static final double kTurnP = 0.075;
+        public static final double kTurnP = 0.04;
         public static final double kTurnI = 0; //0.00005; //0.0001; //0.002;
         public static final double kTurnD = 0; //0.003; //0.0001;
 

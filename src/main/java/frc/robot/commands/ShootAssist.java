@@ -5,15 +5,11 @@
 package frc.robot.commands;
 import frc.robot.Common;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.commands.independant.Intake;
 import frc.robot.subsystems.Intake.Intake_Centerer;
 import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
-import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -21,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ShootAssist extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final Sensor_Limelight m_limelight;
   private final Shooter_Kicker m_kicker;
   private final Intake_Centerer m_center;
   private final Intake_Roller m_roller;
@@ -37,7 +32,6 @@ public class ShootAssist extends CommandBase {
    * @param flywheel The subsystem used by this command.
    */
   public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller) {
-    m_limelight = limelight;
     m_kicker = kicker;
     m_center = center;
     m_roller = roller;
@@ -47,7 +41,6 @@ public class ShootAssist extends CommandBase {
   }
 
   public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller, double time) {
-    m_limelight = limelight;
     m_kicker = kicker;
     m_center = center;
     m_roller = roller;

@@ -34,11 +34,11 @@ public class AutonomousTest extends SequentialCommandGroup {
     addCommands(
         // drive straight for 5 seconds
         // new CenterTarget(TurnDir.right, 45.0, 0.3, m_drivetrain, m_navX, m_limelight)
-        // new DriveGyroDistance(200, 0.5, m_drivetrain, m_navX)
+        new DriveGyroDistance(100, -0.5, m_drivetrain, m_navX)
         // new DriveDistance(5, 0.3, m_drivetrain)
         // new CenterIntake(m_center)
-        new TurnGyroPID(5, drive, navX)
-        // new TurnGyro(Constants.TurnDir.left, 45, 0.5, m_drivetrain, m_navX)
+        // new TurnGyroPID(45, drive, navX)
+        // new TurnGyro(Constants.TurnDir.right, 45, 0.7, m_drivetrain, m_navX)
     );
   }
 }
