@@ -29,14 +29,14 @@ public final class Constants {
     public static final class ModeConstants {
         public static final Modes mode = Modes.competition;
         public static final boolean odsDebug = false;
-        public static final boolean navxDebug = true;
+        public static final boolean navxDebug = false;
         public static final boolean driveDebug = false;
-        public static final boolean limelightDebug = true;
+        public static final boolean limelightDebug = false;
         public static final boolean intakeRollerDebug = false;
         public static final boolean intakeCenterDebug = false;
-        public static final boolean intakeActuateDebug = false;
+        public static final boolean intakeActuateDebug = true;
         public static final boolean shootKickerDebug = false;
-        public static final boolean shootFlywheelDebug = true;
+        public static final boolean shootFlywheelDebug = false;
         public static final boolean shootHoodDebug = true;
         public static final boolean hangActuateDebug = true;
         public static final boolean hangWinchDebug = true;

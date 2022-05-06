@@ -80,10 +80,6 @@ public class Center_Taxi_4Ball extends SequentialCommandGroup {
       new ZeroNavX(m_navx),
       // new ParallelCommandGroup(new DriveGyroDistance(35, 0.9, m_drivetrain, m_navx), new Intake(3000, m_intakeRoller)),
       new ParallelCommandGroup(new IntakeRetract(m_intakeActuate, 300), new HoodUp(m_hood, 250)),
-      // new IntakeRetract(m_intakeActuate, 500),
-      // start up shooter wheel
-      // run center and kicker wheel
-      // new HoodUp(m_hood, 250),
       new ZeroHood(m_hood),
       new HoodSetPos(m_hood, m_limelight, true),
       new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 3000)),

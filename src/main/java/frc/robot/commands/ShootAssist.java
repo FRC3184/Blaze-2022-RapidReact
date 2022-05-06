@@ -63,7 +63,6 @@ public class ShootAssist extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("UP TO SPEED AUTO", m_common.getUpToSpeed());
       if (m_common.getUpToSpeed()) {
         m_kicker.runKicker(ShooterConstants.defKickerInRPM);
         m_center.intake(IntakeConstants.defCenterPow);
