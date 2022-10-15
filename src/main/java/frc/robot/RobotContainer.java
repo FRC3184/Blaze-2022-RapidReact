@@ -18,6 +18,7 @@ import frc.robot.commands.auto.MSHSL.Center_Taxi_4Ball;
 import frc.robot.commands.auto.MSHSL.Left_Taxi_2Ball;
 import frc.robot.commands.auto.MSHSL.Right_Taxi_2Ball;
 import frc.robot.commands.auto.MSHSL.Right_Taxi_2Ball_Def1R;
+import frc.robot.commands.auto.MSHSL.Taxi_1Ball_Aim;
 import frc.robot.commands.driveModes.*;
 import frc.robot.commands.independant.ActuateIn;
 import frc.robot.commands.independant.ActuateOut;
@@ -72,24 +73,25 @@ public class RobotContainer {
   // A simple autonomous routine that shoots the loaded frisbees
   private final Command m_autoTest = new AutonomousTest(m_drivetrain, m_navX, m_limelight);
   private final Command m_taxiOnly = new Taxi(m_drivetrain);
-  private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
-  private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  // private final Command m_2Ball = new Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  // private final Command m_3Ball = new Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  // private final Command m_5Ball = new Taxi_5Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
   private final Command m_L1Ball = new Left_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
-  private final Command m_L2Ball = new Left_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_L2D1LBall = new Left_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_L2D1RBall = new Left_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_L2D2Ball = new Left_Taxi_2Ball_Def2(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_L2Ball = new Left_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  // private final Command m_L2D1LBall = new Left_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  // private final Command m_L2D1RBall = new Left_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  // private final Command m_L2D2Ball = new Left_Taxi_2Ball_Def2(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
   private final Command m_R1Ball = new Right_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
-  private final Command m_R2Ball = new Right_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_R3Ball = new Right_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
-  private final Command m_R2D1RBall = new Right_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  private final Command m_R2Ball = new Right_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  // private final Command m_R3Ball = new Right_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_R2D1RBall = new Right_Taxi_2Ball_Def1R(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
   private final Command m_C1Ball = new Center_Taxi_1Ball(m_drivetrain, m_flywheel, m_kicker);
-  private final Command m_C2Ball = new Center_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_C3Ball = new Center_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_1Ball = new Taxi_1Ball_Aim(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  private final Command m_C2Ball = new Center_Taxi_2Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
+  // private final Command m_C3Ball = new Center_Taxi_3Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
   private final Command m_C4Ball = new Center_Taxi_4Ball(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_ODSHigh, m_common);
-  private final Command m_C2D1LBall = new Center_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
-  private final Command m_C1D1Ball = new Center2_Taxi_1Ball_Def1(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  // private final Command m_C2D1LBall = new Center_Taxi_2Ball_Def1L(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
+  // private final Command m_C1D1Ball = new Center2_Taxi_1Ball_Def1(m_drivetrain, m_intakeAcutate, m_intakeRoller, m_intakeCenterer, m_flywheel, m_kicker, m_limelight, m_hood, m_navX, m_common);
 
   // autonomous chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -117,13 +119,14 @@ public class RobotContainer {
     // m_flywheel.setDefaultCommand(new Shoot(m_flywheel, m_limelight));
 
     // Configure autonomous options
-    m_chooser.addOption("Auto Test", m_autoTest);
+    // m_chooser.addOption("Auto Test", m_autoTest);
     // m_chooser.addOption("Taxi", m_taxiOnly);
     // m_chooser.addOption("2 Ball", m_2Ball);
     // m_chooser.setDefaultOption("3 Ball", m_3Ball);
     // // m_chooser.addOption("4 Ball", m_2Ball);
     // m_chooser.addOption("5 Ball", m_5Ball);
     // m_chooser.addOption("Left 1 Ball", m_L1Ball);
+    m_chooser.addOption("Point Taxi 1 Ball", m_1Ball);
     m_chooser.addOption("Left 2 Ball", m_L2Ball);
     // m_chooser.addOption("Left 2 Ball Def1L", m_L2D1LBall);
     // m_chooser.addOption("Left 2 Ball Def1R", m_L2D1RBall);
@@ -163,25 +166,31 @@ public class RobotContainer {
 
 
     // GUNNER JOYSTICK
+    // WINCH : Y - winch out, A - winch in
     new JoystickButton(m_gunnerController, Button.kY.value).whenHeld(new WinchOut(m_hangWinch));
     new JoystickButton(m_gunnerController, Button.kA.value).whenHeld(new WinchIn(m_hangWinch));
+    // INTAKE : X - Retract Intake, B - Deploy Intake
     new JoystickButton(m_gunnerController, Button.kX.value).whenHeld(new IntakeRetract(m_intakeAcutate));
     new JoystickButton(m_gunnerController, Button.kB.value).whenHeld(new IntakeDeploy(m_intakeAcutate));
+    // HANG ACTUATE : Dpad Up - Actuate In, Dpad Down - Actuate Out
     new POVButton(m_gunnerController, 0).whenHeld(new ActuateIn(m_hangActuate));
     new POVButton(m_gunnerController, 180).whenHeld(new ActuateOut(m_hangActuate));
+    // HOOD : Back - hood up, Start - hood down, Dpad Right - Auto Hood
     new JoystickButton(m_gunnerController, Button.kBack.value).whenHeld(new HoodUp(m_hood));
     new JoystickButton(m_gunnerController, Button.kStart.value).whenHeld(new HoodDown(m_hood));
     new POVButton(m_gunnerController, 90).whenHeld(new ShootReverse(m_kicker));
+    // KICKER : Dpad Left - reverse kicker
     new POVButton(m_gunnerController, 270).whenHeld(new HoodSetPos(m_hood, m_limelight));
-    new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller));
-
-    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, smallWheelSpeed, bigWheelSpeed));  //small/big
+    // SHOOTER : Left stick click - shoot
+    new JoystickButton(m_gunnerController, Button.kLeftStick.value).whenHeld(new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, m_ODSHigh));
+    // FLYWHEELS : Right Trigger - Default Auto Shoot, Right bumper - Low Goal, Left Trigger - backup high shot
     m_gunnerTriggerR.whenHeld(new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheel, m_limelight), new HoodSetPos(m_hood, m_limelight)));
-    
+    new JoystickButton(m_gunnerController, Button.kRightBumper.value).whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3400, 1700));  //small/big
+    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 1900, 3900));  // small big
+  
     new JoystickButton(m_gunnerController, Button.kLeftBumper.value).whenHeld(new ParallelCommandGroup(new IntakeODS(m_intakeRoller, m_intakeCenterer, m_kicker, m_ODSHigh), 
                                                        new IntakeDeploy(m_intakeAcutate)));
-    // m_gunnerTriggerR.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight));
-    m_gunnerTriggerL.whenHeld(new ShootSpinUp(m_common, m_flywheel, m_limelight, 3400, 1700));  // small big
+    
   }
 
   public Drivetrain getRobotDrive() {

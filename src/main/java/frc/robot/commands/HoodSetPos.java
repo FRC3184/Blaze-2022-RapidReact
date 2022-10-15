@@ -16,7 +16,8 @@ public class HoodSetPos extends CommandBase {
   private final Shooter_Hood m_hood;
   private final Sensor_Limelight m_limelight;
   private double targetPos, currPos, error, speed;
-  private double hoodDeadZone = 0.5;
+  private double hoodDeadZone = 1.0;
+  private double hoodMax = 47;
   private boolean m_auto = false;
 
   /**
@@ -52,7 +53,7 @@ public class HoodSetPos extends CommandBase {
   @Override
   public void execute() {
     SmartDashboard.putNumber("Hood Calc", calcHoodWithLimelight());
-      if (calcHoodWithLimelight() > 45) {
+      if (calcHoodWithLimelight() > hoodMax) {
         targetPos = m_hood.getHoodEnc();
       } else {
         targetPos = calcHoodWithLimelight();
@@ -88,7 +89,7 @@ public class HoodSetPos extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_auto){
-      return (Math.abs(error) < hoodDeadZone || Math.abs(error) > 45);
+      return (Math.abs(error) < hoodDeadZone || Math.abs(error) > hoodMax);
     } else {
       return false;
     }

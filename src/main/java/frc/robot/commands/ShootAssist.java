@@ -9,6 +9,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake.Intake_Centerer;
 import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
+import frc.robot.subsystems.Sensors.Sensor_ODS;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,6 +21,7 @@ public class ShootAssist extends CommandBase {
   private final Shooter_Kicker m_kicker;
   private final Intake_Centerer m_center;
   private final Intake_Roller m_roller;
+  private Sensor_ODS m_ODS;
   private final Common m_common;
 
   private double m_mSecs;
@@ -40,11 +42,22 @@ public class ShootAssist extends CommandBase {
     addRequirements(m_kicker, m_center);
   }
 
-  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller, double time) {
+  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller, Sensor_ODS ods) {
     m_kicker = kicker;
     m_center = center;
     m_roller = roller;
     m_common = common;
+    m_ODS = ods;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_kicker, m_center);
+  }
+
+  public ShootAssist(Common common, Sensor_Limelight limelight, Shooter_Kicker kicker, Intake_Centerer center, Intake_Roller roller, Sensor_ODS ods, double time) {
+    m_kicker = kicker;
+    m_center = center;
+    m_roller = roller;
+    m_common = common;
+    m_ODS = ods;
     m_mSecs = time;
     timerOn = true;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -65,8 +78,16 @@ public class ShootAssist extends CommandBase {
   public void execute() {
       if (m_common.getUpToSpeed()) {
         m_kicker.runKicker(ShooterConstants.defKickerInRPM);
-        m_center.intake(IntakeConstants.defCenterPow);
-        m_roller.intake(IntakeConstants.defIntakeRollerPow);
+        if (m_ODS.getODSVal() < ShooterConstants.ODSlimit) {
+          m_center.intake(IntakeConstants.defCenterPow);
+          m_roller.intake(IntakeConstants.defIntakeRollerPow);
+        } else if (m_ODS == null) {
+          m_center.intake(IntakeConstants.defCenterPow);
+          m_roller.intake(IntakeConstants.defIntakeRollerPow);
+        } else {
+          m_center.intake(0);
+          m_roller.intake(0);
+        }
       } else {
         m_kicker.runKicker(0);
         m_center.intake(0);

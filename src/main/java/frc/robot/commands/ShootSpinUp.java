@@ -104,7 +104,8 @@ public class ShootSpinUp extends CommandBase {
     targetAngle = m_limelight.getTargetAngle();
     
     speed[0] = (0.0535*(Math.pow(targetAngle,3)))+(1.1854*(Math.pow(targetAngle, 2)))-(1.8222*targetAngle)+(1841.7);  //y = 0.0535x3 + 1.1854x2 - 1.8222x + 1841.7
-    speed[1] = (-0.0823*(Math.pow(targetAngle,3)))+(1.402*(Math.pow(targetAngle, 2)))-(29.47*targetAngle)+(2905.7); // y = -0.0823x3 + 1.402x2 - 29.47x + 2905.7
+    // speed[1] = (-0.0508*(Math.pow(targetAngle,3)))+(0.2784*(Math.pow(targetAngle, 2)))-(23.001*targetAngle)+(2956.3); // y = -0.0823x3 + 1.402x2 - 29.47x + 2905.7
+    speed[1] = (-0.0862*(Math.pow(targetAngle,3)))+(0.5153*(Math.pow(targetAngle, 2)))-(5.7743*targetAngle)+(2852.6); // y = -0.0823x3 + 1.402x2 - 29.47x + 2905.7
 
     // if (targetAngle > 10) {
     //   speed[0] = 4000;

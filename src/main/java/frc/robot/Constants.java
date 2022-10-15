@@ -28,15 +28,15 @@ public final class Constants {
     // sets the robot mode, and debug outputs
     public static final class ModeConstants {
         public static final Modes mode = Modes.competition;
-        public static final boolean odsDebug = false;
+        public static final boolean odsDebug = true;
         public static final boolean navxDebug = false;
         public static final boolean driveDebug = false;
-        public static final boolean limelightDebug = false;
+        public static final boolean limelightDebug = true;
         public static final boolean intakeRollerDebug = false;
         public static final boolean intakeCenterDebug = false;
         public static final boolean intakeActuateDebug = true;
         public static final boolean shootKickerDebug = false;
-        public static final boolean shootFlywheelDebug = false;
+        public static final boolean shootFlywheelDebug = true;
         public static final boolean shootHoodDebug = true;
         public static final boolean hangActuateDebug = true;
         public static final boolean hangWinchDebug = true;
@@ -73,9 +73,9 @@ public final class Constants {
         public static final double defShotRPM = 2500;
         public static final double defKickerOutRPM = -1500;
         public static final double defKickerInRPM = 1000;
-        public static final double defHoodRPM = 2000;
+        public static final double defHoodRPM = 2500;
 
-        public static final double ODSlimit = 100;
+        public static final double ODSlimit = 85;
         // MOTOR PORTS
         public static final int kBackShooterMotorPort = 1;
         public static final int kFrontShooterMotorPort = 10;

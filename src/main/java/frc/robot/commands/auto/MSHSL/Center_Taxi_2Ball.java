@@ -22,6 +22,7 @@ import frc.robot.subsystems.Intake.Intake_Centerer;
 import frc.robot.subsystems.Intake.Intake_Roller;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
+import frc.robot.subsystems.Sensors.Sensor_ODS;
 import frc.robot.subsystems.Shooter.Shooter_Flywheels;
 import frc.robot.subsystems.Shooter.Shooter_Hood;
 import frc.robot.subsystems.Shooter.Shooter_Kicker;
@@ -41,6 +42,7 @@ public class Center_Taxi_2Ball extends SequentialCommandGroup {
   private final Sensor_Limelight m_limelight;
   private final Shooter_Hood m_hood;
   private final Sensor_NavX m_navx;
+  private Sensor_ODS m_ods;
   private final Common m_common;
 
   /**
@@ -50,7 +52,7 @@ public class Center_Taxi_2Ball extends SequentialCommandGroup {
    */
   public Center_Taxi_2Ball(Drivetrain driveSS, 
                     Intake_Actuate intakeActSS, Intake_Roller rollerSS, Intake_Centerer centererSS, 
-                    Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS, Sensor_Limelight lime, Shooter_Hood hood, Sensor_NavX navx, Common common) {
+                    Shooter_Flywheels flywheelsSS, Shooter_Kicker kickerSS, Sensor_Limelight lime, Shooter_Hood hood, Sensor_NavX navx, Sensor_ODS ods, Common common) {
 
     m_drivetrain = driveSS;
     m_intakeActuate = intakeActSS;
@@ -62,6 +64,7 @@ public class Center_Taxi_2Ball extends SequentialCommandGroup {
     m_limelight = lime;
     m_navx = navx;
     m_hood = hood;
+    m_ods = ods;
 
 
     addCommands(
@@ -75,6 +78,6 @@ public class Center_Taxi_2Ball extends SequentialCommandGroup {
       new ParallelCommandGroup(new IntakeRetract(m_intakeActuate, 300), new HoodUp(m_hood, 250)),
       new ZeroHood(m_hood),
       new HoodSetPos(m_hood, m_limelight, true),
-      new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, 3000)));
+      new ParallelCommandGroup(new ShootSpinUp(m_common, m_flywheels, m_limelight, 2000), new ShootAssist(m_common, m_limelight, m_kicker, m_intakeCenterer, m_intakeRoller, m_ods, 3000)));
   }
 }

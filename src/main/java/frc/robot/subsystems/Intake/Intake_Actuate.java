@@ -63,7 +63,7 @@ public class Intake_Actuate extends SubsystemBase {
             speed = 0.1;
         }
 
-        if (intakeActuateDownLeftLimit.get() && intakeActuateDownRightLimit.get()) {
+        if (intakeActuateDownLeftLimit.get() || intakeActuateDownRightLimit.get()) {
             m_IntakeArmLeft.set(-speed);
             m_IntakeArmRight.set(-speed);
         } else {
