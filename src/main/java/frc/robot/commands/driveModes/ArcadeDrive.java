@@ -7,7 +7,6 @@ package frc.robot.commands.driveModes;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Drive.Drivetrain;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */

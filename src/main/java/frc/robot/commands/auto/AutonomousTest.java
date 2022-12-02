@@ -4,11 +4,7 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.Constants;
-import frc.robot.commands.independant.CenterIntake;
 import frc.robot.commands.navigation.DriveGyroDistance;
-import frc.robot.commands.navigation.TurnGyro;
-import frc.robot.commands.navigation.TurnGyroPID;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Sensors.Sensor_Limelight;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
@@ -20,7 +16,6 @@ public class AutonomousTest extends SequentialCommandGroup {
 
   private final Drivetrain m_drivetrain;
   private final Sensor_NavX m_navX;
-  private final Sensor_Limelight m_limelight;
 
   /**
    * Creates a new ExampleCommand.
@@ -30,7 +25,6 @@ public class AutonomousTest extends SequentialCommandGroup {
   public AutonomousTest(Drivetrain drive, Sensor_NavX navX, Sensor_Limelight lime) {
     m_drivetrain = drive;
     m_navX = navX;
-    m_limelight = lime;
     addCommands(
         // drive straight for 5 seconds
         // new CenterTarget(TurnDir.right, 45.0, 0.3, m_drivetrain, m_navX, m_limelight)

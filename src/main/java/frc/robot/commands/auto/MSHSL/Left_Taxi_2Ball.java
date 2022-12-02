@@ -19,7 +19,6 @@ import frc.robot.commands.independant.ZeroNavX;
 // import frc.robot.commands.navigation.DriveDistance;
 // import frc.robot.commands.navigation.DriveDistanceWithIntake;
 import frc.robot.commands.navigation.DriveGyroDistance;
-import frc.robot.commands.navigation.TurnGyroPID;
 import frc.robot.commands.navigation.TurnGyroPIDTimeout;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Intake.Intake_Actuate;

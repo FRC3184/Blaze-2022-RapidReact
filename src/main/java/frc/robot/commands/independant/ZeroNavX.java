@@ -3,9 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.independant;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Sensors.Sensor_NavX;
-import frc.robot.subsystems.Shooter.Shooter_Hood;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */

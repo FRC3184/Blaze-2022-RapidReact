@@ -5,7 +5,6 @@
 package frc.robot.commands.auto.MSHSL;
 
 import frc.robot.Common;
-import frc.robot.Constants.TurnDir;
 import frc.robot.commands.HoodSetPos;
 import frc.robot.commands.IntakeODS;
 import frc.robot.commands.ShootAssist;
@@ -17,8 +16,6 @@ import frc.robot.commands.independant.IntakeRetract;
 import frc.robot.commands.independant.ZeroHood;
 import frc.robot.commands.independant.ZeroNavX;
 import frc.robot.commands.navigation.DriveGyroDistance;
-import frc.robot.commands.navigation.TurnGyro;
-import frc.robot.commands.navigation.TurnGyroPID;
 import frc.robot.commands.navigation.TurnGyroPIDTimeout;
 import frc.robot.subsystems.Drive.Drivetrain;
 import frc.robot.subsystems.Intake.Intake_Actuate;
